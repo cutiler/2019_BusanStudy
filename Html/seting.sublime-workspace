@@ -1,0 +1,297 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"bo",
+				"border\tproperty"
+			],
+			[
+				"back",
+				"background-color\tproperty"
+			],
+			[
+				"re",
+				"no-repeat\tbackground-repeat"
+			],
+			[
+				"bac",
+				"background-image\tproperty"
+			],
+			[
+				"font-",
+				"font-weight\tproperty"
+			],
+			[
+				"bol",
+				"bolder\tfont-weight"
+			],
+			[
+				"inline",
+				"inline-block\tdisplay"
+			],
+			[
+				"d",
+				"display\tproperty"
+			],
+			[
+				"clo",
+				"color\tproperty"
+			],
+			[
+				"font",
+				"font-size\tproperty"
+			],
+			[
+				"wid",
+				"width\tproperty"
+			],
+			[
+				"backg",
+				"background-color\tproperty"
+			],
+			[
+				"di",
+				"div\tTag"
+			],
+			[
+				"head",
+				"header\tTag"
+			],
+			[
+				"col",
+				"color\tproperty"
+			],
+			[
+				"he",
+				"header\tTag"
+			],
+			[
+				"co",
+				"color\tproperty"
+			],
+			[
+				"st",
+				"style\tTag"
+			],
+			[
+				"op",
+				"option\tTag"
+			],
+			[
+				"cell",
+				"cellspacing\tAttr"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"pakageresourceviewer",
+				"PackageResourceViewer: Open Resource"
+			],
+			[
+				"install ",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+	],
+	"file_history":
+	[
+		"/D/Work/2019_Busan/Html/5_css/3_css_background.html",
+		"/D/Work/2019_Busan/Html/5_css/2_css_font.html",
+		"/D/Work/2019_Busan/Html/5_css/4_css_box.html",
+		"/D/Work/2019_Busan/Html/5_css/3_css_background",
+		"/D/Work/html/4_selector/index_cascade.html",
+		"/D/Work/2019_Busan/Html/5_css/1_css.html",
+		"/D/Work/html/4_selector/7_action_selector.html",
+		"/D/Work/html/4_selector/8_struct_selector.html",
+		"/D/Work/html/4_selector/9_struct_selector.html",
+		"/D/Work/html/4_selector/6_table_selector.html",
+		"/D/Work/html/4_selector/5_child_selector.html",
+		"/D/Work/html/4_selector/3_id_selector.html",
+		"/D/Work/html/4_selector/4_class_selector.html",
+		"/D/Work/html/css_basic/css_1_internal.html",
+		"/D/Work/html/html_2_block/test_div_1.html",
+		"/D/Work/html/4_selector/index_selector.html",
+		"/D/Work/html/4_selector/type_selector.html",
+		"/D/Work/html/css_basic/index.html",
+		"/D/Work/html/css_basic/css_3_external.html",
+		"/D/Work/html/css_basic/css_2_inline.html",
+		"/D/Work/html/css_basic/style.css",
+		"/D/Work/html/html_2_block/test_div_2.html",
+		"/D/Work/html/html_2_block/test_sementic.html",
+		"/D/Work/sublimeText/Data/Packages/User/chrome.sublime-build",
+		"/D/Work/html/tag1/test_list.html",
+		"/D/Work/html/tag1/test_form.html",
+		"/D/Work/html/tag1/test_h.html",
+		"/D/Work/html/tag1/test_a.html",
+		"/D/Work/html/tag1/test_logo.html",
+		"/D/Work/html/default.html",
+		"/D/Work/sublimeText/Data/Packages/HTML/Snippets/html.sublime-snippet",
+		"/D/Work/html/index.html"
+	],
+	"find":
+	{
+		"height": 27.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"folders":
+	[
+		{
+			"path": "D:\\Work\\2019_Busan\\Html"
+		}
+	],
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 27.0
+	},
+	"input":
+	{
+		"height": 39.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 126.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "",
+	"replace":
+	{
+		"height": 50.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 179.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
