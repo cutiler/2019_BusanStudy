@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<style type="">
+		li{
+			list-style: none;
+			float: left;
+			background-color: skyblue;
+			padding: 15px;
+		}
+
+		/* 첫번째 요소 */
+		li:first-child{
+			border-radius: 10px 0 0 10px;
+			/*border-radius: 50px;*/
+		}
+
+		li:last-child{
+			border-radius: 0 10px 10px 0;
+		}
+
+		li > a {
+			text-decoration: none;
+			color: white;
+		}
+
+		li:nth-child(even){
+			background-color: hotpink;
+		}
+
+	</style>
+</head>
+<body>
+	<ul>
+		<li><a href="">1번째</a></li>
+		<li><a href="">2번째</a></li>
+		<li><a href="">3번째</a></li>
+		<li><a href="">4번째</a></li>
+		<li><a href="">5번째</a></li>
+		<li><a href="">6번째</a></li>
+		<li><a href="">7번째</a></li>
+
+	</ul>
+</body>
+</html>

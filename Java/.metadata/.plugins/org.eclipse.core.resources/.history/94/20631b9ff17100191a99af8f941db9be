@@ -1,0 +1,382 @@
+package com.cutiler.app.lotto;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.Set;
+
+public class LottoWcmdClient {
+	
+	LottoDataDB lottoDataDB;
+	LottoData lottoData;
+	List<MyLotto> myLotto_AL;
+	Scanner sc = new Scanner(System.in);
+	int RandFlag = 0;
+	int RandCount = 6;
+	
+	LottoWcmdClient(){
+		
+		lottoDataDB = new LottoDataDB();
+		myLotto_AL = new ArrayList<MyLotto>();
+		
+		
+		boolean isRun = true;
+		int isExit = 1;
+		int select;
+		
+		while(isRun) {				
+			System.out.println("*************************************************************");
+			System.out.println("* 1.당첨 번호 확인  *  2.로또 번호 입력   * 3. 로또번호 관리  *   0.프로그램 종료   *");
+			System.out.println("*************************************************************");
+			System.out.println(" 원하시는 작업을 선택하세요");
+			System.out.print(">");
+			select = sc.nextInt();		
+			switch(select) {
+				case 1: 
+					isExit = confirmWLNumberMenu();
+					break;
+				case 2: 
+					isExit = selectLottoNumberMenu();
+					break;
+				case 3:
+					isExit = analysisMyLottoNumber();
+					break;
+				default:
+					break;
+			}
+			if(isExit == 0 || select == 0) {			
+				System.out.println("프로그램을 종료합니다.");
+				isRun = false;			
+			}
+		}
+		sc.close();
+		
+	} // LottoWcmdClient
+	
+	// 저정된 로또 번호가 없으면 1반환.
+	// 저장된 회차 번호를 받아서 서버로부터 회차를 받아서 비교.
+	public int confirmMyNumber() {
+		if(myLotto_AL.isEmpty() == true) {
+			System.out.println("저장된 번호가 없습니다.");
+			return 1;
+		}else {			
+			// 저정된 모든회차를 셋으로 저장해서 중복제거.  
+			Set<Integer> drwNo_Set = new HashSet<>();
+			for(int i=0; i < myLotto_AL.size(); i++) { drwNo_Set.add(myLotto_AL.get(i).getNumber(0)); }
+			
+			// 중복 제거된 모든 회차를 나눔로또 서버로부터 정보를 받아와서 Map으로 저장.
+			// Lotto Winning Number Map
+			Map<Integer,LottoDataDB> lottoWN_Map = new HashMap<>();			
+			for(int drwNo : drwNo_Set) {
+				// Winning Number LottoDataDB
+				LottoDataDB wNLottoDataDB = new LottoDataDB();
+				LottoUtil lottoUtil = new LottoUtil();
+				wNLottoDataDB= lottoUtil.setLottoDataDBfromNlottoServer(drwNo);
+				lottoWN_Map.put(drwNo, wNLottoDataDB);
+				
+			}
+			
+			// drwNo_Set 내 로또 모든 회차. //위에서 사용. 여기서X
+			
+			// lottoWN_Map 내로또 회차 모든 당첨정보
+			// myLotto_AL 내 로또 모든 정보
+			
+			// 내 로또 번호랑 비교.
+			int lottoCount;
+			for(int i=0; i < myLotto_AL.size();i++) {
+				// 로또 회차. Compare LottoDataDB
+				LottoDataDB cLottoDataDB = lottoWN_Map.get(myLotto_AL.get(i).getNumber(0));
+				if(cLottoDataDB == null) {
+					System.out.println(myLotto_AL.get(i).getNumber(0)+"회차는 아직 추첨 전 입니다.");
+				}	else {
+					lottoCount = cLottoDataDB.compareLottoNumber(myLotto_AL.get(i).getNumber());
+					cLottoDataDB.checkLottoMoney(lottoCount);
+				}
+			}
+			
+			
+		return 0;
+		}
+	}
+		
+	public int confirmWLNumberMenu() {
+		
+		int select = 1;
+		boolean isRun = true;
+		int isExit = 0;
+		
+		while(isRun) {				
+			System.out.println("*****************************************************************");
+			System.out.println("* 1. 저장된 번호 당첨 확인  *              * 9. 상위 메뉴로 나가기  0. 프로그램 종료   *");
+			System.out.println("*****************************************************************");
+			System.out.println(" 원하시는 작업을 선택하세요");
+			System.out.print(">");
+			select = sc.nextInt();		
+			switch(select) {
+				case 1: 
+					System.out.println("저장된 번호 확인을 고르셨습니다.");
+					isExit = confirmMyNumber();
+					break;
+			
+				case 3:
+					System.out.println("..상위 메뉴로 나갑니다.");
+					isExit = 1;
+					isRun = false;
+					break;
+					
+				case 4: default:
+					isRun = false;
+					break;					
+			}
+		} 
+		return isExit;
+		
+	}
+	
+	
+	public int selectLottoNumberMenu() {
+		System.out.println("로또 번호를 입력 받습니다.");
+		//MyLotto_AL - <MyLotto>
+		// 1. 회차 가져오기
+		// 2. 최신회차 보여주고 회차 입력
+		// 3. 번호입력
+		
+		LottoUtil lottoUtil = new LottoUtil();
+		// 공식 사이트에 올라온 최신회차.
+		int newestDrwNo = lottoUtil.getNewestDrwNo();
+		
+		// 이번주 토요일 회차.
+		newestDrwNo++;
+		
+		boolean isRun = true;
+		int select;
+		int isExit = 1;
+		while(isRun) {
+			System.out.println("1. 이번주 토요일 ["+ newestDrwNo +"]회차 로또 번호 입력. 2. 지나간 로또 번호 입력. 9. 상위 메뉴로  0. 프로그램 종료");
+			System.out.print("> ");
+			select = sc.nextInt();
+			switch(select) {
+				case 1:
+					System.out.println("이번주차 로또 번호 입력을 선택하셨습니다.");
+					myLotto_AL.add(selectLottoNumber(newestDrwNo));
+					break;
+				case 2:
+					System.out.println("지나간 로또 번호 입력을 선택하셨습니다.");
+					System.out.println("확인하고 싶은 회차 번호를 입력해주세요 >");
+					int oldDrwNo = sc.nextInt();
+					myLotto_AL.add(selectLottoNumber(oldDrwNo));
+					break;
+				case 9:
+					System.out.println(".. 상위 메뉴로 나갑니다.");
+					isRun = false;
+					break;
+				case 0:
+					isRun = false;
+					isExit = 0;
+					break;					
+				default :					
+			}
+		}		
+		return isExit;		
+	}
+	
+	
+	int sortLottoNum(MyLotto myLottoNum) {
+		
+		int tempNum = 0;
+		
+		for(int i=0; i<6; i++) {
+			for(int j=1; j < 6; j++) {
+				if(myLottoNum.getNumber(j) > myLottoNum.getNumber(j+1)) {
+					tempNum = myLottoNum.getNumber(j);
+					myLottoNum.setNumber(myLottoNum.getNumber(j+1), j);
+					myLottoNum.setNumber(tempNum,j+1);
+				}
+			}
+		}
+		
+		return 0;
+	}
+	
+	// 로또 번호 랜덤
+	int generateMyLottoNum() {
+		int Number;
+		if(RandFlag == 0) {
+			Number = (int)(Math.random()*45)+1 ;
+		}else {
+			Number = generateNum();
+		}
+		return Number;
+	}
+	
+	int generateNum() {
+		//RandCount
+		int[] randNum;
+		LottoDataFrequency lottoDataf = new LottoDataFrequency();
+		randNum = lottoDataf.high(RandCount);
+		return 0;
+	}
+	
+	
+	// 인덱스 조정. 원래는0부터. 지금은 1부터.
+	public boolean checkDupNumber(int tempNum, MyLotto myLottoNum, int maxIndex) {
+		boolean isDup= false;
+		for(int i=1; i <= maxIndex; i++) {
+			if(tempNum == myLottoNum.getNumber(i)) {
+				isDup = true;
+			}
+		}
+		return isDup;
+	}
+	
+	public MyLotto selectLottoNumber(int drwNo) {
+		
+		MyLotto myLottoNum = new MyLotto(); 
+		
+		int tempNum;		
+		int count=0;
+		// 회차 입력
+		myLottoNum.setNumber(drwNo, 0);
+		System.out.println("****** 로또 번호 선택 **********");
+		System.out.println();
+		for(int i=1;i<7; i++) {
+			System.out.println("-1을 입력하시면 남은 번호를 랜덤으로 생성합니다.");
+			System.out.print((i)+"번째 번호를 입력하세요 >");
+			tempNum = sc.nextInt();
+			// 랜덤 생성.
+			if(tempNum == -1) {				
+				for(int j=i; j < 7; j++) {
+					tempNum = generateMyLottoNum();
+					if(checkDupNumber(tempNum,myLottoNum,j)) {						
+						j--;
+					}else {
+						myLottoNum.setNumber(tempNum, j);
+					}
+				}
+				break;
+			}else if(checkDupNumber(tempNum,myLottoNum,i)) {
+				System.out.println(tempNum+"은 중복된 번호 입니다. 다른값을 입력해주세요");
+				i--;
+			}else {
+				myLottoNum.setNumber(tempNum,i);
+			}
+			
+		}
+		
+		sortLottoNum(myLottoNum);
+		System.out.print("선택하신 번호는 : ["+myLottoNum.getNumber(0)+"]회차 ");		
+		for(int i=1; i < 7; i++) {			
+			System.out.print(" ["+myLottoNum.getNumber(i)+"]");
+		}System.out.println("");	
+		return myLottoNum;
+	}
+	
+	
+	public int showLottoNumFreq() {
+		
+		LottoDataFrequency lottoDataF = new LottoDataFrequency();
+		System.out.println("확인할 담청번호 누적순위 갯수를 입력해주세요 ");
+		System.out.println("입력한 값은 누적 당첨번호기반 랜덤의 범위가 됩니다.");
+		System.out.print(">");
+		RandCount = sc.nextInt();
+		lottoDataF.analysisLotto(RandCount);
+		
+		return 1;
+	}
+	
+	public int showWinnedLottoNum() {
+		
+		LottoData lottoData = new LottoData();
+		lottoData.analysisLotto(myLotto_AL);
+		
+		return 1;
+	}
+	
+	public int setRandNumMenu() {
+		// 랜던방식 선정.
+		// 1. 무작위 랜덤.
+		// 2. 누적 당첨번호 기반
+		// 2-2 당첨범호 범위 입력		
+		int returnVal = 1;
+		boolean isRun = true;
+		while(isRun) {
+			System.out.println("1.무작위 랜덤  2.누적 당첨번호 기반  9.상위 메뉴 나가기  0.프로그램 종료");
+			int select = sc.nextInt();
+			
+			switch(select) {
+				case 1:
+					System.out.println("무작위 랜덤으로 설정합니다.");
+					RandFlag = 0;					
+					break;
+				case 2:
+					System.out.println("누적 당첨번호 기반으로 랜덤 방식을 설정합니다.");
+					System.out.println(RandCount+"개의 숫자 범위에서 랜덤을 설정합니다. 숫자 변경은 역대누적번호 보기에서 설정해주세요.");
+					RandFlag = 1;
+					break;
+				case 9:
+					System.out.println("..상위 메뉴로 나갑니다.");
+					isRun = false;
+					break;
+				case 0:
+					returnVal = 0;
+					isRun = false;
+					break;
+			}
+		}
+		return returnVal;
+	}
+	
+	public int analysisMyLottoNumber() {
+		
+		System.out.println("로또 번호 관리.");
+		
+		boolean isRun = true;
+		int isExit = 1;
+		while(isRun){
+			
+			System.out.println("1.저장된 로또 번호 보기2 2.역대 당첨번호 누적보기  3.내 당첨번호 역대번호비교. 4. 랜덤방식 선정. 9.상위 메뉴로  0.프로그램 종료");
+			int select = sc.nextInt();
+			switch(select) {
+				case 1:					
+					isExit = showMylottoNumber();
+					break;
+				case 2:
+					isExit = showLottoNumFreq();
+					break;
+				case 3:
+					isExit = showWinnedLottoNum();
+					break;
+				case 9:
+					System.out.println("..상위 메뉴로 나갑니다.");
+					 isExit = setRandNumMenu();
+					isRun = false;					
+					break;
+				case 0:
+					isExit = 0;
+					isRun = false;
+					break;
+			}			
+		}
+		return isExit;
+	}
+	
+	
+	public int showMylottoNumber() {
+		
+		System.out.println("저장된 로또 번호");		
+		for(int i=0; i < myLotto_AL.size();i++) {
+			System.out.print("["+ myLotto_AL.get(i).getNumber(0) +"]회차 ");
+			for(int j=1; j < 6; j++) {				
+				System.out.print("["+myLotto_AL.get(i).getNumber(j)+"], ");
+			}System.out.println("["+ myLotto_AL.get(i).getNumber(6) +"] ");
+			
+		}
+		return 0;
+	}
+	
+	
+
+}

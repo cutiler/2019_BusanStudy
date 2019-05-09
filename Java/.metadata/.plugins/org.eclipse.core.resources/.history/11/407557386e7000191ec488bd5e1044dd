@@ -1,0 +1,77 @@
+package oracle.stmt;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+import oracle.base.Book;
+import oracle.util.DBHelper;
+import oracle.util.OracleDAO;
+
+public class OracleStatementImpl implements OracleDAO {
+
+	//DB 연결 객체
+	private Connection con;
+	// 질의를 DB에 전달하는 객체
+	private Statement stmt;
+	// 검색질의의 결과값을 저장하는 객체
+	private ResultSet rs;
+	
+	
+	@Override
+	public int insert(Book book) {		
+		int result = 0;
+		
+		try {
+			con = DBHelper.getConnection();
+			stmt = con.createStatement();
+			String sql = "INSERT INTO tbl_book VALUES(book_seq.nextval,"
+					+ " '"+book.getTitle()+"',"
+					+ " '"+book.getAuthor()+"',"
+					+"sysdate)";
+			result = stmt.executeUpdate(sql);
+		} catch (SQLException e) {
+			System.out.println("Insert 오류 : "+e.getMessage());
+		} finally {
+			
+			try {
+				if(stmt != null) {
+					stmt.close();
+				}
+			} catch (SQLException e) {	}
+			
+		}
+		
+		return result;
+	}
+
+	@Override
+	public int update(Book book) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int delete(int num) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public ArrayList<Book> select() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Book selectBook(int num) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+	
+
+}

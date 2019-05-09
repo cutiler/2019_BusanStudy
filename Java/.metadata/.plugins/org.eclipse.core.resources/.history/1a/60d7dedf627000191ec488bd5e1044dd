@@ -1,0 +1,11 @@
+-- alt + x, alt + c
+SELECT * FROM tab;
+
+CREATE TABLE tbl_book(
+	num NUMBER(8),
+	title VARCHAR2(300),
+	author VARCHAR2(300),
+	regdate DATE,
+	CONSTRAINT tbl_book_pk PRIMARY KEY(num)
+);
+

@@ -1,0 +1,33 @@
+package com.cutiler.app.lotto;
+
+public class LottoData {
+
+	int LottoNumber[] = new int[8];	
+	
+	LottoData(){
+		
+	}
+
+
+	public int[] getLottoNumber() {
+		return LottoNumber;
+	}
+	
+	public void setLottoData(LottoDataDB lottodataDB) {
+		this.LottoNumber[0] = lottodataDB.getDrwNo();
+		this.LottoNumber[1] = lottodataDB.getDrwtNo1();
+		this.LottoNumber[2] = lottodataDB.getDrwtNo2();
+		this.LottoNumber[3] = lottodataDB.getDrwtNo3();
+		this.LottoNumber[4] = lottodataDB.getDrwtNo4();
+		this.LottoNumber[5] = lottodataDB.getDrwtNo5();
+		this.LottoNumber[6] = lottodataDB.getDrwtNo6();
+		this.LottoNumber[7] = lottodataDB.getBnusNo();				
+	}
+	
+	public int setAnalysisData() {
+		
+		
+		return 0;
+	}
+	
+}

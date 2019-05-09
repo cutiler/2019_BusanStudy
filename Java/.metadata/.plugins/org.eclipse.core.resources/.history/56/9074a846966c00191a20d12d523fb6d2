@@ -1,0 +1,5 @@
+package oracle.base;
+
+public class StudentVO {
+
+}

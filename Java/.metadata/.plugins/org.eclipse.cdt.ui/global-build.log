@@ -1,0 +1,5 @@
+09:53:05 **** Rebuild of configuration Debug for project cpp_test ****
+Info: Internal Builder is used for build
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -o "src\\cpp_test.o" "..\\src\\cpp_test.cpp" 
+g++ -o cpp_test.exe "src\\cpp_test.o" 
+Info: Nothing to build for cpp_test

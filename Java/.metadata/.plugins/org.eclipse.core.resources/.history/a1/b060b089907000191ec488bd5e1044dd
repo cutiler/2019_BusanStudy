@@ -1,0 +1,508 @@
+package com.cutiler.app.lotto;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Serializable;
+import java.io.Writer;
+import java.net.URL;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.X509Certificate;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+//db 접속 프로토콜.
+public class LottoDataDB implements Serializable {
+	
+	private static final long serialVersionUID = 855L;
+	
+	public static final String LottoAddressHeader = "https://www.nlotto.co.kr/common.do?method=getLottoNumber&drwNo=";
+	public static final String DB_PATH = "./lotto";
+	public static final String DB_FileName  = "lottodb.txt";
+	public static final String Index_FileName = "lottoindex.txt";
+
+	
+	// 로또 회차.
+	private int drwNo;		
+	// 추첨일
+	private String drwNoDate;
+
+	// 총 팔린 금액
+	private long totSellamnt;
+	// 1등 당첨자수
+	private int firstPrzwnerCo;
+	// 1게임 1등 담청금액
+	private long firstWinamnt;
+	// 총 1등 당첨금액
+	private long firstAccumamnt;
+	
+	private String returnValue;
+
+	// 당첨번호
+	private int drwtNo1;
+	private int drwtNo2;
+	private int drwtNo3;
+	private int drwtNo4;
+	private int drwtNo5;
+	private int drwtNo6;
+	//보너스 번호
+	private int bnusNo;
+	
+	LottoDataDB(){ }
+	
+	
+	public int compareLottoNumber(int[] myLottoNumber) {
+		
+		int[] wnLottoNumber = new int[8];
+		wnLottoNumber[0] = this.drwNo;
+		wnLottoNumber[1] = this.drwtNo1;
+		wnLottoNumber[2] = this.drwtNo2;
+		wnLottoNumber[3] = this.drwtNo3;
+		wnLottoNumber[4] = this.drwtNo4;
+		wnLottoNumber[5] = this.drwtNo5;
+		wnLottoNumber[6] = this.drwtNo6;
+		wnLottoNumber[7] = this.bnusNo;
+		
+		int count =0;
+		for(int i=1; i < 7; i++) {
+			for(int j=1; j < 7; j++) {
+				if(myLottoNumber[i] == wnLottoNumber[j] ) {
+					count++;
+				}
+			}
+		}
+		if(count == 5) {
+			for(int i=0; i < 6; i++) {
+				if(myLottoNumber[i] == wnLottoNumber[7] ) {
+					count = 7;
+					break;
+				}
+			}
+		}
+		return count;
+	
+	}
+	
+	public void checkLottoMoney(int lottoCount) {
+		switch(lottoCount){
+			case 6:
+				System.out.println("축하합니다. 1등입니다.");
+				System.out.print("당첨금은 "+this.getFirstAccumamnt()+"원입니다.");
+				break;
+			case 7:
+				System.out.println("축하합니다. 2등입니다.");
+				System.out.println("당첨금은 나눔 로또 공식 홈페이지에서 확인해주세요.");
+				break;
+			case 5:
+				System.out.println("축하합니다. 3등입니다.");
+				System.out.println("당첨금은 나눔 로또 공식 홈페이지에서 확인해주세요.");			
+				break;
+			case 4:
+				System.out.println("축하합니다. 4등입니다.");
+				System.out.println("당첨금은 5만원입니다..");
+				break;
+			case 3:
+				System.out.println("축하합니다. 5등입니다.");
+				System.out.println("당첨금은 5천원입니다..");
+				break;
+			default:
+				System.out.println("당첨된 번호의 개수는 : "+lottoCount+" 입니다.");
+				break;
+		}		
+	}
+	
+
+	// 인덱스에서 최신회차를 받아와서
+	// 서버랑 통신후 서버에서 받은 최신회차 반환.
+
+	public int getNewestDrwNo() {
+		
+		int drwNo = this.getDrwNoFromFileDB();		
+		return this.updateDBNewest(drwNo);		
+	}
+	
+	//NLServer = Nanum Lotto Server
+	// 받은 인자값을 시작으로 최신회차까지 갱신후 받은값을 반환.
+	public int getNewestDrwNoFromNLServer(int drwNo) {
+		
+		LottoDataDB lottoDataDB = new LottoDataDB();
+		
+		while(	this.setLottoDataDBfromNlottoServer(drwNo)) {
+			drwNo++;
+		}
+		
+		return drwNo;
+	}
+	
+	// drwNo부터 서버에서 정보를 받아와서
+	// 받은 drwNo가 최신회차가 아니라면
+	// fileDB와 fileIndex를 갱신.
+	// 최신화차 정수값을 반환.
+	//857
+	public int updateDBNewest(int drwNo) {
+		
+		File fileDB, fileIndex;
+		fileDB = makeFile(DB_PATH,DB_FileName);
+		fileIndex = makeFile(DB_PATH,Index_FileName);
+		FileOutputStream fos = null;
+		FileOutputStream fos2 = null;
+		ObjectOutputStream oos = null;
+		Writer fwriter = null;
+		int newestDrwNo = 1;
+					
+		try {
+			if(drwNo == 0) {	fos = new FileOutputStream(fileDB);
+								newestDrwNo = 1;
+								System.out.println("프로그램을 처음 실행하여 몇분간 대기상태에 빠질수 있습니다....기다려주세요...");
+			}
+			else {	fos = new FileOutputStream(fileDB,true);}
+			fos2 = new FileOutputStream(fileIndex);
+			oos = new ObjectOutputStream(fos);
+			fwriter = new OutputStreamWriter(fos2);
+		
+			boolean isRun = true;
+			while(isRun) {
+				LottoDataDB lottoDataDB = new LottoDataDB();
+				isRun = lottoDataDB.setLottoDataDBfromNlottoServer(newestDrwNo);
+				oos.writeObject(lottoDataDB);				
+				newestDrwNo++;
+			}
+			int indexNum = (newestDrwNo -1);
+			fos2.write(indexNum);			
+			
+		} catch (Exception e) {
+				System.out.println("파일 열기 실패"+e.getMessage());				
+		} finally {
+				try {
+					oos.flush();
+					oos.close();
+					fos.close();
+					fos2.close();
+				} catch (IOException e) {	}
+		}
+		return newestDrwNo;
+	}
+	
+	// 0 이면 파일 없음.
+	public int getDrwNoFromFileDB() {
+		int drwNo=0;
+		File fileIndex = new File(DB_PATH+"/"+Index_FileName);
+		if(fileIndex.exists() == false ) {	return 0;	}
+		
+		try {
+			FileInputStream fis = new FileInputStream(fileIndex);
+			drwNo = fis.read();			
+			fis.close();
+		} catch (Exception e) {	e.printStackTrace();		}
+		
+		return drwNo;
+	}
+	
+	
+	// 파일 포인터를 파라메터를 받고, LottoDataDB를 배열을 받아서 저장.
+	// 위 주석에 맞게 새로 작성해야함.
+	public void makeFileDB(LottoDataDB lottoDataDB) {
+		
+		File fileDB, fileIndex;
+		fileDB = makeFile(DB_PATH,DB_FileName);
+		fileIndex = makeFile(DB_PATH,Index_FileName);
+	
+		try {
+			
+			FileOutputStream fos = new FileOutputStream(fileDB);
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			
+			FileOutputStream fos2 = new FileOutputStream(fileIndex);
+			Writer fwriter = new OutputStreamWriter(fos2);
+				
+			oos.writeObject(lottoDataDB);
+			oos.flush();			
+			
+			fwriter.flush();
+			oos.close();
+			fwriter.close();
+			fos.close();
+			fos2.close();
+			
+		}  catch (Exception e) {
+			e.printStackTrace();
+		}		
+	}
+	
+	public File makeFile(String path, String filename) {
+		File fir = new File(path);
+		
+		if(!fir.exists()) {
+			System.out.println("디렉토리가 존재하지 않습니다.");			
+			fir.mkdirs();
+		}
+		
+		
+		File file = new File(path+"/"+filename);
+		if(file.exists() == false) {
+			// 새로운 파일 생성
+			try {
+				file.createNewFile();
+				System.out.println(filename+" 파일 생성");
+			} catch (IOException e) {				
+				System.out.println(filename+" 파일 생성 실패 : "+ e.getMessage());
+			}			
+		}
+		return file;
+	}
+	
+	// drwNo회차 정보가져오기.
+	public boolean setLottoDataDBfromNlottoServer(int drwNo) {
+		System.out.println(drwNo+"회차 저장중...");
+		boolean returnVal = true;
+		
+		try {
+			//  보안설정.
+			LottoDataDB.disableSslVerification();
+			
+			// URL Connection 세팅.
+			URL lottoURL = new URL(LottoAddressHeader+drwNo);
+			HttpsURLConnection urlcon = (HttpsURLConnection)lottoURL.openConnection();
+			urlcon.setRequestMethod("GET");		
+			
+			// Input
+			InputStream is = urlcon.getInputStream();
+			InputStreamReader isr = new InputStreamReader(is);
+			BufferedReader reader = new BufferedReader(isr);
+			
+			JsonObject jobj = new JsonObject();
+			JsonParser jprs = new JsonParser();
+						
+			String isLine;
+			
+			if((isLine = reader.readLine()) != null) 
+			 {  				  
+				  jobj = (JsonObject)jprs.parse(isLine);
+			 }
+			
+			JsonElement endOfIndex;
+			endOfIndex = jobj.get("returnValue");
+			if( endOfIndex.getAsString().equals("success") ) {	
+				this.setLottoDataDB(jobj);
+				returnVal = true;
+			}else {
+				// 차후 예외처리.
+				returnVal = false;
+				//System.out.println("실패");
+			}
+			
+			reader.close();
+			isr.close();
+			is.close();
+		
+		} catch (Exception e) {	e.printStackTrace();}
+		return returnVal;
+	}
+	
+	public void setLottoDataDB(JsonObject jobj) {
+		this.setDrwNo(jobj.get("drwNo").getAsInt());
+		
+		this.setReturnValue(jobj.get("returnValue").getAsString());
+		
+		this.setDrwNoDate(jobj.get("drwNoDate").getAsString()); 
+		this.setTotSellamnt(jobj.get("totSellamnt").getAsLong());
+		
+		this.setFirstAccumamnt(jobj.get("firstAccumamnt").getAsLong());
+		this.setFirstPrzwnerCo(jobj.get("firstPrzwnerCo").getAsInt());
+		this.setFirstWinamnt(jobj.get("firstWinamnt").getAsLong());
+				
+		this.setDrwtNo1(jobj.get("drwtNo1").getAsInt());
+		this.setDrwtNo2(jobj.get("drwtNo2").getAsInt());
+		this.setDrwtNo3(jobj.get("drwtNo3").getAsInt());
+		this.setDrwtNo4(jobj.get("drwtNo4").getAsInt());
+		this.setDrwtNo5(jobj.get("drwtNo5").getAsInt());
+		this.setDrwtNo6(jobj.get("drwtNo6").getAsInt());
+		this.setBnusNo(jobj.get("bnusNo").getAsInt());
+		
+	}
+	
+	public void checkLottoMoney(int lottoCount, LottoDataDB lottodb) {
+		switch(lottoCount){
+			case 6:
+				System.out.println("축하합니다. 1등입니다.");
+				System.out.print("당첨금은 "+lottodb.getFirstAccumamnt()+"원입니다.");
+				break;
+			case 7:
+				System.out.println("축하합니다. 2등입니다.");
+				System.out.println("당첨금은 나눔 로또 공식 홈페이지에서 확인해주세요.");
+				break;
+			case 5:
+				System.out.println("축하합니다. 3등입니다.");
+				System.out.println("당첨금은 나눔 로또 공식 홈페이지에서 확인해주세요.");			
+				break;
+			case 4:
+				System.out.println("축하합니다. 4등입니다.");
+				System.out.println("당첨금은 5만원입니다..");
+				break;
+			case 3:
+				System.out.println("축하합니다. 5등입니다.");
+				System.out.println("당첨금은 5천원입니다..");
+				break;
+			default:
+				System.out.println("당첨된 번호의 개수는 : "+lottoCount+" 입니다.");
+				break;
+		}		
+	}
+	
+	
+	// ssl security Exception 방지
+    private static void disableSslVerification() {
+        try
+        {
+            // Create a trust manager that does not validate certificate chains
+            TrustManager[] trustAllCerts = new TrustManager[] {
+            		new X509TrustManager() {
+            			public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+            				return null;
+            			}
+            			public void checkClientTrusted(X509Certificate[] certs, String authType) {
+            			}
+            			public void checkServerTrusted(X509Certificate[] certs, String authType) {
+            			}
+            		}
+            };	
+ 
+            // Install the all-trusting trust manager
+            SSLContext sc = SSLContext.getInstance("SSL");
+            sc.init(null, trustAllCerts, new java.security.SecureRandom());
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+ 
+            // Create all-trusting host name verifier
+            HostnameVerifier allHostsValid = new HostnameVerifier() {
+                public boolean verify(String hostname, SSLSession session) {
+                    return true;
+                }
+            };
+ 
+            // Install the all-trusting host verifier
+            HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
+        } catch (NoSuchAlgorithmException e) { e.printStackTrace();
+        } catch (KeyManagementException e) { e.printStackTrace(); 
+        }
+    }
+	
+	
+	// get & set method.
+	public int getDrwNo() {
+		return drwNo;
+	}
+	public void setDrwNo(int drwNo) {
+		this.drwNo = drwNo;
+	}
+	public String getDrwNoDate() {
+		return drwNoDate;
+	}
+	public void setDrwNoDate(String drwNoDate) {
+		this.drwNoDate = drwNoDate;
+	}
+	public long getTotSellamnt() {
+		return totSellamnt;
+	}
+	public void setTotSellamnt(long totSellamnt) {
+		this.totSellamnt = totSellamnt;
+	}
+	public int getFirstPrzwnerCo() {
+		return firstPrzwnerCo;
+	}
+	public void setFirstPrzwnerCo(int firstPrzwnerCo) {
+		this.firstPrzwnerCo = firstPrzwnerCo;
+	}
+	public long getFirstWinamnt() {
+		return firstWinamnt;
+	}
+	public void setFirstWinamnt(long firstWinamnt) {
+		this.firstWinamnt = firstWinamnt;
+	}
+	public long getFirstAccumamnt() {
+		return firstAccumamnt;
+	}
+	public void setFirstAccumamnt(long firstAccumamnt) {
+		this.firstAccumamnt = firstAccumamnt;
+	}
+	public int getDrwtNo1() {
+		return drwtNo1;
+	}
+	public void setDrwtNo1(int drwtNo1) {
+		this.drwtNo1 = drwtNo1;
+	}
+	public int getDrwtNo2() {
+		return drwtNo2;
+	}
+	public void setDrwtNo2(int drwtNo2) {
+		this.drwtNo2 = drwtNo2;
+	}
+	public int getDrwtNo3() {
+		return drwtNo3;
+	}
+	public void setDrwtNo3(int drwtNo3) {
+		this.drwtNo3 = drwtNo3;
+	}
+	public int getDrwtNo4() {
+		return drwtNo4;
+	}
+	public void setDrwtNo4(int drwtNo4) {
+		this.drwtNo4 = drwtNo4;
+	}
+	public int getDrwtNo5() {
+		return drwtNo5;
+	}
+	public void setDrwtNo5(int drwtNo5) {
+		this.drwtNo5 = drwtNo5;
+	}
+	public int getDrwtNo6() {
+		return drwtNo6;
+	}
+	public void setDrwtNo6(int drwtNo6) {
+		this.drwtNo6 = drwtNo6;
+	}
+	public int getBnusNo() {
+		return bnusNo;
+	}
+	public void setBnusNo(int bnusNo) {
+		this.bnusNo = bnusNo;
+	}
+	
+	public String getReturnValue() {
+		return returnValue;
+	}
+
+	public void setReturnValue(String returnValue) {
+		this.returnValue = returnValue;
+	}
+
+	// serialVersion set.
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	@Override
+	public String toString() {
+		
+		return this.drwNo+" 회차\n"+
+		"당첨번호 : ["+this.drwtNo1+"] ["+this.drwtNo2+"] ["+this.drwtNo3+"] ["+this.drwtNo4+"] ["+this.drwtNo5+"] ["+this.drwtNo6+"]\n"+
+		"보너스 번호 : ("+this.bnusNo+")\n"+
+		"1등 당첨 게임수 : "+this.firstPrzwnerCo+"\n"+
+		"1등 총 당첨금 : "+this.firstAccumamnt+"원\n"+		
+		"1등 1게임당 당청금 : "+this.firstWinamnt+"원\n";
+	}
+}

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<style type="text/css">
+		h1{
+			color: red;
+		}
+
+		h1:hover{
+			color: blue;
+			cursor: pointer;
+		}
+
+		h1:active{
+			color: orange;
+		}
+
+		input:disabled{
+			background-color: gray;
+		}
+
+		input:enabled{
+			color: white;
+			background-color: red;
+		}
+
+		input:focus{
+			background-color: white;
+			color: gray;
+		}
+
+		input[type='text']{
+			color: black;
+			background-color: pink;
+		}
+
+		input[type='password']{
+			color: red;
+			background-color: skyblue;
+		}
+
+	</style>
+</head>
+<body>
+	<h1>반응 선택자</h1>
+
+	<h2>사용가능</h2>
+	<input type="text" placeholder="이곳은 아이디 작성공간" />
+
+	<!-- diabled 는 전송 불가능  -->
+	<h2>사용불가능</h2>
+	<input type="text" value="aaa" disabled />
+
+	<h2>읽기전용</h2>
+	<input type="text" value="bbb" readonly />
+
+	<h2>type 접근</h2>
+	<input type="password" value="ccc" readonly />
+</body>
+</html>

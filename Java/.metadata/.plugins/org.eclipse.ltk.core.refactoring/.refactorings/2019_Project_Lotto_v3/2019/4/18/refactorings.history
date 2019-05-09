@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename package &apos;com.cutiler.app.lott&apos; to &apos;com.cutiler.app.lotto&apos;&#x0D;&#x0A;- Original project: &apos;2019_Project_Lotto_v3&apos;&#x0D;&#x0A;- Original element: &apos;2019_Project_Lotto_v3/src/com.cutiler.app.lott&apos;&#x0D;&#x0A;- Renamed element: &apos;2019_Project_Lotto_v3/src/com.cutiler.app.lotto&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename package &apos;com.cutiler.app.lott&apos;" flags="589830" hierarchical="false" id="org.eclipse.jdt.ui.rename.package" input="/src&lt;com.cutiler.app.lott" name="com.cutiler.app.lotto" qualified="false" references="true" stamp="1556668746942" textual="false" version="1.0"/>
+</session>

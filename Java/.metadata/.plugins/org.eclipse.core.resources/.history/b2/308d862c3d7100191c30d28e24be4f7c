@@ -1,0 +1,280 @@
+package com.cutiler.app.lotto;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
+import java.io.Serializable;
+import java.io.Writer;
+import java.net.URL;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.X509Certificate;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+//db 접속 프로토콜.
+public class LottoDataDB implements Serializable {
+	
+	private static final long serialVersionUID = 855L;
+	
+	// 로또 회차.
+	private int drwNo;		
+	// 추첨일
+	private String drwNoDate;
+
+	// 총 팔린 금액
+	private long totSellamnt;
+	// 1등 당첨자수
+	private int firstPrzwnerCo;
+	// 1게임 1등 담청금액
+	private long firstWinamnt;
+	// 총 1등 당첨금액
+	private long firstAccumamnt;
+	
+	private String returnValue;
+
+	// 당첨번호
+	private int drwtNo1;
+	private int drwtNo2;
+	private int drwtNo3;
+	private int drwtNo4;
+	private int drwtNo5;
+	private int drwtNo6;
+	//보너스 번호
+	private int bnusNo;
+	
+	LottoDataDB(){ }
+	
+	
+	public int compareLottoNumber(int[] myLottoNumber) {
+		System.out.println("당첨번호 카운트 메소드");
+		int[] wnLottoNumber = new int[8];
+		wnLottoNumber[0] = this.drwNo;
+		wnLottoNumber[1] = this.drwtNo1;
+		wnLottoNumber[2] = this.drwtNo2;
+		wnLottoNumber[3] = this.drwtNo3;
+		wnLottoNumber[4] = this.drwtNo4;
+		wnLottoNumber[5] = this.drwtNo5;
+		wnLottoNumber[6] = this.drwtNo6;
+		wnLottoNumber[7] = this.bnusNo;
+		
+		int count =0;
+		for(int i=1; i < 7; i++) {
+			for(int j=1; j < 7; j++) {
+				if(myLottoNumber[i] == wnLottoNumber[j] ) {
+					count++;
+				}
+			}
+		}
+		if(count == 5) {
+			for(int i=0; i < 6; i++) {
+				if(myLottoNumber[i] == wnLottoNumber[7] ) {
+					count = 7;
+					break;
+				}
+			}
+		}
+		return count;
+	
+	}
+	
+	public void checkLottoMoney(int lottoCount) {
+		System.out.println("당첨금액 계산 메소드");
+		switch(lottoCount){
+			case 6:
+				System.out.println("축하합니다. 1등입니다.");
+				System.out.print("당첨금은 "+this.getFirstAccumamnt()+"원입니다.");
+				break;
+			case 7:
+				System.out.println("축하합니다. 2등입니다.");
+				System.out.println("당첨금은 나눔 로또 공식 홈페이지에서 확인해주세요.");
+				break;
+			case 5:
+				System.out.println("축하합니다. 3등입니다.");
+				System.out.println("당첨금은 나눔 로또 공식 홈페이지에서 확인해주세요.");			
+				break;
+			case 4:
+				System.out.println("축하합니다. 4등입니다.");
+				System.out.println("당첨금은 5만원입니다..");
+				break;
+			case 3:
+				System.out.println("축하합니다. 5등입니다.");
+				System.out.println("당첨금은 5천원입니다..");
+				break;
+			default:
+				System.out.println("당첨된 번호의 개수는 : "+lottoCount+"이고 당첨극액은 0원 입니다.");
+				break;
+		}		
+	}
+	
+	
+	public void setLottoDataDB(JsonObject jobj) {
+		this.setDrwNo(jobj.get("drwNo").getAsInt());
+		
+		this.setReturnValue(jobj.get("returnValue").getAsString());
+		
+		this.setDrwNoDate(jobj.get("drwNoDate").getAsString()); 
+		this.setTotSellamnt(jobj.get("totSellamnt").getAsLong());
+		
+		this.setFirstAccumamnt(jobj.get("firstAccumamnt").getAsLong());
+		this.setFirstPrzwnerCo(jobj.get("firstPrzwnerCo").getAsInt());
+		this.setFirstWinamnt(jobj.get("firstWinamnt").getAsLong());
+				
+		this.setDrwtNo1(jobj.get("drwtNo1").getAsInt());
+		this.setDrwtNo2(jobj.get("drwtNo2").getAsInt());
+		this.setDrwtNo3(jobj.get("drwtNo3").getAsInt());
+		this.setDrwtNo4(jobj.get("drwtNo4").getAsInt());
+		this.setDrwtNo5(jobj.get("drwtNo5").getAsInt());
+		this.setDrwtNo6(jobj.get("drwtNo6").getAsInt());
+		this.setBnusNo(jobj.get("bnusNo").getAsInt());
+		
+	}
+	
+	public void checkLottoMoney(int lottoCount, LottoDataDB lottodb) {
+		switch(lottoCount){
+			case 6:
+				System.out.println("축하합니다. 1등입니다.");
+				System.out.print("당첨금은 "+lottodb.getFirstAccumamnt()+"원입니다.");
+				break;
+			case 7:
+				System.out.println("축하합니다. 2등입니다.");
+				System.out.println("당첨금은 나눔 로또 공식 홈페이지에서 확인해주세요.");
+				break;
+			case 5:
+				System.out.println("축하합니다. 3등입니다.");
+				System.out.println("당첨금은 나눔 로또 공식 홈페이지에서 확인해주세요.");			
+				break;
+			case 4:
+				System.out.println("축하합니다. 4등입니다.");
+				System.out.println("당첨금은 5만원입니다..");
+				break;
+			case 3:
+				System.out.println("축하합니다. 5등입니다.");
+				System.out.println("당첨금은 5천원입니다..");
+				break;
+			default:
+				System.out.println("당첨된 번호의 개수는 : "+lottoCount+" 입니다.");
+				break;
+		}		
+	}
+	
+	
+	// get & set method.
+	public int getDrwNo() {
+		return drwNo;
+	}
+	public void setDrwNo(int drwNo) {
+		this.drwNo = drwNo;
+	}
+	public String getDrwNoDate() {
+		return drwNoDate;
+	}
+	public void setDrwNoDate(String drwNoDate) {
+		this.drwNoDate = drwNoDate;
+	}
+	public long getTotSellamnt() {
+		return totSellamnt;
+	}
+	public void setTotSellamnt(long totSellamnt) {
+		this.totSellamnt = totSellamnt;
+	}
+	public int getFirstPrzwnerCo() {
+		return firstPrzwnerCo;
+	}
+	public void setFirstPrzwnerCo(int firstPrzwnerCo) {
+		this.firstPrzwnerCo = firstPrzwnerCo;
+	}
+	public long getFirstWinamnt() {
+		return firstWinamnt;
+	}
+	public void setFirstWinamnt(long firstWinamnt) {
+		this.firstWinamnt = firstWinamnt;
+	}
+	public long getFirstAccumamnt() {
+		return firstAccumamnt;
+	}
+	public void setFirstAccumamnt(long firstAccumamnt) {
+		this.firstAccumamnt = firstAccumamnt;
+	}
+	public int getDrwtNo1() {
+		return drwtNo1;
+	}
+	public void setDrwtNo1(int drwtNo1) {
+		this.drwtNo1 = drwtNo1;
+	}
+	public int getDrwtNo2() {
+		return drwtNo2;
+	}
+	public void setDrwtNo2(int drwtNo2) {
+		this.drwtNo2 = drwtNo2;
+	}
+	public int getDrwtNo3() {
+		return drwtNo3;
+	}
+	public void setDrwtNo3(int drwtNo3) {
+		this.drwtNo3 = drwtNo3;
+	}
+	public int getDrwtNo4() {
+		return drwtNo4;
+	}
+	public void setDrwtNo4(int drwtNo4) {
+		this.drwtNo4 = drwtNo4;
+	}
+	public int getDrwtNo5() {
+		return drwtNo5;
+	}
+	public void setDrwtNo5(int drwtNo5) {
+		this.drwtNo5 = drwtNo5;
+	}
+	public int getDrwtNo6() {
+		return drwtNo6;
+	}
+	public void setDrwtNo6(int drwtNo6) {
+		this.drwtNo6 = drwtNo6;
+	}
+	public int getBnusNo() {
+		return bnusNo;
+	}
+	public void setBnusNo(int bnusNo) {
+		this.bnusNo = bnusNo;
+	}
+	
+	public String getReturnValue() {
+		return returnValue;
+	}
+
+	public void setReturnValue(String returnValue) {
+		this.returnValue = returnValue;
+	}
+
+	// serialVersion set.
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	@Override
+	public String toString() {
+		
+		return this.drwNo+" 회차\n"+
+		"당첨번호 : ["+this.drwtNo1+"] ["+this.drwtNo2+"] ["+this.drwtNo3+"] ["+this.drwtNo4+"] ["+this.drwtNo5+"] ["+this.drwtNo6+"]\n"+
+		"보너스 번호 : ("+this.bnusNo+")\n"+
+		"1등 당첨 게임수 : "+this.firstPrzwnerCo+"\n"+
+		"1등 총 당첨금 : "+this.firstAccumamnt+"원\n"+		
+		"1등 1게임당 당청금 : "+this.firstWinamnt+"원\n";
+	}
+}

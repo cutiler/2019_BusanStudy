@@ -1,0 +1,70 @@
+package oracle.util;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+/*
+ *	Connection 객체 생성
+ */
+
+
+
+public class DBHelper {
+
+	//localhost = ip 주소
+	private final static String DRIVER = "oracle.jdbc.driver.OracleDriver";
+	private final static String URL ="jdbc:oracle:thin:@localhost:1521:orcl";
+	private final static String USER = "scott";
+	private final static String PASS = "tiger";
+	
+	private static Connection conn = null;
+	
+	private DBHelper() {}
+	
+	public static Connection getConnection() {
+		if(conn == null) {			
+			try {
+				Class.forName(DRIVER);
+				conn = DriverManager.getConnection(URL,USER,PASS);
+				System.out.println("DATABASE 연결완료");
+			} catch (ClassNotFoundException e) {
+				System.out.println("DRIVER 찾을 수 없음 : "+e.getMessage());
+			} catch (SQLException e) {
+				System.out.println("DB 정보 오류 : "+e.getMessage());
+			}			
+		}
+		return conn;
+	}
+	
+	/*
+	 * public static void close(PreparedStatement pstmt) { try { if(pstmt != null) {
+	 * pstmt.close(); } } catch (SQLException e) { } }
+	 * 
+	 * public static void close(ResultSet rs) { try { if(rs != null) { rs.close(); }
+	 * } catch (SQLException e) { } }
+	 * 
+	 * public static void close(Connection conn) { try { if(conn != null) {
+	 * conn.close(); } } catch (SQLException e) { } }
+	 */
+	
+	public static void close(AutoCloseable closer) {
+		
+		try {
+			if(closer != null) {
+				closer.close();
+			}
+		} catch (Exception e) {		}
+		
+	}
+	
+	public static void close() {
+		close(conn);
+	}
+	
+	
+	
+	
+}

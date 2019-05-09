@@ -1,0 +1,74 @@
+package com.cutiler.app.lotto;
+
+import java.util.List;
+
+public class LottoDataFrequency {
+	
+	int[] countNum = new int[46];
+	
+	LottoDataFrequency() {
+		
+		for(int i=0; i < 46; i++) {
+			countNum[i] = 0;
+		}
+	}
+	
+	public void setLottoDataFrequency(LottoData lottodata) {		
+		for(int i = 1; i <= 6; i++) {			
+			countNum[lottodata.LottoNumber[i]] += 1;
+		}		
+	}
+	
+	// range 만큼 누적 당첨번호 내림차순으로 추출
+	public int analysisLotto(int range) {
+		
+		// getDrwNoFromFileDB()
+		LottoUtil lottoUtil = new LottoUtil();
+		int maxIndex = lottoUtil.getNewestDrwNo();
+		
+		LottoDataFrequency lottoDataF = null;		
+		lottoUtil.getLottoDataFromFileDB(maxIndex, lottoDataF);
+		
+		
+		int[] highIndex = lottoDataF.high(range);
+		for(int i=0; i < range; i++){
+			System.out.println("많이 당첨된 번호는 "+i+"위  : ["+highIndex[i]+"]번호 ["+lottoDataF.countNum[highIndex[i]]+"]회 입니다. " );
+		}
+		
+		return 0;
+	}
+
+	public int[] high(int hi_num) {
+		
+		int[] high_data = new int[hi_num];
+		int temp =0;
+	
+		int[] countNumCp = new int[46];
+		int[] indexTemp = new int[46];
+		
+		for(int i=0; i< 46; i++) {
+			countNumCp[i] = countNum[i];
+			indexTemp[i] =i;
+		}
+		
+		for(int j=1; j < 45; j++) {
+			for(int i=1; i < 45; i++) {
+				if(countNumCp[i] < countNumCp[i+1]){
+					temp = countNumCp[i];
+					countNumCp[i] = countNumCp[i+1];
+					countNumCp[i+1] = temp;
+					
+					temp = indexTemp[i];
+					indexTemp[i] = indexTemp[i+1];
+					indexTemp[i+1] = temp;
+				}
+			}
+		}
+		
+		for(int i=0; i < hi_num; i++) {
+			high_data[i] = indexTemp[i+1];
+		}
+		return high_data;
+	}
+	
+}

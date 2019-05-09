@@ -1,0 +1,28 @@
+package com.cutiler.app.lotto;
+
+public class LottoDataFrequency {
+
+	int[] lottodata = new int[46];
+	
+	LottoDataFrequency() {		
+	}
+	
+	public void setLottoDataFrequency(LottoData lottodata) {		
+		for(int i = 1; i <= 6; i++) {			
+			this.lottodata[lottodata.LottoNumber[i]] += 1;
+		}		
+	}
+	
+	public int analysisLotto() {
+		
+		// getDrwNoFromFileDB()
+		LottoUtil lottoUtil = new LottoUtil();
+		int maxIndex = lottoUtil.getNewestDrwNo();
+		for(int i=0; i < maxIndex; i++) {
+			
+		}
+		
+		return 0;
+	}
+	
+}

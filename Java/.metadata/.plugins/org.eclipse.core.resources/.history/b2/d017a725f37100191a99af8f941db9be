@@ -1,0 +1,94 @@
+package com.cutiler.app.lotto;
+
+import java.util.List;
+
+public class LottoData {
+
+	int LottoNumber[] = new int[8];	
+	
+	LottoData(){
+		
+	}
+
+
+	public int[] getLottoNumber() {
+		return LottoNumber;
+	}
+	
+	public int getLottoNumber(int i) {
+		return LottoNumber[i];
+	}
+	
+	public int analysisLotto(List<MyLotto> myLotto_AL) {
+		
+		// getDrwNoFromFileDB()
+		LottoUtil lottoUtil = new LottoUtil();
+		int maxIndex = lottoUtil.getNewestDrwNo();
+		
+		LottoDataFrequency lottoDataF = null;		
+		List<LottoData> WnLotto_AL = null;
+		WnLotto_AL = lottoUtil.getLottoDataFromFileDB(maxIndex, lottoDataF);
+	//	System.out.println("MyLotto_AL size : "+myLotto_AL.size());
+//		System.out.println("maxIndex : "+maxIndex);
+		//myLotto_AL 1~ maxIndex-1까지.
+		maxIndex--;
+		
+		for(int k2=0; k2 < myLotto_AL.size(); k2++) {
+			boolean isFail = true;
+			for(int k=0; k < maxIndex; k++) {
+				
+				int count =0;
+				for(int i=1; i < 7; i++) {
+					for(int j=1; j < 7; j++) {
+						if(myLotto_AL.get(k2).getNumber(i) == WnLotto_AL.get(k).getLottoNumber(j) ) {
+							count++;
+						}
+					}
+				}
+				if(count == 5) {
+					for(int i=1; i < 7; i++) {
+						if(myLotto_AL.get(k2).getNumber(i) == WnLotto_AL.get(k).getLottoNumber(7) ) {
+							count = 7;
+							break;
+						}
+					}
+				}
+				
+				if(count == 6) {
+					System.out.print("["+myLotto_AL.get(k2).getNumber(0) +"]회차 ");
+					for(int i=1; i < 7; i++) {
+						System.out.print(", ["+myLotto_AL.get(k2).getNumber(i)+"] ");
+					}System.out.println("은 ["+(k+1) +"]회차 1등 당첨 번호와 같습니다.");
+					isFail = false;
+				}else if(count == 7) {
+					System.out.print("["+myLotto_AL.get(k2).getNumber(0) +"]회차 ");
+					for(int i=1; i < 7; i++) {
+						System.out.print(", ["+myLotto_AL.get(k2).getNumber(i)+"] ");
+					}System.out.println("은 ["+(k+1) +"]회차 2등 당첨 번호와 같습니다.");
+					isFail = false;
+				}
+				
+			}
+				if(isFail == true) {
+					System.out.print("["+myLotto_AL.get(k2).getNumber(0) +"]회차 ");
+					for(int i=1; i < 7; i++) {
+						System.out.print(", ["+myLotto_AL.get(k2).getNumber(i)+"] ");
+					}System.out.println("은 어떤 역대 번호와도 일치하지 않습니다.");
+				}
+		}
+		
+		
+		return 0;
+	}
+	
+	public void setLottoData(LottoDataDB lottodataDB) {
+		this.LottoNumber[0] = lottodataDB.getDrwNo();
+		this.LottoNumber[1] = lottodataDB.getDrwtNo1();
+		this.LottoNumber[2] = lottodataDB.getDrwtNo2();
+		this.LottoNumber[3] = lottodataDB.getDrwtNo3();
+		this.LottoNumber[4] = lottodataDB.getDrwtNo4();
+		this.LottoNumber[5] = lottodataDB.getDrwtNo5();
+		this.LottoNumber[6] = lottodataDB.getDrwtNo6();
+		this.LottoNumber[7] = lottodataDB.getBnusNo();				
+	}
+}

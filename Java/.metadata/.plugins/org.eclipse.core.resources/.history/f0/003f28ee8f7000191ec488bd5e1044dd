@@ -1,0 +1,30 @@
+package sec1.url;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+
+public class URLReader {
+	
+	public static void main(String[] args) throws Exception{
+		URL url;// = new URL("https://www.naver.com");
+		new URL("https://www.nlotto.co.kr/common.do?method=getLottoNumber&drwNo=858");
+		
+		InputStream is = url.openStream();
+		InputStreamReader isr = new InputStreamReader(is);
+		BufferedReader reader = new BufferedReader(isr);
+		
+		String isLine;		
+		while((isLine =reader.readLine())!= null ) {
+			System.out.println(isLine);			
+		}
+		
+		reader.close();
+		isr.close();
+		is.close();
+		
+		
+	}
+
+}

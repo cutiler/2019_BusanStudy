@@ -1,0 +1,248 @@
+package com.cutiler.app.lotto;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
+import java.io.Writer;
+import java.net.URL;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.X509Certificate;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+public class LottoUtil {
+	
+	public static final String LottoAddressHeader = "https://www.nlotto.co.kr/common.do?method=getLottoNumber&drwNo=";
+	public static final String DB_PATH = "./lotto";
+	public static final String DB_FileName  = "lottodb.txt";
+	public static final String Index_FileName = "lottoindex.txt";
+
+	
+	LottoUtil(){
+		
+	}
+	
+	public int getNewestDrwNo() {
+		int drwNo = getDrwNoFromFileDB();		
+		return updateDBNewest(drwNo);		
+	}
+	
+	// drwNo부터 서버에서 정보를 받아와서
+	// 최신화차 정수값을 반환.
+	// 받은 drwNo가 최신회차가 아니라면
+	// fileDB와 fileIndex를 갱신.
+	public int updateDBNewest(int drwNo) {
+		File fileDB, fileIndex;
+		fileDB = makeFile(DB_PATH,DB_FileName);
+		fileIndex = makeFile(DB_PATH,Index_FileName);
+		FileOutputStream fos = null;
+		FileOutputStream fos2 = null;
+		ObjectOutputStream oos = null;
+		Writer fwriter = null;
+		int newestDrwNo = 1;
+		
+		//  보안설정.
+		LottoUtil.disableSslVerification();
+					
+		try {
+			if(drwNo <= 0) {	
+				fos = new FileOutputStream(fileDB);
+				newestDrwNo = 1;
+				System.out.println("프로그램을 처음 실행하여 몇분간 대기상태에 빠질수 있습니다....기다려주세요...");
+			}
+			else {
+				fos = new FileOutputStream(fileDB,true);
+				newestDrwNo = drwNo;
+			//	System.out.println("인덱스에 저장된 회치 : "+newestDrwNo);				
+				}
+			
+			oos = new ObjectOutputStream(fos);
+			
+			fos2 = new FileOutputStream(fileIndex);			
+			fwriter = new OutputStreamWriter(fos2);
+			
+			// 갱신.
+			boolean isRun = true;
+			while(isRun) {
+				LottoDataDB lottoDataDB = new LottoDataDB();
+				lottoDataDB = setLottoDataDBfromNlottoServer(newestDrwNo);				
+				if(lottoDataDB != null) {
+					oos.writeObject(lottoDataDB);
+					oos.flush();
+					newestDrwNo++;
+				}else {
+					isRun = false;				
+				//	System.out.println("인덱스 저장값  : "+ newestDrwNo);
+					fwriter.write(newestDrwNo);
+					fwriter.flush();
+				}
+			}
+			
+		} catch (Exception e) {
+				System.out.println("파일 포인터 : "+e.getMessage());				
+		} finally {
+				try {
+					
+					oos.close();
+					fos.close();					
+					fwriter.close();
+					fos2.close();
+					
+				} catch (IOException e) {	}
+		}
+		return newestDrwNo;
+	}
+	
+	// 0 이면 파일 없음.
+	public int getDrwNoFromFileDB() {
+		int drwNo=0;
+		File fileIndex = new File(DB_PATH+"/"+Index_FileName);
+		FileInputStream fis = null;
+		Reader reader = null;
+		if(fileIndex.exists() == false ) {
+			System.out.println("인덱스가 없어서 0을 반환");
+			return 0;	
+			}
+		
+		try {
+			fis = new FileInputStream(fileIndex);
+			reader = new InputStreamReader(fis);
+			drwNo = reader.read();
+		//	System.out.println("Index파일 :"+drwNo);
+			fis.close();
+		} catch (Exception e) {	
+			System.out.println("파일인풋 에러 "+e.getMessage());
+		} finally {
+			try {
+				reader.close();
+				fis.close();
+			} catch (IOException e) { 		}
+		}
+		return drwNo;
+	}
+	
+	public LottoDataDB setLottoDataDBfromNlottoServer(int drwNo) {
+
+		LottoDataDB lottoDataDB = new LottoDataDB();
+		
+		try {
+			
+			
+			// URL Connection 세팅.
+			URL lottoURL = new URL(LottoAddressHeader+drwNo);
+			HttpsURLConnection urlcon = (HttpsURLConnection)lottoURL.openConnection();
+			urlcon.setRequestMethod("GET");		
+			
+			// Input
+			InputStream is = urlcon.getInputStream();
+			InputStreamReader isr = new InputStreamReader(is);
+			BufferedReader reader = new BufferedReader(isr);
+			
+			JsonObject jobj = new JsonObject();
+			JsonParser jprs = new JsonParser();
+						
+			String isLine;
+			
+			
+			
+			if((isLine = reader.readLine()) != null) 
+			 {  				  
+				  jobj = (JsonObject)jprs.parse(isLine);
+			 }
+			
+			JsonElement endOfIndex;
+			endOfIndex = jobj.get("returnValue");
+			if( endOfIndex.getAsString().equals("success") ) {	
+				lottoDataDB.setLottoDataDB(jobj);
+				System.out.println(lottoDataDB.getDrwNo()+"회차  return Value : "+lottoDataDB.getReturnValue()+" Date : "+lottoDataDB.getDrwNoDate());
+				
+			}else {
+					lottoDataDB = null;
+			}
+			
+			reader.close();
+			isr.close();
+			is.close();
+		
+		} catch (Exception e) {	
+			System.out.println("서버에서 정보 받아오다 에러 : "+e.getMessage());
+		}
+		return lottoDataDB;
+	}
+	
+	public File makeFile(String path, String filename) {
+		File fir = new File(path);
+		
+		if(!fir.exists()) {
+			System.out.println("디렉토리가 존재하지 않습니다.");			
+			fir.mkdirs();
+		}
+		
+		
+		File file = new File(path+"/"+filename);
+		if(file.exists() == false) {
+			// 새로운 파일 생성
+			try {
+				file.createNewFile();
+				System.out.println(filename+" 파일 생성");
+			} catch (IOException e) {				
+				System.out.println(filename+" 파일 생성 실패 : "+ e.getMessage());
+			}			
+		}
+		return file;
+	}
+	
+	// ssl security Exception 방지
+    private static void disableSslVerification() {
+        try
+        {
+            // Create a trust manager that does not validate certificate chains
+            TrustManager[] trustAllCerts = new TrustManager[] {
+            		new X509TrustManager() {
+            			public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+            				return null;
+            			}
+            			public void checkClientTrusted(X509Certificate[] certs, String authType) {
+            			}
+            			public void checkServerTrusted(X509Certificate[] certs, String authType) {
+            			}
+            		}
+            };	
+ 
+            // Install the all-trusting trust manager
+            SSLContext sc = SSLContext.getInstance("SSL");
+            sc.init(null, trustAllCerts, new java.security.SecureRandom());
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+ 
+            // Create all-trusting host name verifier
+            HostnameVerifier allHostsValid = new HostnameVerifier() {
+                public boolean verify(String hostname, SSLSession session) {
+                    return true;
+                }
+            };
+ 
+            // Install the all-trusting host verifier
+            HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
+        } catch (NoSuchAlgorithmException e) { e.printStackTrace();
+        } catch (KeyManagementException e) { e.printStackTrace(); 
+        }
+    }
+
+}
