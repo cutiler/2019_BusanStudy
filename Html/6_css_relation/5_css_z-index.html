@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<style type="text/css">
+		.index1{
+			width: 100%;
+			height: 300px;
+			background-color: pink;
+			z-index: 10;
+		}
+
+		.index2{
+			width: 100%;
+			height: 200px;
+			background-color: skyblue;
+			z-index: 5;
+		}
+
+		.index3{
+			width: 100px;
+			height: 100px;
+			background-color: black;
+			z-index: 15;
+		}
+
+		div{
+			position: absolute;
+		}
+
+	</style>
+</head>
+<body>
+	<div class="index1">		
+	</div>
+	<div class="index2">
+		<div class="index3"></div>
+	</div>
+</body>
+</html>
