@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<script>
+		var date = new Date();
+		var year = date.getFullYear(); // 2019
+		var month = date.getMonth()+1; // 0~11
+		var day = date.getDate(); //월을 기준으로 날짜반환
+		var week = date.getDay(); // 0~6. 0 == 일요일.
+
+		var hour = date.getHours(); //시간
+		var minute = date.getMinutes(); // 분
+		var seconds = date.getSeconds(); // 초
+
+		switch(week){
+			case 0: week = "일요일";
+				break;
+			case 1: week = "월요일";
+				break;
+			case 2: week = "화요일";
+				break;
+			case 3: week = "수요일";
+				break;
+			case 4: week = "목요일";
+				break;
+			case 5: week = "금요일";
+				break;
+			case 6: week = "토요일";
+				break;
+		}
+
+		document.write(date+"<br />");
+		document.write(year+"."+month+"."+day+"("+week+")"+" "+hour+":"+minute+":"+seconds);
+
+
+		document.write("<br />");
+		// month는 0~11. 
+		var newYear = new Date(2019,06,23,0,0,0);
+		document.write(newYear+"<br />");
+
+		var diff = newYear - date;
+		diff = diff/24/60/60/1000;
+		var days = Math.floor(diff);
+		var str="교육기간 남은 일수 : "+days+" 일 입니다.";
+		document.write(str);
+
+
+	</script>
+</head>
+<body>
+
+</body>
+</html>
