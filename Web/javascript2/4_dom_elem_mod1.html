@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>속성변경</title>
+	<script type="text/javascript">
+		function changeImage(){
+			var image = document.getElementById("image");
+			image.src = "poodle.png";
+			image.width = "300";
+			image.height = "400";
+		}
+		function backImage(){
+			document.image.src = 'pome.png';
+			document.image.width = '120';
+			document.image.height = '100';
+		}
+
+	</script>
+</head>
+<body>
+	<img id="image" name="image" src="pome.png" width="120" height="100" />
+	<input type="button" onclick="changeImage();" value="눌러보세요"/>
+	<input type="button" onclick="backImage();" value="눌러보세요"/>
+</body>
+</html>

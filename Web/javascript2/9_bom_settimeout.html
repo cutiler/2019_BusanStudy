@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>setTimeout</title>
+	<script type="text/javascript">
+		function showAlert(){
+			// 파라메터 2 ms초 후에 파라메터 1 함수를 실행.
+			window.setTimeout(
+				function(){
+					alert("setTimeout을 사용하여 표시됩니다");
+				}
+				, 3000);
+
+		}
+
+		
+
+
+
+	</script>
+
+</head>
+<body>
+
+	<div id="clock"></div>
+
+
+	<p>
+		버튼을 눌리면 3초 후에 경고 박스가 화면에 표시됩니다.
+	</p>
+	
+	<button onclick="showAlert()">눌러보세요!</button>
+	<script type="text/javascript">
+		function setClock(){
+			var now = new Date();
+			// 12 : 28 : 16
+			var str = now.getHours()+" : "+now.getMinutes()+" : "+now.getSeconds();
+			document.getElementById("clock").innerHTML = str;
+			setTimeout('setClock()',1000);
+		}
+
+		setClock();
+
+	</script>
+</body>
+</html>

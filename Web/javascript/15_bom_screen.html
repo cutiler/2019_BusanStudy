@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<script type="text/javascript">
+			function maxOpen(){
+				var maxWindow = window.open("https://naver.com","","resize=1,scrollbars=1");
+				maxWindow.moveTo(0,0);
+				var widthWin = screen.availWidth;
+				var heightWin = screen.availHeight;
+				document.write("브라우저 전체 너비 : "+widthWin);
+				document.write("<br />")
+				document.write("브라우저 전체 높이 : "+heightWin);
+				document.write("<br />")
+				widthWin = screen.width;
+				heightWin = screen.height;
+
+				document.write("모니터의 해상도 너비 : "+widthWin);
+				document.write("<br />")
+				document.write("모니터의 해상도 높이 : "+heightWin);
+				document.write("<br />")
+
+				document.write("브라우저 안쪽의 너비 : "+document.body.clientWidth);
+				document.write("<br />")
+				document.write("브라우저 안쪽의 높이 : "+document.body.clientHeight);
+				document.write("<br />")
+
+				maxWindow.resizeTo(widthWin,heightWin);
+			}
+
+	</script>
+</head>
+<body>
+	<a href="#" onclick="maxOpen()">전체화면보기</a>
+</body>
+</html>

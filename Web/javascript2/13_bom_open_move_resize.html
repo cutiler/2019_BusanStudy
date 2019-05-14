@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<script type="text/javascript">
+		var win;
+		function openWindow(){
+			win = window.open('','_blank','width=350, height=374,top=200,left=200');
+			win.document.write("<img src='pome.png' />");
+			// 모니터 기준 절대 좌표로 이동
+			win.moveTo(100,100);
+		}
+
+		function moveWindow(){
+			// 현재 자기 자신의 창을 기준으로 상태 위치 만큼 이동
+			win.moveBy(10,10);
+			wn.focus();
+		}
+
+		var w;
+		function maxOpen(){
+			w = window.open('11_bom_setinterval.html','_blank','reseize=1','scrollbar=1');
+			w.moveTo(0,0);
+			w.resizeTo(screen.availWidth,screen.availHeight);
+		}
+
+		function replace(){
+			//location.replace('11_bom_setinterval.html');
+			location.href="11_bom_setinterval.html";
+		}
+
+	</script>
+</head>
+<body>
+	<input type="button" value="window 창 오픈" onclick="openWindow();" />
+	<br />
+	<input type="button" value="window 창 이동" onclick="moveWindow();" /> 
+	<br />
+	<a href="#" onclick="maxOpen();">전체화면 보기</a><br />
+	<a href="#" onclick="replace();">이동하기</a>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<script type="text/javascript">
+		function removeNode(){
+			var parent = document.getElementById("target");
+			//var child = document.getElementById("p1");
+			var child = document.getElementsByTagName("p")[0];
+
+			parent.removeChild(child);
+
+		}
+
+	</script>
+</head>
+<body>
+	<div id="target">
+		<p id="p1">첫번째 단락 </p>
+		<p id="p2">두번째 단락</p>
+		<p id="p3">세번째 단락</p>
+	</div>
+	<button onclick="removeNode();">첫번째 요소 삭제</button>
+</body>
+</html>
