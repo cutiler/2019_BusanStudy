@@ -8,6 +8,13 @@
  * 대상 : div 내부 select
  * 기능 : 홀수 인덱스 option 배경색 변경 
  */
+
+$(function(){
+	$("input").click(function(){
+		$("option:odd").css("background-color","red");
+	});
+});
+
 </script>
 
 </head>

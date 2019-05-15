@@ -9,6 +9,15 @@
  * 기능 : 태그 변경 (h2 => h3)
  * 함수 : html(), replace()
  */
+
+ $(function(){
+ 	$("input").click(function(){
+ 		var h1val = $("div").html(); 		
+ 		var h2val = h1val.replace(/h2/g,'h3'); 		
+ 		$("div").html(h2val); 		
+ 	});
+ });
+
 </script>
 
 </head>

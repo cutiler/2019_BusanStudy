@@ -9,6 +9,12 @@
  * 기능 : h2를 제외한 모든 하위 요소 삭제
  * 함수 : children(), not(), remove()
  */
+$(function(){
+	$("input").click(function(){
+		$("div").children().not('h2').remove();
+	});
+});
+
 </script>
 
 </head>

@@ -9,6 +9,17 @@
  * 기능 : div 크기 변경 (애니메이션 효과) 
  * 함수 : animate(), width(), height()
  */
+
+ $(function(){
+ 	$("input").click(function(){
+ 		$("div").animate({
+ 			width : 300,
+ 			height : 200
+ 		},1000);
+ 	});
+ });
+
+
 </script>
 
 </head>

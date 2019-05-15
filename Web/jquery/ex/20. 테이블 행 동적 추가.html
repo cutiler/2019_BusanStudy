@@ -8,6 +8,16 @@
 			btn click 시
 			table 에 제목  내용 작성자  행 작성한 내용으로 자동으로 추가
 		*/
+
+		$(function(){
+			$("#btn").click(function(){
+			var tmsg = document.getElementById("title").value;
+			var cmsg  =  document.getElementById("content").value;
+			var wmsg =  document.getElementById("owner").value;
+			$("table").append("<tr><td>"+tmsg+"</td><td>"+cmsg+"</td><td>"+wmsg+"</td></tr>");
+
+			});
+		});
 	</script>
 </head>
 <body>

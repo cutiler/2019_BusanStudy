@@ -9,6 +9,15 @@
 	 * 기능 : 마지막 item 선택 
 	 * 함수 : prop(), last()
 	 */
+
+	 $(function(){
+	 	$("#run").click(function(){
+	 		var last = $("div>select>option:last").text();
+	 		alert(last);
+	 	});
+
+
+	 });
 	
 </script>
 
@@ -24,6 +33,6 @@
 			<option>third(select me!)</option></select>
 			<a href="#" id="comment">코멘트</a>
 	</div>
-	<input type="button" value="run"/>
+	<input type="button" id="run" value="run"/>
 </body>
 </html>

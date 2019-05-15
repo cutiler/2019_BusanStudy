@@ -9,7 +9,18 @@
  * 기능 : 문자열 변경 (cat => dog)
  * 함수 : text(), html(), replace(), 정규식(/cat/g) or split(), join()
  */
+
+$(function(){
+	$("input").click(function(){
+		var catmsg = $("div").html();
+		var dogmsg = catmsg.replace(/cat/g,'dog');
+		$("div").html(dogmsg);
+	});
+});
+
 </script>
+
+
 
 </head>
 

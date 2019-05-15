@@ -9,6 +9,12 @@
 	 * 기능 : parent1의 child를 parent2로 이동 
 	 * 함수 : appendTo()
 	 */
+	 $(function(){
+	 	$("input").click(function(){
+	 		var st = $("#parent1").html();	 		
+	 		$("#parent2").html(st);
+	 	});
+	 });
 
 </script>
 
@@ -23,6 +29,6 @@
 	</div>
 	<div id="parent2"
 		style="color: rgb(255, 255, 255); width: 150px; height: 100px; float: left; border: 1px solid rgb(34, 34, 34); background-color: rgb(210, 180, 140); margin: 10px; padding: 5px; background-position: initial initial; background-repeat: initial initial;">#parent2</div>
-	<input type="button" value="run" />
+	<input type="button"  value="run" />
 </body>
 </html>

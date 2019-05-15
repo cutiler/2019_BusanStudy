@@ -8,6 +8,14 @@
 	 * 대상 : div 내부 div
 	 * 기능 : div 개수 출력 
 	*/
+	$(function(){
+		$("input").click(function(){
+			var cnt = document.getElementsByTagName("div").length;
+			cnt--;
+			alert(cnt);
+		});
+
+	});
 
 </script>
 

@@ -9,6 +9,12 @@
  * 기능 : 자식 요소가 없는 div 제거
  * 함수 : not(), :parent, remove()
  */
+$(function(){
+	$("input").click(function(){
+		$("div").not(":parent").remove();
+	});
+});
+
 </script>
 
 </head>
