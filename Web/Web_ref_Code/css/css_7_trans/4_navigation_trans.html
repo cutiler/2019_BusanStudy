@@ -1,0 +1,76 @@
+<!-- 4_navigation_trans.html -->
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<style>
+		ul{
+			list-style:none;
+		}	
+		a{
+			text-decoration:none;
+		}
+
+		header nav ul li{
+			float:left;
+			width:100px;
+			height:50px;
+			background-color:skyblue;
+			text-align:center;
+			line-height:50px;
+			border:1px solid white;
+		}
+
+		nav ul li a{
+			color:white;
+		}
+
+		aside{
+			width:100%;
+			float:left;
+		}
+
+		aside li{
+			text-align:center;
+			width:200px;
+			background-color:pink;
+			padding:20px;
+			border-top:3px solid #dfdfdf;
+			transition:background-color 0.5s, margin-left 0.5s; 
+		}
+
+		aside li:hover{
+			background-color:skyblue;
+			margin-left:20px;
+			cursor:pointer;
+		}
+
+	</style>
+</head>
+<body>
+	<header>
+		<nav>
+			<ul>
+				<li><a href="#">Home</a></li>
+				<li><a href="#">About us</a></li>
+				<li><a href="#">Contact</a></li>
+				<li><a href="#">Login</a></li>
+				<li><a href="#">Join</a></li>
+			</ul>
+		</nav>	
+	</header>
+	<aside>
+		<nav>
+			<ul>
+				<li><a href="#">맛집</a></li>
+				<li><a href="#">인기</a></li>
+				<li><a href="#">별점</a></li>
+				<li><a href="#">조회</a></li>
+			</ul>
+		</nav>
+	</aside>
+
+
+</body>
+</html>

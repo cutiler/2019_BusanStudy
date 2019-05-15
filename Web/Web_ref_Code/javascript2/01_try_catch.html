@@ -1,0 +1,22 @@
+<!-- 01_try_catch.html -->
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>예외처리</title>
+	<script>
+		var msg = "";
+		function test(){
+			try{
+				allert('test');
+			}catch(error){
+				msg = "다음과 같은 오류가 발생하였음." + error.message;	
+				alert(error);
+			}
+		}	
+	</script>
+</head>
+<body>
+	<input type="button" value="try-catch test" onclick="test()"/>
+</body>
+</html>

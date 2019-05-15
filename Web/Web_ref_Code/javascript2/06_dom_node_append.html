@@ -1,0 +1,28 @@
+<!-- 06_dom_node_append.html -->
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>NODE</title>
+	<script>
+		function addTextNode(){
+			var node = document.createTextNode(document.getElementById("text").value);	
+			document.getElementById("target").appendChild(node);
+		}
+		
+		function addElement(target){
+			var h1 = document.createElement('h1');
+			h1.style.color = "red";
+
+			/*var ext = document.createTextNode("추가된 요소");
+			h1.appendChild(ext);*/
+			h1.innerHTML="추가된요소";
+			target.appendChild(h1);
+		}
+	</script>
+</head>
+<body>
+	<input type="text" id="text"/>
+	<div id="target" onclick="addElement(this);" style="font:20px bold;">여기를 클릭하세요!</div>
+</body>
+</html>

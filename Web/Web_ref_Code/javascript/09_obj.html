@@ -1,0 +1,39 @@
+<!-- 9_obj.html -->
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<script>
+		var product = {
+			제품명 : '오렌지',
+			유형 : '과일',
+			가격 : 5000,
+			원산지 : '국산',
+			소비 : function(name){
+				document.write(name+'이' + this.제품명+"을 훔쳐먹었습니다.");
+			}
+		}
+
+		console.log(typeof(product) + " : " + product);
+		document.write("product 제품명 : " + product['제품명']);
+		document.write("product 제품명 : " + product['원산지']);
+
+		for(var x in product){
+			console.log(x+ " : " + product[x]);
+		}
+
+		product.소비('최기근');
+		product.제품명 = '딸기';
+		console.log(product.제품명);
+		console.log(product.유형);
+		console.log(product.가격); 
+
+	</script>
+</head>
+<body>
+
+</body>
+</html>
+
+

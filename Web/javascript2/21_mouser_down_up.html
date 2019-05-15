@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<script type="text/javascript">
+		window.onload = function(){
+			var btn = document.getElementById("button");
+
+			btn.addEventListener('mousedown',function(){
+				this.style.color = "#FF0000";
+			});
+			
+			btn.onmouseup = function(){
+				this.style.color = "#000000";
+			}
+		}
+	</script>
+</head>
+<body>
+	<button id="button">눌러보세요!</button>
+</body>
+</html>

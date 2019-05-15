@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<script type="text/javascript">
+		window.onload = function(){
+
+			document.getElementById("id").onkeydown =
+			function(event){
+				//alert(event.key+" : "+event.keyCode);
+				if(event.keyCode == 13){
+				//	alert(event.key);
+					document.getElementById("pw").focus();
+
+				}
+			}
+
+			document.getElementById("pw").onkeydown = function(event){
+				if(event.keyCode == 13){
+						document.myForm.submit();
+				}
+			}
+
+			document.getElementById("btn").onclick = function(event){
+						alert(document.myForm.id.value);
+						document.myForm.submit();
+				
+			}
+
+		}
+	</script>
+</head>
+<body>
+	<form name="myForm" action ="11_bom_setinterval.html" method="GET">
+		ID : <input type = "text" id="id"/><br />
+		PW : <input type = "password" id="pw"/><br />
+		<input type = "button" id="btn" value="전송" />
+	</form>
+</body>
+</html>

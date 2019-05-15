@@ -1,0 +1,55 @@
+<!-- 3_windows.html -->
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<script>
+		/* alert 일반 경고창*/	
+		var a = 10;
+		var b = 20;
+
+		if(a > b){
+			alert('a가 b 보다 큽니다.');
+		}else if(a == b){
+			alert('a와 b의 값이 동일합니다.');
+		}else{
+			alert('a가 b 보다 작습니다.');
+		}
+
+
+		var confirm_test = confirm('2000만원 결제하시겠습니까?');
+
+		if(confirm_test){
+			alert('확인');
+		}else{
+			alert('취소');
+		}
+
+		var x, y;
+
+		var input;
+
+		input = prompt("정수를 입력해주세요","정수로 작성");
+		x = input;
+
+		input = prompt("정수를 입력해주세요","");
+		y = input;
+
+		// 문자열을  수치형으로 변환
+		x = parseInt(x);
+		y = parseInt(y);
+
+		document.write(x+y);
+		
+		// 다른 data type을 문자열로 변환
+		x = String(x);
+		y = String(y);
+		document.write(x+y);
+		
+	</script>
+</head>
+<body>
+
+</body>
+</html>

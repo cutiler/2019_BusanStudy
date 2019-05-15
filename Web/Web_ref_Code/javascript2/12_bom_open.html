@@ -1,0 +1,24 @@
+<!-- 12_bom_open.html -->
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<script>
+		var child;
+
+		function 새창열기(){
+			// yes|no|1|0
+			child = window.open('http://www.google.com','_blank','width=300,height=300,top=200,left=100,menubar=yes,resizable=no,scrollbars=no,titlebar=yes',true);
+		}
+
+		function windowClose(){
+			child.close();
+		}
+	</script>
+</head>
+<body>
+	<input type="button" onclick="새창열기();" value="구글창 열기"/>
+	<input type="button" onclick="windowClose();" value="창닫기"/>
+</body>
+</html>

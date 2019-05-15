@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<style>
+		.page {
+			border:1px solid black;
+		}	
+	</style>
+</head>
+<body>
+	<button>toggle</button>
+	<h1></h1>
+	<div class="page">
+		<h1>동해물과 백두산이</h1>
+		<p>
+			동해물과 백두산이 마르고 닳도록<br/>
+			하느님이 보우하사 우리 나라 만세<br/>
+			무궁화 삼천리 화려강산 <br/>
+			대한사람 대한으로 길이 보전하세.
+		</p>
+	</div>
+	<script>
+		$(".page").hover(function(){
+			$(this).stop();
+			// 1000/1
+			// 'fast' , 'slow'
+			//$(this).hide(500);
+			$(this).fadeOut(500);
+		},function(){
+			$(this).stop();
+			//$(this).show(500);
+			$(this).fadeIn(500);
+		});
+
+		$("button").click(function(){
+			$(".page").toggle(500);
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!-- 7_func.html -->
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<script>
+		/*varFunc();*/
+
+		함수();
+
+		function func(){
+			alert('func 호출');
+		}
+
+		func();
+
+		function 함수(){
+			alert("함수 호출");
+		}
+
+		function func2(a){
+			alert(a);
+		}
+
+		func2("매개변수!");
+
+		function func3(){
+			return 100;
+		}
+
+		var a = func3();
+		alert("a : "+a);
+
+
+		var varFunc = function(){
+			alert("varFunc 호출");
+		}	
+
+		varFunc();
+		document.write("typeof "+typeof(varFunc));
+
+		/*
+			callback function
+		*/
+
+		function call(callBackFunc){
+			for(var i=0; i<5; i++){
+				callBackFunc(i);
+			}
+		}
+
+		var func = function(i){
+			console.log(i);
+		}
+
+		call(func);
+
+		call(function(i){console.log(i)});
+
+	</script>
+</head>
+<body>
+
+</body>
+</html>

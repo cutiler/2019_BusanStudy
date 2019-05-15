@@ -1,0 +1,79 @@
+<!-- 17_event_click.html -->
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+</head>
+<body id="target">
+	<script>
+	/*
+		onchange(객체의 내용이 바뀌고 focus를 잃었을때)
+		onblur(객체가 포커스를 잃었을때.)
+		onfocus(객체가 focus되었을때)
+		onclick(객체가 클릭되었을때.)
+		ondbclick(더블 클릭 되었을때)
+		onerror(에러가 발생했을때)
+		onkeydown(키가 눌러졌을때: 키보드)
+		onkeypress(키를 누르고 있을때)
+		onkeyup(키를 눌렀다 땠을때)
+		onload(문서나 객체가 로드 되었을때)
+		onmouseover(마우스가 객체 위에 올라왔을때)
+		onmouseout(마우스가 객체를 벗어 났을때)
+		onreset(입력 태그 요소 리셋 버튼 이 눌러졌을때)
+		onresize(객체의 크기가 변경 되었을때)
+		onscroll(스크롤바가 동작 할때)
+		onsubmit(폼의 내용이 전송 될때 )
+	*/
+
+	function changeColor(c){
+		document.getElementById('target').style.backgroundColor = c;
+	}
+	// 문서가 로드 되었을때 
+	window.onload = function(){
+		function clickEvent(){
+			document.getElementById('target').style.backgroundColor = 
+			//document.getElementById("v1").value;
+			this.value;
+		}
+
+
+		document.getElementById("v1").addEventListener('click',clickEvent);
+
+		document.getElementById("v2").onclick = function(){
+			document.getElementById('target').style.backgroundColor = 
+			this.value;
+		}
+
+		document.getElementById("v1").removeEventListener('click',clickEvent);
+	}
+
+	function aEvent(e){
+		e.preventDefault();
+
+		document.getElementById('target').style.backgroundColor = "black";
+	}
+</script>
+	<form>
+		
+		<input type="radio" name="r1" value="lightblue" id="lightblue" onclick="changeColor('lightblue')" /><label for="lightblue">파랑색</label>	
+		<label>
+		<input type="radio" name="r1" value="lightgreen" onclick="changeColor('lightgreen')" />초록색</label>
+		<label>
+			<input id="v1" type="radio" name="r1" value="pink"/>핑크색
+		</label>
+		<label>
+			<input id="v2" type="radio" name="r1" value="orange"/>오렌지색
+		</label>
+	</form>
+	<a href="11_bom_setinterval.html" target="_blank" 
+	onclick="aEvent(event);">박스잡기</a>
+</body>
+</html>
+
+
+
+
+
+
+

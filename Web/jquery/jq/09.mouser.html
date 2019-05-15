@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script>
+		$(function(){
+			/*$(".out").css({
+				width : 100,
+				height : 100,
+				background : "yellow"
+			}).on("click",function(){
+				alert(".out click!!!");
+			}).on("mouseover",function(){
+				$(this).css("background","blue");
+			}).on("mouseout",function(){
+				$(this).css("background","yellow");
+			});*/
+
+			$(".out").css({
+				width : 100,
+				height : 100,
+				background : "yellow"
+			}).on({
+				click : function(){
+					$(this).css("background-color","red");
+				},
+				mouseenter : function(){
+					$(this).css("background-color","blue");
+				},
+				mouseleave : function(){
+					$(this).css("background-color","yellow");	
+				}
+			});
+
+			$(document).mousemove(function(event){
+				$("#log").text("x"+event.pageX +" : y "+event.pageY);
+			});
+
+		});
+	</script>
+</head>
+<body>
+	<div class="out">
+		<p>MOUSE</p>
+	</div>
+	<div id="log"></div>
+</body>
+</html>

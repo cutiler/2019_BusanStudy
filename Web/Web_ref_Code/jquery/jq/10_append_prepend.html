@@ -1,0 +1,53 @@
+<!-- 10_append_prepend.html -->
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script>
+		$(function(){
+			$("#pre").click(function(){
+				$("p").prepend("<b style='color:red;'>Hello! </b>");
+			});
+			$("#appe").click(function(){
+				$("p").append("<b style='color:blue;'>append Hello!</b>");
+			});
+			$("#html").click(function(){
+				$("p").html("<b style='color:blue;'>append Hello!</b>");
+			});
+
+			$("#get").click(function(){
+				var val = document.getElementById("target").value;
+				$("p").append(val);
+				val = $("#target").val();
+				$("p").append("jQuery : "+val);
+			});
+
+			$("#set").click(function(){
+				document.getElementById("target").value = "바보야!";
+
+				$("#target").val("안녕하세요!");
+			});
+		});
+	</script>
+</head>
+<body>
+	<p>
+		동해물과 백두산이 마르고 닳도록...
+	</p>
+	<button id="pre">prepend</button>
+	<button id="appe">append</button>
+	<button id="html">html</button>
+	<br/>
+	<input type="text" id="target" />
+
+	<button id="get">get</button>
+	<button id="set">set</button>
+</body>
+</html>
+
+
+
+
+

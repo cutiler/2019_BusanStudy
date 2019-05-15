@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<style>
+		.font{
+			font-size: 40px;
+			font-weight:bold;
+			/*
+			 number 100, 200, 300, 400, 500, 600, 700, 800, 900
+			  normal : 보통 == 400;
+			  bold : 굵은 굵기 == 700;
+			  bolder : 상속 된 값보다 굵게;
+			  lighter : 상속 된 값보다 얇게;
+			  initial: 기본 속성;
+			  inherit : 부모요소의 속성값을 상속;
+			*/
+			font-family: Arial, Times, sans-serif;
+			font-style: italic;
+			font-style: oblique;
+		}	
+
+		.child{
+			font-weight:bolder;
+		}
+
+		.third{
+			font-weight:lighter;	
+		}
+
+	</style>
+</head>
+<body>
+	<div class="font">
+		HELLO HTML
+		<div class="child">
+			HELLO HTML
+			<div class="third">
+				HELLO HTML
+			</div>	
+		</div>
+	</div>
+</body>
+</html>

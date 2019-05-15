@@ -1,0 +1,43 @@
+<!-- 08_focus_blur.html -->
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script>
+		$(function(){
+
+			$("#uid").focus();
+
+			$("#uid").keydown(function(event){
+				if(event.keyCode == 13){
+					$("#upw").focus();
+				}
+			});
+
+			$("#upw").keydown(function(e){
+				if(e.keyCode == 13){
+					$("form").submit();
+				}
+			});
+
+
+			$("input").focus(function(){
+				$(this).css("background-color","lightgreen");
+			});
+
+			$("input").blur(function(){
+				$(this).css("background-color","white");
+			});
+		});
+	</script>
+</head>
+<body>
+	<form>
+		ID : <input type="text" name="uid" id="uid"/> <br/>
+		PW : <input type="password" name="upw" id="upw" />
+		<input type="button" value="전송"/>
+	</form>
+</body>
+</html>

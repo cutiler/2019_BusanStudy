@@ -1,0 +1,39 @@
+<!-- 06_class.html -->
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<style>
+		div{
+			border:1px solid black;
+		}
+
+		.warning{
+			border:1px solid blue;
+			color:white;
+			background-color:red;
+		}
+	</style>
+	<script>
+		$(function(){
+			$("#addClass").click(function(){
+				$("#box").addClass("warning");
+			});
+
+			$("#removeClass").click(function(){
+				$("#box").removeClass("warning");
+			});
+		});
+
+	</script>
+</head>
+<body>
+	<div id="box">
+		<p>안녕하세요!</p>
+	</div>
+	<button id="addClass">class 추가</button>
+	<button id="removeClass">class 삭제</button>
+</body>
+</html>

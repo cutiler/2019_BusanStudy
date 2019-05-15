@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>CSS 속성의 상속</title>
+	<style>
+		header {
+			color:red;
+		}
+		span{
+			color:black;	
+		}
+		/*
+		header > h1{
+			color:pink;
+		}
+		
+		header > div > h1{
+			color:skyblue;	
+		}
+		*/
+		header h1{
+			color:skyblue;		
+		}
+	</style>
+</head>
+<body>
+	<header>
+		TITLE
+		<h1>Header 1</h1>
+		<div>Header div
+			<span>span</span>
+			<h1>header 안에 p태그안에 h1</h1>
+		</div>
+	</header>
+	<h1>
+		OUTER HEADER 
+	</h1>
+
+</body>
+</html>

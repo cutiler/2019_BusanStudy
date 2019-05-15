@@ -1,0 +1,30 @@
+<!-- 02_jq_css.html -->
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script>
+		$(document).ready(function(){
+			//$(".h1") == document.getElementsByClassName("h1");
+			$(".h1").css("color","white");
+			$(".h1").css("background-color","red");
+
+			// $("#h1")  == document.getElementById("h1");
+			$("#h1").css("color","lightgreen");
+			$("#h1").css("background-color","yellow");
+
+			//$("h1")	== document.getElementsByTagName("h1"); 
+			$("h1").css("color","yellow");
+			$("h1").css("background-color","lightgreen");
+		});
+	</script>
+</head>
+<body>
+	<h1 class="h1">Header 1</h1>
+	<h1 class="h1">Header 2</h1>
+	<h1 id="h1">Header 3</h1>
+	<h1 id="h1">Header 4</h1>
+</body>
+</html>

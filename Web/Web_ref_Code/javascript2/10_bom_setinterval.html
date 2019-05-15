@@ -1,0 +1,39 @@
+<!-- 10_bom_setinterval.html -->
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>setInterval</title>
+	<script>
+		var id;
+		//window.onload = function(){
+
+			function changeColor(){
+				 id = setInterval(flashText, 500);
+			}
+
+			function flashText(){
+				var elem = document.getElementById("target");
+				elem.style.color = (elem.style.color == "red") ? "blue" : "red" ;
+				elem.style.backgroundColor = (elem.style.backgroundColor == "green") ? "yellow" : "green";
+				id = setTimeout(flashText,1000);
+			}
+
+			function stopTextColor(){
+				//window.clearInterval(id);
+				window.clearTimeout(id);
+			}
+
+			//flashText();	
+		//}
+	</script>
+</head>
+<body onload="changeColor()" >
+	<div id="target">
+		<p>
+			This is a Text.
+		</p>
+	</div>
+	<button onclick="stopTextColor();">중지</button>
+</body>
+</html>

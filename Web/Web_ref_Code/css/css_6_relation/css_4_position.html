@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<style>
+		.box1{
+			position:static;
+			/*position:fixed;*/
+			width:500px;
+			height:200px;
+			background-color:gray;
+			/*top:50px;
+			right:50px;*/
+			left:50px;
+			bottom:50px;
+		}
+
+		.position_absolute_parent{
+			position:static;
+			width:500px;
+			height:500px;
+			background-color:yellow;
+		}
+		.position_absolute_child{
+			position:absolute;
+			width:200px;
+			height:200px;
+			background-color:blue;
+			top: 50px;
+			margin-top:100px;
+		}
+
+		.position_relative_parent{
+			width:500px;
+			height:500px;
+			background-color:orange;
+		}
+
+		.position_relative_child{
+			position:relative;	
+			width:200px;
+			height:200px;
+			background:blue;
+			margin-top:100px;
+			top:50px;
+		}
+
+		.position_fixed_parent{
+			width:500px;
+			height:500px;
+			background-color:red;
+		}
+
+		.position_fixed_child{
+			position:fixed;
+			width:200px;
+			height:200px;
+			background-color:skyblue;
+			margin-bottom:100px;
+			bottom:50px;
+			right:50px;
+		}
+
+	</style>
+</head>
+<body>
+	<div class="box1"></div>
+	<div class="position_absolute_parent">
+		<div class="position_absolute_child">
+			
+		</div>
+	</div>
+
+	<div class="position_relative_parent">
+		<div class="position_relative_child">	
+		</div>
+	</div>
+
+	<div class="position_fixed_parent">
+		<div class="position_fixed_child"></div>
+	</div>
+</body>
+</html>

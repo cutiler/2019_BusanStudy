@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<style>
+		.original{
+			width:300px;
+			height:300px;
+			background:url(../transform_rotate.png);
+			border:1px solid black;
+		}
+		.rotate:hover{
+			/*transform:rotateX(45deg);*/
+			/*transform:rotateY(45deg);*/
+			transform:rotate(-180deg);
+		}
+
+		.scale:hover{
+			margin:200px 0 200px 200px;
+			/*transform: scaleX(2);*/
+			/*transform: scaleY(2);*/
+			transform:scale(2,2);
+		}
+
+		.skew{
+			width:300px;
+			height:400px;
+			background-color:skyblue;
+			background-image:url("../transform_skew.png");
+			background-repeat: no-repeat;
+			margin-left:100px;
+			transform:skewX(45deg);
+			transform:skewY(45deg);
+			transform:skew(10deg,20deg);
+		}
+
+		.translate{
+			background-color:red;
+			/*transform:translateX(100px);
+			transform:translateY(100px);*/
+		}
+
+		.translate:hover{
+			transform:translate(100px, 100px);
+		}
+	</style>
+</head>
+<body>
+	<div class="original"></div>
+
+	<div class="original rotate"></div>
+
+	<div class="original scale"></div>
+
+	<div class="original skew"></div>
+
+	<div class="original translate"></div>
+</body>
+</html>

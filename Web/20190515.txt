@@ -1,0 +1,38 @@
+20190515¼ö
+
+	==
+	<	01_hello_jq.html	>
+	JQuery(document).ready(function(){
+	});
+	$(document).ready(function(){
+	});
+	$(function(){
+	});
+	==
+	$().css();
+	==
+	focus
+	blur
+
+	mouseover
+	mouseout
+	mousemove
+
+	on : Chain
+
+	prepend
+	 append
+
+
+	==
+	12.TOGGLE.
+	
+	//var = 1~1000, fast, slow
+
+	stop();
+	hide(var);
+	show(var);
+	fadeIn(var);
+	fadeOut(var);
+	
+	toggle(var);

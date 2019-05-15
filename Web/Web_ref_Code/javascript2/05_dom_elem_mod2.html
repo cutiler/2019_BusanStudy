@@ -1,0 +1,34 @@
+<!-- 05_dom_elem_mod2.html -->
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<script>
+		function changeStyle(){
+			var p1 = document.getElementById('p1');
+			p1.style.color="pink";
+			p1.style.fontStyle='italic';
+			p1.style.backgroundColor="skyblue";
+
+			document.body.style.backgroundImage = "url(./pome.png)";
+			document.body.style.backgroundRepeat= "no-repeat";
+			var size = window.screen.availWidth;
+			alert(size);
+			document.body.style.backgroundSize = size+"px";
+		}
+	</script>
+</head>
+<body>
+	<p id="p1">
+		This is a paragraph.
+	</p>
+	<button type="button" onclick="changeStyle();">눌러보세용</button>
+
+	<h1 id="target">View Attribute</h1>
+	<input type="button" value="요소숨김" onclick="document.getElementById('target').style.visibility= 'hidden'" />
+	<input type="button" value="요소표시" onclick="document.getElementById('target').style.visibility= 'visible'" />
+	<input type="button" value="요소표시" onclick="document.getElementById('target').style.display= 'block'" />
+	<input type="button" value="사용안함" onclick="document.getElementById('target').style.display= 'none'" />
+</body>
+</html>
