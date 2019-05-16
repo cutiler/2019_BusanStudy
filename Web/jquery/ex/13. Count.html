@@ -9,10 +9,17 @@
 	 * 기능 : div 개수 출력 
 	*/
 	$(function(){
-		$("input").click(function(){
-			var cnt = document.getElementsByTagName("div").length;
+		$("input[type='button']").click(function(){
+			/*var cnt = document.getElementsByTagName("div").length;
 			cnt--;
-			alert(cnt);
+			alert(cnt);*/
+			var count = 0;
+			//count = $("#target > .child").length;
+			//count = $("#target > .child").size();
+			//count = $("#target").children().size();
+			count = $("#target").children(".child").size();
+			alert(count);
+
 		});
 
 	});

@@ -13,8 +13,10 @@
 
 	 $(function(){
 
-	 	$("#run").click(function(){
-	 		$("#target").clone().insertAfter('div');
+	 	//$("#run").click(function(){
+	 	$("input[type='button']").click(function(){
+	 		$("#target").clone().insertAfter("#divide");
+	 		//insertBefore("#divide");
 
 
 
@@ -30,6 +32,8 @@
 </head>
 
 <body>
+	<div id="divide" style="float: left;">DIVIDE!</div>
+
 	<div id="target"
 		style="color: rgb(255, 255, 255); width: 180px; height: 100px; float: left; border: 1px solid rgb(34, 34, 34); background-color: rgb(34, 139, 34); margin: 10px; padding: 5px; background-position: initial initial; background-repeat: initial initial;">
 		div#target<br>

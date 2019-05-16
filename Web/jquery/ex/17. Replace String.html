@@ -11,10 +11,30 @@
  */
 
 $(function(){
-	$("input").click(function(){
-		var catmsg = $("div").html();
+	$("input[type='button']").click(function(){
+		/*var catmsg = $("#target").html();
 		var dogmsg = catmsg.replace(/cat/g,'dog');
-		$("div").html(dogmsg);
+		$("#target").html(dogmsg);*/
+		
+		/*
+		var count = ($("#target").text().match(/cat/g)).length;
+		for(var i=0; i <count; i++){
+			$("#target").html( $("#target").html().replace('cat','dog') );			
+		}
+		*/
+
+		var ex = $("#target").html().split('cat');
+		for(var i = 0; i < ex.length; i++){
+			//alert(ex[i]);
+		}
+		$("#target").html(ex.join('dog'));
+
+		//$("#target").html( $("#target").html().split('cat').join('dog') );
+
+		
+
+		//$("#target").html( $("#target").html().replace(/cat/g,'dog') );
+
 	});
 });
 

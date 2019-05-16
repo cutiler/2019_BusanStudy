@@ -11,8 +11,10 @@
 	 */
 
 	 $(function(){
-	 	$("input").click(function(){
-	 	$("div:nth-child(2)").css("background","blue");
+	 	$("input[type='button']").click(function(){
+	 	//$("div:nth-child(2)").css("background","blue");
+	 	//$(".target:eq(1)").css("background","blue");
+	 	$(".target").eq(1).css("background","blue");
 	 	});
 
 	 });

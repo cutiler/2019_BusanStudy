@@ -10,9 +10,13 @@
 	 * 함수 : appendTo()
 	 */
 	 $(function(){
-	 	$("input").click(function(){
-	 		var st = $("#parent1").html();	 		
-	 		$("#parent2").html(st);
+	 	$("input[type='button']").click(function(){
+	 		//$("#parent1 > #child").appendTo('#parent2');
+	 		//$("#parent1 > #child").appendTo( $('#parent2') );
+	 		//$("#parent2").append($("#parent1 > #child"));
+	 		//$("#parent1 > #child").prependTo('#parent2');
+	 		$("#parent2").prepend($( '#parent1 > #child'));
+	 		
 	 	});
 	 });
 

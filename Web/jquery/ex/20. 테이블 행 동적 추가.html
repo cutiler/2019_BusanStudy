@@ -11,10 +11,38 @@
 
 		$(function(){
 			$("#btn").click(function(){
+			/*
 			var tmsg = document.getElementById("title").value;
 			var cmsg  =  document.getElementById("content").value;
 			var wmsg =  document.getElementById("owner").value;
-			$("table").append("<tr><td>"+tmsg+"</td><td>"+cmsg+"</td><td>"+wmsg+"</td></tr>");
+			$("#
+
+			table").append("<tr><td>"+tmsg+"</td><td>"+cmsg+"</td><td>"+wmsg+"</td></tr>");
+			*/
+
+			// var a = $().val("aaa"); 대입.
+
+			var tmsg = $("#title").val();
+			var cmsg = $("#content").val();
+			var wmsg = $("#owner").val();
+			var str = "<tr>";
+			str += "<td>";
+			str += tmsg;
+			str += "</td>";
+			str += "<td>";
+			str += cmsg;
+			str += "</td>";
+			str += "<td>";
+			str += wmsg;
+			str += "</td>";
+			str += "</tr>";
+
+			$("#table").append(str);
+
+			$("#title").val("");
+			$("#content").val("");
+			$("#owner").val("");
+			$("#title").focus();
 
 			});
 		});

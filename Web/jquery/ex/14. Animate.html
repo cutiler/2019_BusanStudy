@@ -11,11 +11,19 @@
  */
 
  $(function(){
- 	$("input").click(function(){
- 		$("div").animate({
+ 	$("input[type='button']").click(function(){
+ 		/*$("#target").animate({
+ 			width : 300,
+ 			height : 200
+ 		},1000);*/
+
+ 		$("#target").width(50).height(50).animate({
  			width : 300,
  			height : 200
  		},1000);
+
+
+
  	});
  });
 

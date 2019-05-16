@@ -10,12 +10,20 @@
 	 * 함수 : setTimeout(), append() or text() or html()
 	 */
 
-	 $(function(){
+	/* $(function(){	 	
 	 	setTimeout(run(){
 	 		$("#target").append("추가 ");
 
 	 	},1000);
-	 });
+	 });*/
+
+	 function run(){
+	 	setTimeout(function(){
+			//$("#target").text("바뀜");	 		
+			//$("#target").html("<span style='color:red;'>문자열</span>")
+			$("#target").append("<span style='color:red;'>문자열</span>");
+	 	},1000);
+	 }
 
 
 </script>

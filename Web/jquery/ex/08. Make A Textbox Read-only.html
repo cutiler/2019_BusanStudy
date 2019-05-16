@@ -11,8 +11,11 @@
 
 	 $(function(){
 	 	$("#run").click(function(){
-	 		var v = document.getElementById("div_input");
-	 		v.readOnly = true;
+	 		//var v = document.getElementById("div_input");
+	 		//v.readOnly = true;
+	 		//$('#tagert > input[type="text"]');
+	 		//$("#target > input[data-role='none']").attr("readonly",true);
+	 		$("#target > input[data-role='none']").prop("readonly",true);
 	 	});
 	 });
 

@@ -8,11 +8,13 @@
 	 * 대상 : div 내부 button
 	 * 기능 : 속성을 disabled 로 변경
 	 * 함수 : attr()
+	 2가지면 변경. 그냥이면 속성값 정보...?? 1 or 0????
 	 */
 
 	 $(function(){
-	 	$("input").click(function(){
-	 		$("button").attr("disabled","disabled");
+	 	$("input[type='button']").click(function(){
+	 		//$("button[data-abc='none']").attr("disabled","disabled");
+	 		$("button[data-abc='none']").attr("disabled",true);
 
 	 	});
 

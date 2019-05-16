@@ -11,10 +11,13 @@
  */
 
  $(function(){
- 	$("input").click(function(){
- 		var h1val = $("div").html(); 		
+ 	$("input[type='button']").click(function(){
+ 		/*var h1val = $("#target").html(); 		
  		var h2val = h1val.replace(/h2/g,'h3'); 		
- 		$("div").html(h2val); 		
+ 		$("#target").html(h2val); */
+
+ 		$("#target").html( $("#target").html().replace("h2","h3") );
+
  	});
  });
 

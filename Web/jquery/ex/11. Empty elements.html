@@ -11,8 +11,11 @@
 	 */
 
 	 $(function(){
-	 	$("input").click(function(){
-	 		$(".child").remove();
+	 	$("input[type='button']").click(function(){
+	 		//$(".child").remove();
+	 		//$("#target > .child").empty();
+	 		$("#target").children(".child").remove();
+
 	 	});
 	 });
 

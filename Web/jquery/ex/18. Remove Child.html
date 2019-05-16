@@ -10,8 +10,8 @@
  * 함수 : children(), not(), remove()
  */
 $(function(){
-	$("input").click(function(){
-		$("div").children().not('h2').remove();
+	$("input[type='button']").click(function(){
+		$("#target").children().not('h2').remove();		
 	});
 });
 

@@ -8,14 +8,12 @@
 	 * 대상 : div 내부 CheckBox
 	 * 기능 : 체크해제
 	 * 함수 : removeAttr() or attr()
+	 * removeAttr("checked") checked라는 속성자체를 없앰.
 	 */
 	 $(function(){
-	 	$("input:last").click(function(){
-	 		$(".ck").removeAttr("checked");
-	 	});
-
-	 	$("label").click(function(){
-	 		$(this).removeAttr("checked");
+	 	$("input[type='button']").click(function(){
+	 		//$("input[type='checkbox']").removeAttr("checked");
+	 		$("input[type='checkbox']").attr("checked",false);
 	 	});
 
 	 });
@@ -29,15 +27,15 @@
 		style="color: rgb(85, 85, 85); width: 180px; height: 140px; border: 1px solid rgb(170, 170, 170); background-color: rgb(255, 240, 245); margin: 10px; padding: 5px; background-position: initial initial; background-repeat: initial initial;">
 		div.target<br>
 		<br>
-		<label><input type="checkbox" checked="checked" class="ck"
+		<label><input type="checkbox" checked="checked"
 			data-role="none">uncheck us!</label><br>
-		<label><input type="checkbox" checked="checked" class="ck"
+		<label><input type="checkbox" checked="checked"
 			data-role="none">uncheck us!</label><br>
-		<label><input type="checkbox" checked="checked" class="ck"
+		<label><input type="checkbox" checked="checked"
 			data-role="none">uncheck us!</label><br>
-		<label><input type="checkbox" checked="checked" class="ck"
+		<label><input type="checkbox" checked="checked"
 			data-role="none">uncheck us!</label><br>
-		<label><input type="checkbox" checked="checked" class="ck"
+		<label><input type="checkbox" checked="checked"
 			data-role="none">uncheck us!</label><br>
 	</div>
 	<input type="button" value="run" />
