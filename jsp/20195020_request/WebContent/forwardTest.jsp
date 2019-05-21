@@ -8,6 +8,7 @@
 </head>
 <body>
 	<form action="forwardTest2.jsp" method="post">
+		<input type="hidden" name="nextPage" value="forwardTest1.jsp" />
 		<table>
 			<tr>
 				<td>이름</td>
@@ -24,8 +25,7 @@
 			<tr>			
 				<td  colspan=2><input type="submit" value="확인"/></td>
 			</tr>
-		</table>
-		<input type="hidden" name="nextPage" value="forwardTest1.jsp" />
+		</table>		
 	</form>
 
 </body>
