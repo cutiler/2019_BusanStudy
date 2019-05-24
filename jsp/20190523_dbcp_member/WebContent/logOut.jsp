@@ -3,8 +3,8 @@
 <%@page import="util.*"%>
 <%
 	Cookies cookies = new Cookies(request);
-	cookies.removeCookie(response,"id");
-	session.removeAttribute("member");
-	
+	cookies.removeCookie(response, "id");
+	//session.removeAttribute("member");
+	session.invalidate();
 	response.sendRedirect("index.jsp");
 %>

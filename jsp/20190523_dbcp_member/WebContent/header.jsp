@@ -50,7 +50,7 @@
 			<%if(sessionMember.getId().equals("admin")){ %>
 			<li><a href="index.jsp?page=member">회원관리</a></li>
 			<%} %>
-			<li><a href="index.jsp?page=logOut.jsp">로그아웃</a></li>
+			<li><a href="index.jsp?page=logOut">로그아웃</a></li>
 		<%}else{ %>
 			<li><a href="index.jsp?page=login">로그인</a></li>
 			<li><a href="index.jsp?page=join">회원가입</a></li>
