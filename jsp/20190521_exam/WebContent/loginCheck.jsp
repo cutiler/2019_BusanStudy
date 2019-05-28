@@ -6,7 +6,7 @@
 	String pass = request.getParameter("pass");
 	String login = request.getParameter("login");	 */
 %>
-<jsp:useBean id="loginDTO" class="dto.LoginDTO" scope="page"/>
+<jsp:useBean id="loginDTO" class="dao.LoginDTO" scope="page"/>
 <jsp:setProperty property="*" name="loginDTO"/>
 
 <jsp:getProperty property="login" name="loginDTO"/>

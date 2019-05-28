@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
 <% request.setCharacterEncoding("utf-8"); %>
 
-<jsp:useBean id="loginMember" class="dto.loginDTO" />
+<jsp:useBean id="loginMember" class="dao.loginDTO" />
 <jsp:setProperty property="*" name="loginMember"/>
 
 <sql:query var="rs" dataSource="jdbc/OracleDB">

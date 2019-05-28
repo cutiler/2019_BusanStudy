@@ -4,7 +4,7 @@
 	request.setCharacterEncoding("UTF-8");
 %>
 
-<jsp:useBean id="loginDTO" class="dto.LoginDTO" scope="page"/>
+<jsp:useBean id="loginDTO" class="dao.LoginDTO" scope="page"/>
 <jsp:setProperty property="*" name="loginDTO"/>
 
 <jsp:useBean id="joinMember" class="vo.MemberVO" scope="application"/>
