@@ -9,6 +9,6 @@
 </head>
 <body>
 	<jsp:include page="header.jsp" />
-	<h1>test - ${test}</h1>
+	<h1>test - ${requestScope.test}</h1>
 </body>
 </html>

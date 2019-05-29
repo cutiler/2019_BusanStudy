@@ -15,3 +15,10 @@ INSERT INTO mvc_member(num,id,pass,name,age,gender)
 VALUES(m_num_seq.nextval, 'admin','admin','관리자',20,'male');
 
 SELECT * FROM mvc_member;
+
+CREATE TABLE test_code(
+	id VARCHAR2(30),
+	code char(5)
+);
+
+INSERT INTO test_code VALUES('maile@mail','code12212');

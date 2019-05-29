@@ -76,6 +76,48 @@ public class MemberController extends HttpServlet {
 			nextPage="/common/main.jsp";
 		}
 		
+		if(command.equals("/update.mb")) {
+			System.out.println("회원정보 수정 페이지 요청");
+			nextPage="/member/update.jsp";
+		}
+		
+		if(command.equals("/memberUpdate.mb")) {
+			System.out.println("회원정보수정 요청");
+			service.memberUpdate(request, response);
+		}
+		
+		if(command.equals("/withdraw.mb")) {
+			System.out.println("회원탈퇴 페이지 요청");
+			nextPage="/member/withdraw.jsp";
+			
+		}
+		
+		if(command.equals("/withdrawSubmit.mb")) {
+			System.out.println("회원탈퇴 요청");
+			service.withdrawSubmit(request,response);
+			
+		}
+		
+		if(command.equals("/findPass.mb")) {
+			System.out.println("비밀번호찾기 요청!");
+			nextPage ="/member/findPass.jsp";
+		}
+		
+		if(command.equals("/findPassSubmit.mb")) {
+			System.out.println("비밀번호 찾기 메일 전송요청!");
+			service.findPassSubmit(request,response);
+		}
+		
+		if(command.equals("/passAccept.mb")) {
+			System.out.println("코드 확인 요청");
+			service.checkPassCode(request,response);
+		}
+		
+		if(command.equals("/changePass.mb")) {
+			System.out.println("비밀번호 변경 요청");
+			service.changePass(request, response);
+		}
+		
 		
 		if(nextPage != null && !nextPage.equals("")) {
 			RequestDispatcher rd = request.getRequestDispatcher(nextPage);

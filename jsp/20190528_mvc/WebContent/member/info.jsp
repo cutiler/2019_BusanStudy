@@ -48,7 +48,7 @@
 			<td colspan=2>
 				<input type="button" onclick="location.href='test'" value="메인으로" />
 				<input type="button" onclick="location.href='update.mb'" value="정보수정" />
-				<input type="button" onclick="location.href='withdaw.mb'" value="회원탈퇴" />
+				<input type="button" onclick="location.href='withdraw.mb'" value="회원탈퇴" />
 			</td>
 		</tr>
 	</table>

@@ -115,4 +115,176 @@ public class MemberDAO {
 		return member;
 	}
 
+	public boolean memberUpdate(MemberVO member) {
+		boolean isUpdate = false;
+		
+		try {
+			
+			conn = DBCPUtil.getConnection();
+			String sql = "UPDATE mvc_member SET pass = ?, "
+					+ "name = ?, "
+					+ "age = ?, "
+					+ "gender =?, "
+					+ "updatedate=sysdate "
+					+ "WHERE num = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1,member.getPass());
+			pstmt.setString(2,member.getName());
+			pstmt.setInt(3,member.getAge());
+			pstmt.setString(4,member.getGender());
+			pstmt.setInt(5,member.getNum());
+			
+			int result = pstmt.executeUpdate();
+			
+			if(result > 0) {
+				isUpdate = true;
+			}
+			
+		}catch(SQLException e){
+			e.printStackTrace();
+		}finally {
+			//DBCPUtil.close(rs);
+			DBCPUtil.close(pstmt);
+			DBCPUtil.close(conn);
+		}
+		
+		
+		return isUpdate;
+	}
+
+	public void deleteMember(int num) {
+		
+		try {
+			conn = DBCPUtil.getConnection();
+			String sql = "DELETE FROM mvc_member WHERE num = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			pstmt.executeUpdate();			
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			DBCPUtil.close(pstmt);
+			DBCPUtil.close(conn);
+		}
+		
+	}
+	
+	public boolean checkMember(String id, String name) {
+		
+		boolean isCheck = false;
+		try {
+			conn = DBCPUtil.getConnection();
+			String sql = "SELECT * FROM mvc_member WHERE id = ? AND name = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setString(2, name);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				isCheck = true;
+			}
+			
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBCPUtil.close(rs);
+			DBCPUtil.close(pstmt);
+			DBCPUtil.close(conn);
+		}
+		
+		return isCheck;
+	}
+
+	public void addPassCode(String id, String code) {
+		try {
+			
+			conn = DBCPUtil.getConnection();
+			String sql = "SELECT * FROM test_code WHERE id = ?";
+			pstmt = conn.prepareStatement(sql);			
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {				
+				// 코드 수정
+				sql = "UPDATE test_code SET code = ? WHERE id = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, code);
+				pstmt.setString(2, id);
+				pstmt.executeUpdate();
+			} else {
+				//코드 삽입
+				sql = "INSERT INTO test_code VALUES(?,?)";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, id);
+				pstmt.setString(2, code);
+				pstmt.executeUpdate();				
+			}			
+		}catch(SQLException e) {
+			
+		} finally {
+			DBCPUtil.close(rs);
+			DBCPUtil.close(pstmt);
+			DBCPUtil.close(conn);
+		}
+	}
+
+	public boolean checkPassCode(String id, String code) {
+		
+		boolean isCheck = false;
+		
+		try {
+			conn = DBCPUtil.getConnection();
+			String sql = "SELECT FROM test_code WHERE id = ? AND code = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setString(2, code);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) { isCheck = true;	}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBCPUtil.close(rs);
+			DBCPUtil.close(pstmt);
+			DBCPUtil.close(conn);
+		}
+		
+		return isCheck;
+	}
+
+	public void changePass(String id, String pass) {
+		
+		conn = DBCPUtil.getConnection();
+		
+		try {
+			String sql = "UPDATE mvc_member SET pass = ? WHERE id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pass);
+			pstmt.setString(2, id);
+			
+			int result = pstmt.executeUpdate();
+			
+			if(result > 0) {
+				sql = "DELETE FROM test_code WHERE id= ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, id);
+				pstmt.executeUpdate();
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBCPUtil.close(rs);
+			DBCPUtil.close(pstmt);
+			DBCPUtil.close(conn);
+		}
+		
+		
+	}
+
 }

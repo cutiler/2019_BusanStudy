@@ -29,7 +29,11 @@
 				</td>
 			</tr>
 			<tr >
-				<td colspan="2"><input type="submit" value="로그인"/></td>
+				<td colspan="2">
+					<input type="submit" value="로그인"/>
+					<input type="button" onclick="location.href='findPass.mb'" value="비밀먼호찾기"/>
+					<input type="button" onclick="location.href='mailTest'" value="test"/>
+				</td>
 			</tr>
 		</table>
 	</form>
