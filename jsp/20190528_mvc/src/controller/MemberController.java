@@ -1,10 +1,7 @@
 package controller;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,8 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import service.MemberService;
-
-import util.DBCPUtil;
+import vo.MemberVO;
 
 @WebServlet("*.mb")
 public class MemberController extends HttpServlet {
@@ -77,34 +73,32 @@ public class MemberController extends HttpServlet {
 		}
 		
 		if(command.equals("/update.mb")) {
-			System.out.println("회원정보 수정 페이지 요청");
+			System.out.println("회원정보 수정 페이지 요청 ");
 			nextPage="/member/update.jsp";
 		}
 		
 		if(command.equals("/memberUpdate.mb")) {
-			System.out.println("회원정보수정 요청");
-			service.memberUpdate(request, response);
+			System.out.println("회원정보 수정 요청");
+			service.memberUpdate(request,response);
 		}
 		
 		if(command.equals("/withdraw.mb")) {
 			System.out.println("회원탈퇴 페이지 요청");
-			nextPage="/member/withdraw.jsp";
-			
+			nextPage ="/member/withdraw.jsp";
 		}
 		
 		if(command.equals("/withdrawSubmit.mb")) {
 			System.out.println("회원탈퇴 요청");
 			service.withdrawSubmit(request,response);
-			
 		}
 		
 		if(command.equals("/findPass.mb")) {
-			System.out.println("비밀번호찾기 요청!");
-			nextPage ="/member/findPass.jsp";
+			System.out.println("비밀번호 찾기 화면 요청!");
+			nextPage="/member/findPass.jsp";
 		}
 		
 		if(command.equals("/findPassSubmit.mb")) {
-			System.out.println("비밀번호 찾기 메일 전송요청!");
+			System.out.println("비밀번호 찾기 메일 전송 요청!");
 			service.findPassSubmit(request,response);
 		}
 		
@@ -115,7 +109,18 @@ public class MemberController extends HttpServlet {
 		
 		if(command.equals("/changePass.mb")) {
 			System.out.println("비밀번호 변경 요청");
-			service.changePass(request, response);
+			service.chagePass(request,response);
+		}
+		
+		if(command.equals("/managementPage.mb")){
+			System.out.println("회원관리 정보 페이지 요청");
+			
+			boolean isCheck = service.checkAdmin(request,response);
+			if(!isCheck) {return;}
+			
+			ArrayList<MemberVO> list = service.getMemberList(request,response);
+			request.setAttribute("memberList", list);
+			nextPage = "/member/management.jsp";
 		}
 		
 		

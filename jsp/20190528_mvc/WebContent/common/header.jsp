@@ -47,6 +47,9 @@
 			<c:choose>
 				<c:when test="${!empty member}">
 					<li><a href="info.mb">${member.name}</a></li>
+					<c:if test="${member.id eq 'admin'}">
+						<li><a href="managementPage.mb">회원관리</a></li>					
+					</c:if>
 					<li><a href="logOut.mb">로그아웃</a></li>
 				</c:when>
 				<c:otherwise>
@@ -54,6 +57,12 @@
 					<li><a href="join.mb">회원가입</a></li>
 				</c:otherwise>
 			</c:choose>
+		</ul>
+	</div>
+	<div>
+		<ul>
+			<li><a href="notice.do">공지사항</a></li>
+			<li><a href="#">질문과답변</a></li>
 		</ul>
 	</div>
 </header>

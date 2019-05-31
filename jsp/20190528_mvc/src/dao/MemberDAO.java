@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import util.DBCPUtil;
 import vo.MemberVO;
@@ -285,6 +286,104 @@ public class MemberDAO {
 		}
 		
 		
+	}
+
+	public ArrayList<MemberVO> getMemberList() {
+		ArrayList<MemberVO> memberList = new ArrayList<>();
+		
+		try {
+			
+			conn = DBCPUtil.getConnection();
+			String sql = "SELECT * FROM mvc_member ORDER BY num DESC";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				MemberVO member = new MemberVO();
+				member.setNum(rs.getInt("num"));
+				member.setId(rs.getString("id"));
+				member.setName(rs.getString("name"));
+				member.setAge(rs.getInt("age"));
+				member.setGender(rs.getString("gender"));
+				member.setRegdate(rs.getTimestamp("regdate"));
+				memberList.add(member);
+			}
+			
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBCPUtil.close(rs);
+			DBCPUtil.close(pstmt);
+			DBCPUtil.close(conn);
+		}
+		
+		return memberList;
+	}
+	
+	public ArrayList<MemberVO> getPageMemberList(int page, int count){
+		// page 보여줄 페이지
+		// count 얼마만큼 보여줄건지
+		
+		int startRow = (page-1)*10+1;
+		int endRow = startRow+(count-1);
+		
+		ArrayList<MemberVO> member = new ArrayList<>();
+		String sql = "SELECT * FROM "
+				+ " (SELECT ROWNUM AS rnum, TEMP.* FROM "
+				+ " (SELECT * FROM mvc_member ORDER BY NUM ASC) "
+				+ " TEMP) "
+				+ " WHERE rnum BETWEEN ? AND ?";
+		
+		conn = DBCPUtil.getConnection();
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				MemberVO m = new MemberVO();
+				m.setNum(rs.getInt("num"));
+				m.setId(rs.getString("id"));
+				m.setName(rs.getString("name"));
+				m.setAge(rs.getInt("age"));
+				m.setGender(rs.getString("gender"));
+				m.setRegdate(rs.getTimestamp("regdate"));
+				member.add(m);
+			}
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		} finally {
+			DBCPUtil.close(rs);
+			DBCPUtil.close(pstmt);
+			DBCPUtil.close(conn);
+		}
+		
+		return member;
+	}
+
+	public int getMemberListCount() {
+		int listCount = 0;
+		
+		try {
+			conn = DBCPUtil.getConnection();
+			String sql = "SELECT count(*) FROM mvc_member";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				listCount = rs.getInt(1);
+			}			
+		} catch (SQLException e) {	
+			e.printStackTrace();
+		} finally {
+			DBCPUtil.close(rs);
+			DBCPUtil.close(pstmt);
+			DBCPUtil.close(conn);
+		}
+		return listCount;
 	}
 
 }

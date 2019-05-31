@@ -2,15 +2,14 @@ package service;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
 import javax.mail.Message;
-import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
-import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.Cookie;
@@ -21,10 +20,12 @@ import javax.servlet.http.HttpSession;
 import dao.MemberDAO;
 import util.GoogleAuthenticator;
 import vo.MemberVO;
+import vo.PageInfo;
 
 public class MemberService {
 	
 	MemberDAO dao = new MemberDAO();	
+	
 	
 	public boolean memberLogin(
 			HttpServletRequest request,
@@ -81,12 +82,10 @@ public class MemberService {
 		out.println("</script>");
 	}
 	
-	// static이라서 전역변수 dao 사용불가. 
 	public static void loginCheck(HttpServletRequest request) {
-		
 		Cookie[] cookies = request.getCookies();
 		if(cookies != null) {
-			for(int i=0; i < cookies.length;i++){
+			for(int i =0; i< cookies.length;i++) {
 				if(cookies[i].getName().equals("id")) {
 					String id = cookies[i].getValue();
 					MemberDAO dao = new MemberDAO();
@@ -98,7 +97,6 @@ public class MemberService {
 				}
 			}
 		}
-		
 	}
 
 	
@@ -107,8 +105,9 @@ public class MemberService {
 		session.invalidate();
 		
 		Cookie[] cookies = request.getCookies();
+		
 		if(cookies != null) {
-			for(int i=0; i < cookies.length; i++) {
+			for(int i=0; i<cookies.length; i++) {
 				if(cookies[i].getName().equals("id")) {
 					Cookie cookie = new Cookie("id","");
 					cookie.setMaxAge(0);
@@ -117,7 +116,7 @@ public class MemberService {
 					System.out.println("Cookie 삭제 완료");
 				}
 			}
-		}		
+		}
 	}
 	
 	public void memberUpdate(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -126,10 +125,10 @@ public class MemberService {
 				request.getParameter("pass"),
 				request.getParameter("name"),
 				Integer.parseInt(request.getParameter("age")),
-				request.getParameter("gender")				
+				request.getParameter("gender")
 		);
 		member.setNum(Integer.parseInt(request.getParameter("num")));
-		System.out.println("Member Update : "+member);
+		System.out.println("memberUpdate : "+member);
 		
 		boolean isUpdate = dao.memberUpdate(member);
 		
@@ -137,26 +136,24 @@ public class MemberService {
 		PrintWriter out = response.getWriter();
 		out.print("<script>");
 		String url="update.mb";
-		
 		if(isUpdate) {
 			MemberVO memberUpdate = dao.getMemberById(member.getId());
 			HttpSession session = request.getSession();
 			session.setAttribute("member", memberUpdate);
-			url="info.mb";
+			url = "info.mb";
 			out.print("alert('수정완료');");
 		}else {
 			out.print("alert('수정실패');");
 		}
-		out.print("location.href='"+ url +"';");
+		out.print("location.href='"+url+"';");
 		out.print("</script>");
-		
 		
 		
 	}
 
 	public void withdrawSubmit(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String tempPass = request.getParameter("tempPass");
-		System.out.println("tempPass : "+tempPass);
+		System.out.println("tempPass : " + tempPass);
 		HttpSession session = request.getSession();
 		MemberVO member = (MemberVO)session.getAttribute("member");
 		
@@ -176,11 +173,12 @@ public class MemberService {
 			writer.print("location.href='test';");
 		}else {
 			// 정보가 일치하지않음
-			writer.print("alert('회원탈퇴 실패! 정보가 일치하지 않습니다.');");
+			writer.print("alert('회원탈퇴 실패!  정보가 일치하지 않습니다.');");
 			writer.print("history.go(-1);");
 		}
 		
 		writer.print("</script>");
+		
 	}
 
 	public void findPassSubmit(HttpServletRequest request, HttpServletResponse response) {
@@ -225,7 +223,7 @@ public class MemberService {
 			Message msg = new MimeMessage(session);
 			msg.setHeader("Content-Type", "text/html;charset=utf-8");
 			msg.setRecipient(Message.RecipientType.TO, new InternetAddress(id));
-			msg.setSubject("Find Password!!!!");
+			msg.setSubject("FIND PASS!!");
 			StringBuilder mail = new StringBuilder();
 			mail.append("<!DOCTYPE html>");
 			mail.append("<html>");
@@ -236,7 +234,7 @@ public class MemberService {
 			mail.append("</head>");
 			mail.append("<body>");
 			mail.append("<h1>@@@ 사이트 비밀번호 찾기 이메일 인증</h1>");
-			mail.append("<form action='http://localhost"+request.getContextPath()+"/passAccept.mb' method='post' onsubmit='submitPass()' target='w'>");
+			mail.append("<form action='http://192.168.0.119"+request.getContextPath()+"/passAccept.mb' method='post' onsubmit='submitPass()' target='w'>");
 			mail.append("<input type='hidden' name='id' value='"+id+"' />");
 			mail.append("<input type='hidden' name='code' value='"+code+"' />");
 			mail.append("<input type='submit' value='이메일 인증 완료' />");
@@ -266,12 +264,12 @@ public class MemberService {
 		String id = request.getParameter("id");
 		String code = request.getParameter("code");
 		
-		System.out.println("id : "+ id + "code : "+ code);
+		System.out.println("id : " + id + " code : " + code);
 		
 		boolean isCheck = dao.checkPassCode(id,code);
 		response.setContentType("text/html;charset=utf-8");
 		try {
-			PrintWriter out =response.getWriter();
+			PrintWriter out = response.getWriter();
 			
 			if(isCheck) {
 				System.out.println("일치");
@@ -283,15 +281,17 @@ public class MemberService {
 				out.print("alert('잘못된 요청입니다.');");
 				out.print("location.href='login.mb';");
 				out.print("</script>");
-			}			
+			}
 			
-		} catch(Exception e) {
+		}catch(Exception e) {
 			
 		}
 		
+		
+		
 	}
 
-	public void changePass(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public void chagePass(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		
 		String id = request.getParameter("id");
 		String code = request.getParameter("code");
@@ -300,22 +300,99 @@ public class MemberService {
 		boolean isCheck = dao.checkPassCode(id, code);
 		
 		response.setContentType("text/html;charset=utf-8");
-		
-		PrintWriter out = response.getWriter();
+		PrintWriter out  = response.getWriter();
 		out.print("<script>");
 		if(isCheck) {
 			// 비밀번호 변경
-			
-			dao.changePass(id,pass);			
-			out.print("alert('변경 요청 처리 완료');");			
-			
+			dao.changePass(id,pass);
+			out.print("alert('변경  요청 처리 완료');");
 		}else {
 			// 정보확인 요청
 			out.print("alert('올바른 접근이 아닙니다.');");
 		}
-		out.print("location.href='login.mb';");
+		out.print("location.href='login.mb'");
 		out.print("</script>");
-		
 	}
 	
+	// 관리자 확인
+	public boolean checkAdmin(HttpServletRequest request, HttpServletResponse response) 
+	throws IOException{
+		boolean isCheck = false;
+		/*
+		 * HttpSession session = request.getSession(); MemberVO member =
+		 * (MemberVO)session.getAttribute("member");
+		 */
+		
+		MemberVO member = (MemberVO)request.getSession().getAttribute("member");
+		
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		
+		if(member == null) {
+			out.print("<script>alert('로그인 이후에 사용이 가능합니다.');</script>");
+			out.print("<script>location.href='login.mb';</script>");
+			return isCheck;
+		}
+		
+		if(!member.getId().equals("admin")) {
+			out.print("<script>alert('접근권한이 없는 사용자입니다. 관리자에게 문의하세요');</script>");
+			out.print("<script>location.href='test';</script>");
+			return isCheck;
+		}
+		
+		isCheck = true;		
+		return isCheck;
+	}
+
+	// 전체 회원 목록 
+	public ArrayList<MemberVO> getMemberList(HttpServletRequest request, HttpServletResponse response) {
+		int defaultPage = 1;
+		int pageCount = 10;
+		
+		String page = request.getParameter("page");
+		
+		if(page != null) {
+			defaultPage = Integer.parseInt(page);
+		}
+		
+		int listCount = dao.getMemberListCount();
+		System.out.println("전체 회원수 : " + listCount);
+		
+		int startPage = (defaultPage-1)/pageCount * pageCount + 1;
+		System.out.println("시작 페이지 번호 : "+startPage);
+		int endPage = startPage+(pageCount-1);
+		System.out.println("마지막 페이지 번호 : "+endPage);
+		int maxPage = (listCount-1)/pageCount + 1;
+		System.out.println("전체페이지 개수  : "+maxPage);
+		
+		if(endPage > maxPage){
+			endPage = maxPage;
+		}
+		
+		System.out.println("수정된 endPage : " + endPage);
+		
+		PageInfo pageInfo = new PageInfo();
+		pageInfo.setPage(defaultPage);
+		pageInfo.setStartPage(startPage);
+		pageInfo.setEndPage(endPage);
+		pageInfo.setMaxPage(maxPage);
+		pageInfo.setListCount(listCount);
+		
+		request.setAttribute("pageInfo", pageInfo);
+		
+		return dao.getPageMemberList(defaultPage,pageCount);
+	}
+	
+	
+	
+	
+	
+	
+	
 }
+
+
+
+
+
+
