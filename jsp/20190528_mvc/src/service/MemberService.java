@@ -358,11 +358,11 @@ public class MemberService {
 		int listCount = dao.getMemberListCount();
 		System.out.println("전체 회원수 : " + listCount);
 		
-		int startPage = (defaultPage-1)/pageCount * pageCount + 1;
+		int startPage = (defaultPage-1)/pageCount*pageCount+1;
 		System.out.println("시작 페이지 번호 : "+startPage);
 		int endPage = startPage+(pageCount-1);
 		System.out.println("마지막 페이지 번호 : "+endPage);
-		int maxPage = (listCount-1)/pageCount + 1;
+		int maxPage = (listCount-1)/pageCount+1;
 		System.out.println("전체페이지 개수  : "+maxPage);
 		
 		if(endPage > maxPage){
@@ -390,7 +390,6 @@ public class MemberService {
 	
 	
 }
-
 
 
 

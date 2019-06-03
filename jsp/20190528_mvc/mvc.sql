@@ -94,3 +94,37 @@ CREATE SEQUENCE notice_board_seq increment by 1 minvalue 0 start with 0;
 INSERT INTO notice_board VALUES(notice_board_seq.nextval, '공지', 'admin', '장난입니다.','내용이 없습니다.내용이 없습니다.내용이 없습니다.내용이 없습니다.내용이 없습니다.',sysdate);
 
 SELECT * FROM notice_board;
+
+CREATE TABLE qna_board(
+	board_num NUMBER PRIMARY KEY,    		-- 글번호
+	board_name VARCHAR2(20) NOT NULL,		-- 작성자
+	board_pass VARCHAR2(50) NOT NULL,		-- 비밀번호
+	board_title VARCHAR2(50) NOT NULL,		-- 글제목
+	board_content VARCHAR2(2000) NOT NULL,  -- 글내용
+	board_file VARCHAR2(50),				-- 파일 이름
+	board_file_origin VARCHAR2(50),			-- 원본파일 이름
+	board_re_ref NUMBER NOT NULL,			-- 원본 글 번호
+	board_re_lev NUMBER NOT NULL,			-- 답변글 뷰 번호
+	board_re_seq NUMBER NOT NULL,			-- 답변글 정렬 번호
+	board_readcount	NUMBER default 0,		-- 조회 수
+	board_date DATE							-- 작성 시간
+);
+
+CREATE SEQUENCE qna_board_seq 
+increment by 1 
+start with 0 
+minvalue 0 
+nocache;
+
+SELECT * FROM qna_board ORDER BY board_num DESC;
+
+INSERT INTO qna_board VALUES(qna_board_seq.nextval,'테스트','12345','게시물입니다.','내용입니다','','',qna_board_seq.currval,0,0,0,sysdate);
+
+INSERT INTO qna_board VALUES(qna_board_seq.nextval,'테스트','12345','게시물입니다.','내용입니다','','',1,1,1,0,sysdate);
+
+SELECT * FROM qna_board ORDER BY board_re_ref DESC , board_re_seq ASC;
+
+INSERT INTO qna_board VALUES(qna_board_seq.nextval,'테스트','12345','9번글의 답변.','9번글 답변 내용입니다','','',1,2,2,0,sysdate);
+
+
+

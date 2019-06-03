@@ -32,7 +32,7 @@
 			<td>
 				<c:choose>
 					<c:when test="${member.gender eq 'male'}">남성</c:when>
-					<c:otherwise>여성</c:otherwise>
+					<c:otherwise>여성</c:otherwise>				
 				</c:choose>
 			</td>
 		</tr>
@@ -46,9 +46,9 @@
 		</tr>
 		<tr>
 			<td colspan=2>
-				<input type="button" onclick="location.href='test'" value="메인으로" />
-				<input type="button" onclick="location.href='update.mb'" value="정보수정" />
-				<input type="button" onclick="location.href='withdraw.mb'" value="회원탈퇴" />
+				<input type="button" onclick="location.href='test'" value="메인으로"/>
+				<input type="button" onclick="location.href='update.mb'" value="정보수정"/>
+				<input type="button" onclick="location.href='withdraw.mb'" value="회원탈퇴"/>
 			</td>
 		</tr>
 	</table>

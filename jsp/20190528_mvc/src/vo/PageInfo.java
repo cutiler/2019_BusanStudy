@@ -1,13 +1,12 @@
 package vo;
 
 public class PageInfo {
-
-	int page;		// 현재 페이지
-	int maxPage;	// 전체 페이지
-	int startPage;	// 한블럭 내부의 시작 페이지
-	int endPage; 	// 한블럭 내부의 마지막 페이지 번호
-	int listCount;	// 전체 게시물의 갯수
 	
+	int page;   		// 현재 페이지
+	int maxPage; 		// 전체 페이지
+	int startPage;		// 한블럭 내부의 시작 페이지 번호
+	int endPage;		// 한블럭 내부의 마지막 페이지 번호
+	int listCount;		// 전체 게시물의 개수
 	
 	public int getPage() {
 		return page;
@@ -39,7 +38,4 @@ public class PageInfo {
 	public void setListCount(int listCount) {
 		this.listCount = listCount;
 	}
-	
-	
-	
 }

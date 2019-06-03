@@ -28,18 +28,18 @@ public class ServletTest extends HttpServlet {
 		 * PrintWriter out = response.getWriter(); out.print("안녕하세요");
 		 */
 		
-		request.setAttribute("test", "MAIN PAGE");
+		request.setAttribute("test", "MAIN PAGE");	
+		
 		
 		RequestDispatcher rd = request.getRequestDispatcher("/common/main.jsp");
-		rd.forward(request, response);
-
+		
+		rd.forward(request,response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		System.out.println("POST 요청");
 		doGet(request, response);
-		
 	}
 
 }

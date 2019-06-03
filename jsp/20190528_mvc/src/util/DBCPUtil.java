@@ -9,8 +9,8 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 public class DBCPUtil {
-
-	public static Connection getConnection() {		
+	
+	public static Connection getConnection() {
 		Connection conn = null;
 		try {
 			Context context = new InitialContext();
@@ -26,11 +26,12 @@ public class DBCPUtil {
 		return conn;
 	}
 	
-	public static void close(AutoCloseable closer) {		
+	public static void close(AutoCloseable closer) {
 		try {
 			if(closer != null) {
 				closer.close();
 			}
-		} catch (Exception e) {	}		
+		} catch (Exception e) {}
 	}
+
 }

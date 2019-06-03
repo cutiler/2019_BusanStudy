@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import service.MemberService;
 import service.NoticeService;
 import service.NoticeServiceImpl;
 
@@ -21,7 +22,9 @@ public class NoticeController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		
-		String requestUri = request.getRequestURI();
+		MemberService.loginCheck(request);
+		
+		String requestUri =request.getRequestURI();
 		String contextPath = request.getContextPath();
 		String command = requestUri.substring(contextPath.length()+1);
 		System.out.println("공지 Controller 요청 정보 : " + command);
@@ -32,7 +35,7 @@ public class NoticeController extends HttpServlet {
 		
 		// 요청 처리 성공시 보여줄 화면
 		String suc = "/board/notice/notice_success.jsp";
-		// 요청 처리 실패시 보여줄 화면
+		// 요청 처리 실패 시 보여줄 화면
 		String fail = "/board/notice/notice_fail.jsp";
 		
 		if(command.equals("notice.do")) {
@@ -48,13 +51,46 @@ public class NoticeController extends HttpServlet {
 		
 		if(command.equals("noticeWrite.do")) {
 			System.out.println("공지글 등록 요청");
-			isSuccess = service.noticeWrite(request, response);
+			isSuccess = service.noticeWrite(request);
 			if(isSuccess) {
 				nextPage = suc;
 			}else {
 				nextPage = fail;
 			}
 		}
+		
+		if(command.equals("noticeDetail.do")) {
+			System.out.println("게시물 상세 보기 요청");
+			service.noticeDetail(request);
+			nextPage = "/board/notice/notice_detail.jsp";
+		}
+		
+		if(command.equals("noticeUpdateForm.do")) {
+			System.out.println("수정 화면 요청");
+			service.noticeDetail(request);
+			nextPage = "/board/notice/notice_update.jsp";
+		}
+		
+		if(command.equals("noticeUpdate.do")) {
+			System.out.println("게시물 수정요청");
+			isSuccess = service.noticeUpdate(request);
+			nextPage = (isSuccess) ? suc : fail;
+			/*
+			 * if(isSuccess) { nextPage = suc; }else { nextPage = fail; }
+			 */
+		}
+		
+		if(command.equals("noticeDelete.do")) {
+			System.out.println("게시물 삭제 요청");
+			nextPage = service.noticeDelete(request) ? suc : fail;
+		}
+		
+		if(command.equals("noticeSearch.do")) {
+			System.out.println("검색 요청");
+			service.search(request);
+			nextPage = "/board/notice/notice_list.jsp";
+		}
+		
 		
 		
 		if(nextPage != null) {
@@ -68,7 +104,6 @@ public class NoticeController extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 		doGet(request, response);
 	}
 

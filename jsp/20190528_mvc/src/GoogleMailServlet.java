@@ -22,14 +22,14 @@ import util.GoogleAuthenticator;
 @WebServlet("/mailTest")
 public class GoogleMailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	
 	class MyAuthentication extends Authenticator{
 		
-		PasswordAuthentication pa;
+		PasswordAuthentication  pa;
 		
 		public MyAuthentication() {
-			String id="serkemorion@gmail.com";
-			String pw="puiopuio1212";
+			String id= "chlrlrms1@gmail.com";
+			String pw = "kte123456";
 			
 			pa = new PasswordAuthentication(id, pw);
 		}
@@ -40,7 +40,7 @@ public class GoogleMailServlet extends HttpServlet {
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-				
+		
 		Properties p = System.getProperties();
 		p.put("mail.smtp.starttls.enable", "true");
 		p.put("mail.smtp.host", "smtp.gmail.com");
@@ -49,13 +49,14 @@ public class GoogleMailServlet extends HttpServlet {
 		System.out.println(p);
 		
 		Authenticator auth = new GoogleAuthenticator();
+		
 		Session session = Session.getDefaultInstance(p,auth);
 		
 		MimeMessage msg = new MimeMessage(session);
 		
 		try {
 			msg.setSentDate(new Date());
-			InternetAddress to = new InternetAddress("cutiler@nate.com");
+			InternetAddress to = new InternetAddress("hap0p9y@nate.com");
 			msg.setRecipient(Message.RecipientType.TO, to);
 			msg.setSubject("테스트 입니다.");
 			msg.setText("테스트 내용입니다.");
@@ -72,6 +73,5 @@ public class GoogleMailServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
-	
 
 }

@@ -3,6 +3,7 @@ package vo;
 import java.util.Date;
 
 public class MemberVO {
+	
 	private int num;
 	private String id;
 	private String pass;
@@ -11,10 +12,8 @@ public class MemberVO {
 	private String gender;
 	private Date regdate;
 	private Date updatedate;
-			
-	public MemberVO() {
-		
-	}
+	
+	public MemberVO() {}
 	
 	public MemberVO(String id, String pass, String name, int age, String gender) {
 		this.id = id;
@@ -78,5 +77,4 @@ public class MemberVO {
 		return "MemberVO [num=" + num + ", id=" + id + ", pass=" + pass + ", name=" + name + ", age=" + age
 				+ ", gender=" + gender + ", regdate=" + regdate + ", updatedate=" + updatedate + "]";
 	}
-
 }

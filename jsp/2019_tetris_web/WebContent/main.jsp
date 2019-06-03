@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
+<%@page import="com.cutiler.tetris.exam.TetrisArray" %>  
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +9,10 @@
 <title>Insert title here</title>
 </head>
 <body>
+<%
+	TetrisArray tetrisArray = new TetrisArray();
+ %>
+
 	<h1>Main....</h1>
 	<table border=1 height="500px" width="500px">
 		<tr>
@@ -15,7 +20,9 @@
 			<td>NextBlock</td>
 		</tr>
 		<tr>
-			<td height="400px" width="400px" rowspan="2">TetrisBOX</td>
+			<td height="400px" width="400px" rowspan="2">TetrisBOX
+			
+			</td>
 			<td>Score</td>
 		</tr>
 		<tr>		

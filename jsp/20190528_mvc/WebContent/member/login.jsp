@@ -14,7 +14,9 @@
 		<table>
 			<tr>
 				<td>아이디</td>
-				<td><input type="text" name="id" required/></td>
+				<td>
+					<input type="text" name="id" required/>
+				</td>
 			</tr>
 			<tr>
 				<td>비밀번호</td>
@@ -31,9 +33,9 @@
 			<tr >
 				<td colspan="2">
 					<input type="submit" value="로그인"/>
-					<input type="button" onclick="location.href='findPass.mb'" value="비밀먼호찾기"/>
+					<input type="button" onclick="location.href='findPass.mb'" value="비밀번호찾기"/>
 					<input type="button" onclick="location.href='mailTest'" value="test"/>
-				</td>
+				</td>				
 			</tr>
 		</table>
 	</form>

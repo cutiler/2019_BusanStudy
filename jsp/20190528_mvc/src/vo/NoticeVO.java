@@ -3,14 +3,14 @@ package vo;
 import java.util.Date;
 
 public class NoticeVO {
-
+	
+	
 	private int notice_num;
 	private String notice_category;
 	private String notice_author;
 	private String notice_title;
 	private String notice_content;
 	private Date notice_date;
-	
 	
 	public int getNotice_num() {
 		return notice_num;
@@ -48,6 +48,10 @@ public class NoticeVO {
 	public void setNotice_date(Date notice_date) {
 		this.notice_date = notice_date;
 	}
-	
-	
+	@Override
+	public String toString() {
+		return "NoticeVO [notice_num=" + notice_num + ", notice_category=" + notice_category + ", notice_author="
+				+ notice_author + ", notice_title=" + notice_title + ", notice_content=" + notice_content
+				+ ", notice_date=" + notice_date + "]";
+	}
 }
