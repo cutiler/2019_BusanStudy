@@ -10,7 +10,11 @@
 <body>
 	<jsp:include page="../../common/header.jsp"/>
 	<h1>글 작성</h1>
-	<form action="boardWriteSubmit.bo" method="post" enctype="multipart/form-data">
+	<form action="boardReplySubmit.bo" method="post">
+		<input type="hidden" name="board_num" value="${boardVO.board_num}"/>
+		<input type="hidden" name="board_re_ref" value="${boardVO.board_re_ref}"/>
+		<input type="hidden" name="board_re_lev" value="${boardVO.board_re_lev}"/>
+		<input type="hidden" name="board_re_seq" value="${boardVO.board_re_seq}"/>
 		<table>
 			<tr>
 				<td>작성자</td>
@@ -31,14 +35,8 @@
 				</td>
 			</tr>
 			<tr>
-				<td>첨부파일</td>
-				<td>
-					<input type="file" name="board_file"/>
-				</td>
-			</tr>
-			<tr>
 				<td colspan=2>
-					<input type="submit" value="작성완료"/>
+					<input type="submit" value="답변작성완료"/>
 					<input type="reset" value="새로작성"/>
 				</td>
 			</tr>
