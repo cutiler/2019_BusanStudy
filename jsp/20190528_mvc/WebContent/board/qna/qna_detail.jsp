@@ -6,6 +6,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script>
+	function fileDown(file_name,event){
+		event.preventDefault();
+		alert(encodeURI(file_name));
+		location.href="file_down.bo?board_file="+encodeURI(file_name);
+	}
+</script>
 </head>
 <body>
 	<jsp:include page="../../common/header.jsp"/>
@@ -29,9 +36,12 @@
 		<tr>
 			<td>첨부파일</td>
 			<td>
-			<a href="file_down.bo?board_file=${boardVO.board_file}">
+			<a href="#" onclick="fileDown('${boardVO.board_file}',event);">
 				${boardVO.board_file_origin}
 			</a>	
+			<a href="file_down.bo?board_file=${boardVO.board_file}">
+				${boardVO.board_file_origin}
+			</a>	 
 			||
 			<a href="upload/${boardVO.board_file}" download="${boardVO.board_file_origin}">
 				${boardVO.board_file_origin}
@@ -48,5 +58,7 @@
 			</td>
 		</tr>
 	</table>
+	<jsp:include page="../comment/comment.jsp"/>
+		
 </body>
 </html>

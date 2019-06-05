@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import vo.BoardVO;
+import vo.CommentVO;
 
 public interface QNABoardService {
 	// 게시물 전체 목록 정보 요청
@@ -39,6 +40,19 @@ public interface QNABoardService {
 	// 게시물 삭제 요청
 	public void boardDelete(HttpServletRequest request, HttpServletResponse response) 
 	throws IOException;
+
+
+	// 190605 comment 추가   ----------------------------------------------
+
+	// 댓글 작성
+	public void insertComment(HttpServletRequest request, HttpServletResponse response) throws IOException;
+	
+	// 게시물의 comment 목록 요청
+	public ArrayList<CommentVO> getCommentList(HttpServletRequest request);
+	
+	// comment 삭제 요청
+	public void deleteComment(HttpServletRequest request, HttpServletResponse response) 
+		throws IOException;
 	
 	
 }

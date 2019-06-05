@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import util.OraclePageMaker;
 import vo.BoardVO;
+import vo.CommentVO;
 
 public interface QNABoardDAO {
 	
@@ -33,5 +34,22 @@ public interface QNABoardDAO {
 	
 	// 게시물 삭제
 	public boolean boardDelete(int board_num, String board_pass);
+
+	// 190605 comment 추가 -----------------------------------------
+
+   	// comment 등록
+	public boolean insertComment(CommentVO cv);
+	
+	// 게시물의 comment 목록
+	public ArrayList<CommentVO> getCommentList(int board_num);
+	
+	// comment 삭제 요청
+	public void deleteComment(int comment_num);
+	
+	// 해당 게시물 번호의 전체 comment 개수 반환
+	public int getCommentListCount(int board_num);
+	
+	// paging 처리가된 comment 리스트
+	public ArrayList<CommentVO> getCommentList(int board_num,OraclePageMaker pageMaker);
 	
 }

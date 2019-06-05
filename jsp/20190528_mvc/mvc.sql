@@ -151,10 +151,39 @@ SELECT * FROM qna_board ORDER BY board_re_ref DESC , board_re_seq ASC;
 
 INSERT INTO qna_board VALUES(qna_board_seq.nextval,'최기근','12345','9번글의 답변.','9번글의 답변 내용입니다.','','',1,2,2,0,sysdate);
 
+-- 질문과답변 댓글 
+
+CREATE TABLE qna_comment(
+	comment_num NUMBER PRIMARY KEY,
+	comment_id VARCHAR2(50),
+	comment_name VARCHAR2(50),
+	comment_content VARCHAR2(200),
+	comment_date DATE,
+	comment_delete char(1),
+	comment_board_num,
+	CONSTRAINT comment_board_fk FOREIGN KEY(comment_board_num) 
+	REFERENCES qna_board(board_num)	on DELETE CASCADE
+)
 
 
+CREATE SEQUENCE qna_comment_seq 
+increment by 1 
+minvalue 0 
+start with 0
+nocache;
 
+select * FROM qna_board ORDER BY board_num DESC;
 
+INSERT INTO qna_comment
+VALUES (qna_comment_seq.nextval,'hap0p9y@nate.com','최기근','그 내용은 틀린거 같습니다!',sysdate,'N',9);
+
+commit
+
+SELECT * FROM qna_comment;
+
+DELETE FROM qna_board WHERE board_num = 9;
+
+commit
 
 
 

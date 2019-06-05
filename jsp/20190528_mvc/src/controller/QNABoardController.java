@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import service.QNABoardService;
 import service.QNABoardServiceImpl;
 import vo.BoardVO;
+import vo.CommentVO;
 
 @WebServlet("*.bo")
 public class QNABoardController extends HttpServlet {
@@ -56,7 +57,13 @@ public class QNABoardController extends HttpServlet {
 			System.out.println("게시물 상세보기");
 			BoardVO boardVO = service.getBoardVO(request);
 			request.setAttribute("boardVO", boardVO);
-			nextPage="/board/qna/qna_detail.jsp";
+			
+			// 게시물의 comment 목록
+			ArrayList<CommentVO> commentList = service.getCommentList(request);
+			request.setAttribute("commentList", commentList);
+			
+			nextPage="/board/qna/qna_detail.jsp";	
+			
 		}
 		
 		if(command.equals("boardReplyForm.bo")) {
@@ -99,6 +106,15 @@ public class QNABoardController extends HttpServlet {
 			service.fileDown(request, response);
 		}
 		
+		if(command.equals("commentWrite.bo")) {
+			System.out.println("댓글 작성 요청");
+			service.insertComment(request, response);
+		}
+		
+		if(command.equals("commentDelete.bo")) {
+			System.out.println("댓글 삭제 요청");
+			service.deleteComment(request, response);
+		}
 		
 		
 		if(nextPage != null && !nextPage.equals("")) {

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import util.DBCPUtil;
 import util.OraclePageMaker;
 import vo.BoardVO;
+import vo.CommentVO;
 
 public class QNABoardDAOImpl implements QNABoardDAO{
 	
@@ -294,6 +295,152 @@ public class QNABoardDAOImpl implements QNABoardDAO{
 			DBCPUtil.close(conn);
 		}
 		return isSuccess;
+	}
+
+	@Override
+	public boolean insertComment(CommentVO cv) {
+		boolean isSuccess = false;
+		
+		try {
+			
+			conn = DBCPUtil.getConnection();
+			String sql = "INSERT INTO qna_comment VALUES(qna_comment_seq.nextval,?,?,?,sysdate,'N',?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, cv.getComment_id());
+			pstmt.setString(2, cv.getComment_name());
+			pstmt.setString(3, cv.getComment_content());
+			pstmt.setInt(4, cv.getComment_board_num());
+			
+			int result = pstmt.executeUpdate();
+			
+			if(result > 0) { isSuccess = true;	}
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBCPUtil.close(pstmt);
+			DBCPUtil.close(conn);
+		}
+		return isSuccess;
+	}
+
+	@Override
+	public ArrayList<CommentVO> getCommentList(int board_num) {
+		
+		ArrayList<CommentVO> commentList = new ArrayList<>();
+		
+		try {
+			conn = DBCPUtil.getConnection();
+			String sql = "SELECT * FROM qna_comment "
+					+ " WHERE comment_board_num = ? "
+					+ " AND comment_delete = 'N' "
+					+ " ORDER BY comment_num DESC";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, board_num);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				CommentVO cv = new CommentVO();
+				cv.setComment_num(rs.getInt("comment_num"));
+				cv.setComment_id(rs.getString("comment_id"));
+				cv.setComment_name(rs.getString("comment_name"));
+				cv.setComment_content(rs.getString("comment_content"));
+				cv.setComment_date(rs.getTimestamp("comment_date"));
+				commentList.add(cv);
+			}			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBCPUtil.close(rs);
+			DBCPUtil.close(pstmt);
+			DBCPUtil.close(conn);
+		}		
+		return commentList;
+	}
+
+	@Override
+	public void deleteComment(int comment_num) {
+		
+		try {
+			conn = DBCPUtil.getConnection();
+			String sql = "UPDATE qna_comment SET comment_delete = 'Y' "
+					+ " WHERE comment_num = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, comment_num);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBCPUtil.close(pstmt);
+			DBCPUtil.close(conn);
+		}		
+	}
+
+	@Override
+	public int getCommentListCount(int board_num) {
+		int listCount = 0;
+		
+		String sql = "SELECT count(*) FROM qna_comment "
+				+ " WHERE comment_board_num = ? "
+				+ " AND comment_delete = 'N'";
+		
+		conn = DBCPUtil.getConnection();
+		
+			try {
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, board_num);
+				rs = pstmt.executeQuery();
+				if(rs.next()) { listCount = rs.getInt(1); }
+			} catch (SQLException e) {				
+				e.printStackTrace();
+			} finally {
+				DBCPUtil.close(rs);
+				DBCPUtil.close(pstmt);
+				DBCPUtil.close(conn);
+			}		
+		return listCount;
+	}
+
+	@Override
+	public ArrayList<CommentVO> getCommentList(int board_num, OraclePageMaker pageMaker) {
+		ArrayList<CommentVO> commentList = new ArrayList<>();
+		
+		String sql = " SELECT * FROM "
+				+ " (SELECT ROWNUM AS r, TEMP.* FROM "
+				+ " (SELECT * FROM qna_comment "
+				+ " WHERE comment_board_num = ? "
+				+ " AND comment_delete = 'N' "
+				+ " ORDER BY comment_num DESC ) TEMP )"
+				+ " WHERE r BETWEEN ? AND ? ";
+		
+		conn = DBCPUtil.getConnection();
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, board_num);
+			pstmt.setInt(2, pageMaker.getStartRow());
+			pstmt.setInt(3, pageMaker.getEndRow());
+			
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				CommentVO cv = new CommentVO();
+				cv.setComment_num(rs.getInt("comment_num"));
+				cv.setComment_id(rs.getString("comment_id"));
+				cv.setComment_name(rs.getString("comment_name"));
+				cv.setComment_content(rs.getString("comment_content"));
+				cv.setComment_date(rs.getTimestamp("comment_date"));
+				commentList.add(cv);				
+			}			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBCPUtil.close(rs);
+			DBCPUtil.close(pstmt);
+			DBCPUtil.close(conn);
+		}		
+		return commentList;
 	}
 	
 	
