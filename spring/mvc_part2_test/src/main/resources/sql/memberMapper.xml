@@ -17,6 +17,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		SELECT * FROM tbl_member ORDER BY regdate DESC
 	</select>
 	
+	<!-- java.util.Map  -->
 	<select id="reMemberWithPass" parameterType="net.koreate.test.vo.MemberVO" resultType="net.koreate.test.vo.MemberVO">
 		SELECT * FROM tbl_member WHERE userid = #{userid} AND userpw=#{userpw}
 	</select>

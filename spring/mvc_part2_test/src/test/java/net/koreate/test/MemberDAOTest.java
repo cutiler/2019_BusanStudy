@@ -40,6 +40,11 @@ public class MemberDAOTest {
 		for(MemberVO member : memberList) {
 			System.out.println(member);
 		}
+		
+		member1 = dao.reMemberWithPass("user02", "user02");
+		
+		System.out.println("reMemberWith : "+member1);
+		
 	}
 
 }
