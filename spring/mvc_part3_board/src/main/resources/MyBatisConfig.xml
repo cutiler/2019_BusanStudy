@@ -2,5 +2,9 @@
 <!DOCTYPE configuration
 PUBLIC "-//mybatis.org//DTD config 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-config.dtd">
-<configuration>	
+<configuration>
+	<typeAliases>
+		<!-- <package name="net.koreate.vo"/> -->
+		<typeAlias alias="BoardVO" type="net.koreate.vo.BoardVO"/>
+	</typeAliases>
 </configuration>

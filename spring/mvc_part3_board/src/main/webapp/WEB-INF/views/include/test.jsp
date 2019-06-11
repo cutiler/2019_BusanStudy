@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <jsp:include page="../include/header.jsp"/>
 <section class="content">
-
+	
 
 </section>
-<jsp:include page="../include/footer.jsp" />
+<jsp:include page="../include/footer.jsp"/>

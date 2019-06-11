@@ -9,16 +9,16 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {
+@ContextConfiguration(locations= {
 		"file:src/main/webapp/WEB-INF/spring/root-context.xml"
 })
 public class SqlSessionTest {
-
+	
 	@Inject
 	SqlSession session;
 	
 	@Test
 	public void testSqlSession() {
-		System.out.println("session connection : "+session.getConfiguration());
+		System.out.println("session connection : "+session.getConnection());
 	}
 }
