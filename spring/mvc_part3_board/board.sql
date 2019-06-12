@@ -8,3 +8,10 @@ CREATE TABLE tbl_board(
 );
 
 SELECT * FROM tbl_board;
+
+INSERT INTO tbl_board(title,content,writer)
+SELECT title,content,writer FROM tbl_board;
+
+SELECT count(*) FROM tbl_board;
+
+SELECT * FROM tbl_board ORDER BY bno DESC limit 0, 10;

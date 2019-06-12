@@ -10,6 +10,8 @@
 				</div>
 				<a href="/board/register" class="btn btn-primary">글쓰기</a>
 				<a href="/board/listAll" class="btn btn-primary">글목록</a>
+				<a href="/board/listCri" class="btn btn-primary">글목록 CRI</a>
+				<a href="/board/listPage" class="btn btn-primary">Paging</a>
 			</div>
 		</div>
 	</div>

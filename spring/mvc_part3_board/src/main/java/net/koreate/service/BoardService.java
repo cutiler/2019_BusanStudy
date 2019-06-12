@@ -2,6 +2,7 @@ package net.koreate.service;
 
 import java.util.List;
 
+import net.koreate.util.Criteria;
 import net.koreate.vo.BoardVO;
 
 public interface BoardService {
@@ -24,4 +25,8 @@ public interface BoardService {
 	// 게시물 삭제
 	String remove(int bno);
 
+	// Cri 게시물
+	List<BoardVO> listCri(Criteria cri);
+
+	int totalCount();
 }

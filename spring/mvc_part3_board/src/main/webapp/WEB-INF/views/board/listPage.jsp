@@ -45,6 +45,16 @@
 				</div>
 				<div class="box-footer">
 					<!-- bottom -->
+					<div class="text-center">
+						<ul class="pagination">
+							<c:if test="${pageMaker.prev}">
+							<li><a href="/board/listPage?page=${pageMaker.startPage-1}">&laquo;</a></li>
+							</c:if>
+							<c:if test="${pageMaker.next}">
+							<li><a href="/board/listPage?page=${pageMaker.endPage+1}">&raquo;</a></li>
+							</c:if>
+						</ul>
+					</div>
 				</div>
 			</div>		
 		</div>

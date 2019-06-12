@@ -6,5 +6,6 @@ PUBLIC "-//mybatis.org//DTD config 3.0//EN"
 	<typeAliases>
 		<!-- <package name="net.koreate.vo"/> -->
 		<typeAlias alias="BoardVO" type="net.koreate.vo.BoardVO"/>
+		<typeAlias alias="cri" type="net.koreate.util.Criteria"/>
 	</typeAliases>
 </configuration>

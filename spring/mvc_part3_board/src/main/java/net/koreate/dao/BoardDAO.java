@@ -1,5 +1,6 @@
 package net.koreate.dao;
 
+import net.koreate.util.Criteria;
 import net.koreate.vo.BoardVO;
 import java.util.List;
 
@@ -22,6 +23,10 @@ public interface BoardDAO {
 	
 	// 게시물 삭제
 	int remove(int bno);
+
+	List<BoardVO> listCri(Criteria cri);
+
+	int totalCount();
 	
 }
 

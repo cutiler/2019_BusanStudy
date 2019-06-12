@@ -22,7 +22,7 @@
 							name="content" 
 							class="form-control" 
 							rows=3 
-							placeholder="ENTER.... CONTENT"></textarea>
+							placeholder="ENTER.... CONTENT" required></textarea>
 						</div>
 						<div class="form-group">
 							<label>WRITER</label>
