@@ -1,6 +1,7 @@
 package net.koreate.dao;
 
 import net.koreate.util.Criteria;
+import net.koreate.util.SearchCriteria;
 import net.koreate.vo.BoardVO;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public interface BoardDAO {
 	BoardVO read(int bno);
 	
 	// 조회수 증가
-	void upateViewCnt(int bno);
+	void updateViewCnt(int bno);
 	
 	// 게시물 수정
 	int update(BoardVO board);
@@ -27,6 +28,10 @@ public interface BoardDAO {
 	List<BoardVO> listCri(Criteria cri);
 
 	int totalCount();
+	
+	int searchListCount(SearchCriteria cri);
+	
+	List<BoardVO> searchList(SearchCriteria cri);
 	
 }
 

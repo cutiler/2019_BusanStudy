@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import net.koreate.dao.BoardDAO;
 import net.koreate.util.Criteria;
+import net.koreate.util.SearchCriteria;
 import net.koreate.vo.BoardVO;
 
 @Service
@@ -34,8 +35,7 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public void updateViewCnt(int bno) {
-		// TODO Auto-generated method stub
-		
+		dao.updateViewCnt(bno);
 	}
 
 	@Override
@@ -60,6 +60,16 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public int totalCount() {
 		return dao.totalCount();
+	}
+	
+	@Override
+	public int searchListCount(SearchCriteria cri) {
+		return 0;
+	}
+
+	@Override
+	public List<BoardVO> searchList(SearchCriteria cri) {
+		return null;
 	}
 
 	public String getResult(int result) {

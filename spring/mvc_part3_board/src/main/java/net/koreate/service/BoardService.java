@@ -3,6 +3,7 @@ package net.koreate.service;
 import java.util.List;
 
 import net.koreate.util.Criteria;
+import net.koreate.util.SearchCriteria;
 import net.koreate.vo.BoardVO;
 
 public interface BoardService {
@@ -29,4 +30,12 @@ public interface BoardService {
 	List<BoardVO> listCri(Criteria cri);
 
 	int totalCount();
+	
+	// 페이지 블럭 처리를 위한 전체 게시물 개수
+	int searchListCount(SearchCriteria cri);
+	
+	// 페이징 처리된 검색 게시물 
+	List<BoardVO> searchList(SearchCriteria cri);
+	
+	
 }

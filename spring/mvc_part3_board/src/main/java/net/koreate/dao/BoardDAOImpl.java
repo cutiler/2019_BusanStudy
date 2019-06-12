@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import net.koreate.util.Criteria;
+import net.koreate.util.SearchCriteria;
 import net.koreate.vo.BoardVO;
 
 @Repository
@@ -41,9 +42,8 @@ public class BoardDAOImpl implements BoardDAO{
 	}
 
 	@Override
-	public void upateViewCnt(int bno) {
-		// TODO Auto-generated method stub
-		
+	public void updateViewCnt(int bno) {
+		session.update(namespace+".updateViewCnt",bno);
 	}
 
 	@Override
@@ -70,6 +70,15 @@ public class BoardDAOImpl implements BoardDAO{
 		return session.selectOne(namespace+".totalCount");
 	}
 
+	@Override
+	public int searchListCount(SearchCriteria cri) {
+		return 0;
+	}
+
+	@Override
+	public List<BoardVO> searchList(SearchCriteria cri) {
+		return null;
+	}
 	
 	
 	

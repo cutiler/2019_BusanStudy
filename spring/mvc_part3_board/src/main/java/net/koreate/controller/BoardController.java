@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -51,18 +52,23 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/modify", method=RequestMethod.GET)
-	public String modify(int bno, Model model) {
+	public String modify(
+			@ModelAttribute("page") int page,
+			int bno, 
+			Model model) {
 		System.out.println("수정페이지 요청 : " + bno);
 		model.addAttribute("board",service.read(bno));
 		return "/board/modify";
 	}
 	
 	@RequestMapping(value="/modify", method=RequestMethod.POST)
-	public String modify(BoardVO board,RedirectAttributes rttr) {
+	public String modify(BoardVO board,
+			@ModelAttribute("page") int page,
+			RedirectAttributes rttr) {
 		System.out.println("게시물 수정 요청 : " + board);
 		String msg = service.modify(board);
 		rttr.addFlashAttribute("result",msg);
-		return "redirect:/board/read?bno="+board.getBno();
+		return "redirect:/board/readPage?bno="+board.getBno()+"&page="+page;
 	}
 	
 	@RequestMapping(value="/remove", method=RequestMethod.POST)
@@ -70,7 +76,7 @@ public class BoardController {
 		System.out.println("게시물 삭제 요청 : " +  bno);
 		String msg = service.remove(bno);
 		rttr.addFlashAttribute("result",msg);
-		return "redirect:/board/listAll";
+		return "redirect:/board/listPage";
 	}
 	
 	
@@ -95,7 +101,38 @@ public class BoardController {
 		return "board/listPage";
 	}
 	
+	@RequestMapping(value="/readPage",method=RequestMethod.GET)
+	public String readPage(
+			@RequestParam("page") int page,
+			@RequestParam("bno") int bno,
+			RedirectAttributes rttr) {
+		System.out.println(page);
+		System.out.println(bno);
+
+		service.updateViewCnt(bno);
+		rttr.addAttribute("bno",bno);
+		rttr.addAttribute("page",page);
+		//return "redirect:/board/readDetail?bno="+bno+"&page="+page;
+		return "redirect:/board/readDetail";
+	}
+	
+	@RequestMapping(value="/readDetail",method=RequestMethod.GET)
+	public String readDetail(Model model,
+			@ModelAttribute("bno") int bno,
+			@ModelAttribute("page") int page) {
+		BoardVO board = service.read(bno);
+		model.addAttribute("board",board);
+		return "/board/readPage";
+	}
+	
+	
+	
 }
+
+
+
+
+
 
 
 

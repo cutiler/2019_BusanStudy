@@ -34,6 +34,7 @@
 					<!-- bottom -->
 					<input type="submit" class="btn btn-warning" value="MODIFY"/>
 					<input type="hidden" name="bno" value="${board.bno}"/>
+					<input type="hidden" name="page" value="${page}"/>
 				</div>
 				</form>
 			</div>		
