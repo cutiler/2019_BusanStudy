@@ -3,6 +3,7 @@ package net.koreate.service;
 import java.util.List;
 
 import net.koreate.util.Criteria;
+import net.koreate.util.PageMaker;
 import net.koreate.util.SearchCriteria;
 import net.koreate.vo.BoardVO;
 
@@ -36,6 +37,8 @@ public interface BoardService {
 	
 	// 페이징 처리된 검색 게시물 
 	List<BoardVO> searchList(SearchCriteria cri);
+	
+	PageMaker getPageMaker(SearchCriteria cri);
 	
 	
 }

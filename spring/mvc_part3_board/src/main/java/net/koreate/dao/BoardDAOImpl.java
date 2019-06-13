@@ -72,12 +72,14 @@ public class BoardDAOImpl implements BoardDAO{
 
 	@Override
 	public int searchListCount(SearchCriteria cri) {
-		return 0;
+		int count = session.selectOne(namespace+".searchListCount",cri);
+		return count;
 	}
 
 	@Override
 	public List<BoardVO> searchList(SearchCriteria cri) {
-		return null;
+		List<BoardVO> boardList = session.selectList(namespace+".listSearch",cri);
+		return boardList;
 	}
 	
 	

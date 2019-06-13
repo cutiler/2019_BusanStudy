@@ -47,6 +47,45 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		WHERE bno = #{bno}
 	</update>
 	
+	<sql id="search">
+		<if test="searchType != null">
+			<if test="searchType == 't'.toString()">
+				WHERE title like CONCAT('%',#{keyword},'%')
+			</if>
+			<if test="searchType == 'c'.toString()">
+				WHERE content like CONCAT('%',#{keyword},'%')
+			</if>
+			<if test="searchType == 'w'.toString()">
+				WHERE writer like CONCAT('%',#{keyword},'%')
+			</if>
+			<if test="searchType == 'tc'.toString()">
+				WHERE title like CONCAT('%',#{keyword},'%')
+				OR content like CONCAT('%',#{keyword},'%')
+			</if>
+			<if test="searchType == 'cw'.toString()">
+				WHERE writer like CONCAT('%',#{keyword},'%')
+				OR content like CONCAT('%',#{keyword},'%')
+			</if>
+			<if test="searchType == 'tcw'.toString()">
+				WHERE title like CONCAT('%',#{keyword},'%')
+				OR content like CONCAT('%',#{keyword},'%')
+				OR writer like CONCAT('%',#{keyword},'%')
+			</if>
+		</if>
+	</sql>
+	
+	<select id="listSearch" parameterType="sCri" resultType="BoardVO">
+		SELECT * FROM tbl_board 
+		<include refid="search"></include> 
+		ORDER BY bno DESC 
+		limit #{pageStart} , #{perPageNum}
+	</select>
+	
+	<select id="searchListCount" parameterType="sCri" resultType="int">
+			SELECT count(*) FROM tbl_board 
+		<include refid="search"></include>
+	</select>
+	
 	
 	
 </mapper>

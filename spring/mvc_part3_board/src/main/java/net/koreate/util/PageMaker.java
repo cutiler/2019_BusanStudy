@@ -1,5 +1,8 @@
 package net.koreate.util;
 
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
+
 public class PageMaker {
 	
 	private int totalCount;			// 전체 게시물의 개수
@@ -81,6 +84,20 @@ public class PageMaker {
 
 	public void setCri(Criteria cri) {
 		this.cri = cri;
+	}
+	
+	public String makeSearchQuery(int page) {
+		UriComponents uc 
+		= UriComponentsBuilder.newInstance()
+		.queryParam("page", page)
+		.queryParam("perPageNum", cri.getPerPageNum())
+		.queryParam("searchType", ((SearchCriteria)cri).getSearchType())
+		.queryParam("keyword", ((SearchCriteria)cri).getKeyword())
+		.build();
+	
+		String query = uc.toString();
+		System.out.println(query);
+		return query;
 	}
 
 	@Override
