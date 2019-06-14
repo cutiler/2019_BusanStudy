@@ -13,7 +13,7 @@
 </h1>
 
 <h3><a href="/board/register">글쓰기</a></h3>
-<h3><a href="">전체글목록</a></h3>
+<h3><a href="/board/listPage">전체글목록</a></h3>
 
 </body>
 </html>

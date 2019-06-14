@@ -5,6 +5,7 @@ PUBLIC "-//mybatis.org//DTD config 3.0//EN"
 <configuration>
 	<typeAliases>
 		<typeAlias alias="BoardVO" type="net.koreate.testboard.vo.BoardVO"/>
+		<typeAlias alias="Cri" type="net.koreate.testboard.util.Criteria"/>
 		
 	</typeAliases>
 </configuration>
