@@ -12,7 +12,8 @@ import net.koreate.comment.vo.CommentVO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations= {
-		"file:src/main/resources/context/root-context.xml"
+		/*"file:src/main/resources/context/root-context.xml"*/
+		"classpath:context/root-context.xml"
 })
 public class MapperFactoryTest {
 	
@@ -20,7 +21,7 @@ public class MapperFactoryTest {
 	CommentDAO dao;
 	
 	@Test
-	public void testSqlSession() {
+	public void testSqlSession() throws Exception {
 		System.out.println(dao);
 		CommentVO comment = new CommentVO();
 		comment.setBno(1);
