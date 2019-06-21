@@ -9,4 +9,9 @@
 		<constructor-arg value="c:\\spring\\upload" />
 	</bean>
 		
+	<bean id="uploadFolder" class="java.lang.String">
+		<constructor-arg value="upload" />
+	</bean>
+			
+		
 </beans>

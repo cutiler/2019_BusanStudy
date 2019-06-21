@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletContext;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -23,14 +26,30 @@ import net.koreate.file.util.UploadUtils;
 @Controller
 public class UploadController {
 	
-	@Resource(name="uploadPath")
+//	@Resource(name="uploadPath")
 	String uploadPath;
+	
+	@Resource(name = "uploadFolder")
+	String uploadFolder;
+	
+	@Autowired
+	ServletContext context;
 	
 	// @Inject
 	// @Autowired
 	
 	@GetMapping("/")
 	public String home() {
+		String upload = File.separator+uploadFolder;
+		uploadPath = context.getRealPath(upload);
+		
+		System.out.println("uploadPath : "+uploadPath);
+		File file = new File(uploadPath);
+		if(!file.exists()) {
+			file.mkdirs();
+			System.out.println("경로 생성 완료");
+		}
+		
 		return "home";
 	}
 		
@@ -90,14 +109,19 @@ public class UploadController {
 	}
 	
 	@PostMapping("/uploadForm3")
-	public String uploadForm3(MultipartHttpServletRequest request ,Model model) throws IOException{
+	//public String uploadForm3(MultipartHttpServletRequest request ,Model model) throws IOException{
+	public String uploadForm3(
+			@RequestParam("auth") String auth,
+			@RequestParam("file") List<MultipartFile> fileList,
+			@RequestParam("file1") MultipartFile file1,
+			Model model) throws IOException{
 		
+		/*
 		String auth = request.getParameter("auth");
-		System.out.println("auth : "+auth);
-		
-		MultipartFile file1 = request.getFile("file1");
-		
+		System.out.println("auth : "+auth);		
+		MultipartFile file1 = request.getFile("file1");		
 		List<MultipartFile> fileList = request.getFiles("file");
+		*/
 		
 		String[] savedNames = new String[fileList.size()+1];
 		
@@ -147,8 +171,12 @@ public class UploadController {
 	}  
 	
 	
-	
-	
+	@PostMapping("/deleteFile")
+	@ResponseBody
+	public ResponseEntity<String> deleteFile(String fileName){
+		
+		return UploadUtils.deleteFile(uploadPath,fileName);
+	}
 	
 	
 	

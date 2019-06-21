@@ -77,6 +77,8 @@ public class UploadUtils {
 		String formatName = savedName.substring(savedName.lastIndexOf(".")+1);
 		System.out.println("forMatName : "+formatName);
 		ImageIO.write(sourceImage, formatName, file1);
+		
+		
 		String name 
 		= thumnail.substring(uploadPath.length()).replace(File.separatorChar,'/');
 		
@@ -119,11 +121,12 @@ public class UploadUtils {
 		InputStream in = null;
 		System.out.println("fileName : "+fileName);
 		
-		String formatName = fileName.substring(fileName.lastIndexOf(".")+1);
-		
-		MediaType mType= MediaUtils.getMediaType(formatName);
-				
 		try {
+			String formatName = fileName.substring(fileName.lastIndexOf(".")+1);
+		
+			MediaType mType= MediaUtils.getMediaType(formatName);
+				
+		
 			in = new FileInputStream(uploadPath+fileName);
 			
 			HttpHeaders headers = new HttpHeaders();
@@ -151,6 +154,31 @@ public class UploadUtils {
 				in.close();
 			} catch (IOException e) {			}
 		}
+		
+		return entity;
+	}
+
+
+
+	public static ResponseEntity<String> deleteFile(String uploadPath, String fileName) {
+		ResponseEntity<String> entity = null;
+		
+		System.out.println("삭제요청 : "+fileName);
+		
+		String formatName = fileName.substring(fileName.lastIndexOf(".")+1);
+		MediaType media = MediaUtils.getMediaType(formatName);
+		
+		if(media != null) {
+			System.out.println("이미지 파일");
+			String name = fileName.replace("s_", "");
+			String filePath = (uploadPath+name).replace('/',File.separatorChar);
+			File file = new File(filePath);
+			file.delete();
+		}
+		
+		new File(uploadPath+fileName.replace('/', File.separatorChar)).delete();
+		
+		entity = new ResponseEntity<>("DELETED",HttpStatus.OK);
 		
 		return entity;
 	}
