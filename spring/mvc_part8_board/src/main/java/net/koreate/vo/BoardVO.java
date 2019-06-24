@@ -8,7 +8,7 @@ import lombok.Data;
 public class BoardVO {
 	
 	private int bno;			// 번호
-	private String tilte;		// 제목
+	private String title;		// 제목
 	private String content;		// 내용
 	private String writer;		// 작성자
 	private int origin;			// 원글 번호
@@ -20,7 +20,8 @@ public class BoardVO {
 	private String showboard;	// 삭제유무
 	private int uno;			// 작성자
 	
+	
 	private String[] files;		// 첨부파일 경로와 이름 목록
-	private int commentCnt;		// 전체 댓글의 개수
-
+	private int commentCnt; 	// 전체 댓글의 개수
+	
 }

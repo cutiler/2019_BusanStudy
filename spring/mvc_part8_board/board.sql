@@ -3,16 +3,36 @@ CREATE TABLE re_tbl_board(
 	bno INT PRIMARY KEY auto_increment,
 	title VARCHAR(200) NOT NULL,
 	content TEXT NOT NULL,
-	writer VARCHAR(45) NOT NULL,	
+	writer VARCHAR(45) NOT NULL,
 	origin INT NULL DEFAULT 0,
 	depth INT NULL DEFAULT 0,
 	seq INT NULL DEFAULT 0,
 	regdate TIMESTAMP NULL DEFAULT now(),
 	updatedate TIMESTAMP NULL DEFAULT now(),
-	viewcnt INT NULL DEFAULT 0,
+	viewcnt int NULL default 0,
 	showboard VARCHAR(10) NULL DEFAULT 'y',
-	uno INT NOT NULL
+	uno int NOT NULL
 );
+
+ALTER TABLE re_tbl_board add constraint fk_re_tbl_board_uno 
+FOREIGN KEY(uno) REFERENCES tbl_user(uno);
+
+CREATE TABLE tbl_comment(
+	cno INT PRIMARY KEY auto_increment,
+	bno INT NOT NULL default 0,
+	commentText TEXT NOT NULL,
+	commentAuth VARCHAR(50) NOT NULL,
+	regdate TIMESTAMP NOT NULL DEFAULT now(),
+	updatedate TIMESTAMP NOT NULL DEFAULT now()
+);
+
+ALTER TABLE tbl_comment add constraint fk_tbl_comment_bno 
+FOREIGN KEY(bno) REFERENCES re_tbl_board(bno);
+
+ALTER TABLE tbl_comment 
+ADD COLUMN uno int not null default 1 AFTER updatedate;
+
+DROP TABLE tbl_comment;
 
 CREATE TABLE tbl_comment(
 	cno INT PRIMARY KEY auto_increment,
@@ -21,24 +41,13 @@ CREATE TABLE tbl_comment(
 	commentAuth VARCHAR(50) NOT NULL,
 	regdate TIMESTAMP NOT NULL DEFAULT now(),
 	updatedate TIMESTAMP NOT NULL DEFAULT now(),
-	uno int not null default 1
-	
-	
+	uno int not null ,
+	constraint fk_tbl_comment_bno FOREIGN KEY(bno) REFERENCES re_tbl_board(bno),
+	constraint fk_tbl_comment_uno FOREIGN KEY(uno) REFERENCES tbl_user(uno)	
 );
 
-ALTER TABLE tbl_comment ADD COLUMN uno int not null default 1 AFTER updatedate;
-
-DELETE FROM tbl_comment;
-commit
-
-ALTER TABLE re_tbl_board add constraint fk_re_tbl_board_uno
-FOREIGN KEY(uno) REFERENCES tbl_user(uno);
-
-ALTER TABLE tbl_comment add constraint fk_tbl_comment_bno
-FOREIGN KEY(bno) REFERENCES re_tbl_board(bno);
 
 DESC tbl_comment;
-
 -- 첨부파일
 CREATE TABLE tbl_attach(
 	fullname VARCHAR(200) NOT NULL,
@@ -48,13 +57,6 @@ CREATE TABLE tbl_attach(
 );
 
 SELECT * FROM tbl_user;
-
-
-
-
-
-
-
 
 
 

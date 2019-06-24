@@ -38,15 +38,16 @@
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
 			<version>${org.aspectj-version}</version>
-		</dependency>
+		</dependency>	
 		
-		<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjrt -->
+		<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjtools -->
 		<dependency>
 		    <groupId>org.aspectj</groupId>
-		    <artifactId>aspectjrt</artifactId>
-		    <version>1.9.4</version>
+		    <artifactId>aspectjtools</artifactId>
+		    <version>${org.aspectj-version}</version>
 		</dependency>
-			
+				
+		
 		
 		<!-- Logging -->
 		<dependency>
@@ -123,7 +124,7 @@
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
 			<scope>test</scope>
-		</dependency>
+		</dependency>        
 		
 		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
 		<dependency>
@@ -166,16 +167,14 @@
 		    <groupId>com.zaxxer</groupId>
 		    <artifactId>HikariCP</artifactId>
 		    <version>3.3.1</version>
-		</dependency>		
+		</dependency>
 		
-		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
 		<dependency>
-		    <groupId>com.fasterxml.jackson.core</groupId>
-		    <artifactId>jackson-databind</artifactId>
-		    <version>2.9.9</version>
-		</dependency>    
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.9.9</version>
+		</dependency>
 		
-		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
 		<dependency>
 		    <groupId>org.projectlombok</groupId>
 		    <artifactId>lombok</artifactId>
@@ -183,7 +182,7 @@
 		    <scope>provided</scope>
 		</dependency>
 		
-		<!-- file-upload lib -->
+		<!-- file upload lib -->		
 		<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
 		<dependency>
 		    <groupId>commons-fileupload</groupId>
@@ -191,14 +190,6 @@
 		    <version>1.4</version>
 		</dependency>
 		
-		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
-		<dependency>
-		    <groupId>commons-io</groupId>
-		    <artifactId>commons-io</artifactId>
-		    <version>2.6</version>
-		</dependency>
-		
-				
 		<!-- https://mvnrepository.com/artifact/org.imgscalr/imgscalr-lib -->
 		<dependency>
 		    <groupId>org.imgscalr</groupId>
@@ -206,8 +197,6 @@
 		    <version>4.2</version>
 		</dependency>
 		
-		
-		    
 	</dependencies>
     <build>
         <plugins>

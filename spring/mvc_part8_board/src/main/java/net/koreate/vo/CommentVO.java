@@ -15,5 +15,4 @@ public class CommentVO {
 	private Date updatedate;
 	
 	private int uno;
-
 }
