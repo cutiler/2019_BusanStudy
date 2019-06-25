@@ -57,8 +57,8 @@ CREATE TABLE tbl_attach(
 );
 
 SELECT * FROM tbl_user;
-
-
+SELECT * FROM tbl_attach;
+SELECT * FROM re_tbl_board;
 
 
 

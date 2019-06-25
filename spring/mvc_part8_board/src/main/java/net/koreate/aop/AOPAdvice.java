@@ -31,5 +31,16 @@ public class AOPAdvice {
 		System.out.println("AOP checkUserServiceObject END");
 		return o;
 	}
+	
+	@Around("execution(* net.koreate.controller.*.*(..))")
+	public Object checkControllerObject(ProceedingJoinPoint pjp) throws Throwable{
+		System.out.println("AOP checkUserControllerObject START");
+		
+		System.out.println(Arrays.toString(pjp.getArgs()));
+		Object o = pjp.proceed();
+		System.out.println(o);
+		System.out.println("AOP checkControllerObject END");
+		return o;
+	}
 
 }

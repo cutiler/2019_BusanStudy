@@ -48,28 +48,39 @@ public class UserController {
 	}
 	
 	@GetMapping("/signOut")
-	public String signOut(
+	public String signOut(	
 			HttpSession session,
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@CookieValue(name="signInCookie",required=false) Cookie signInCookie) {
 		
-		if(session.getAttribute("userInfo") != null) {
+		if(session.getAttribute("userInfo")!=null) {
 			session.removeAttribute("userInfo");
 			
 			if(signInCookie != null) {
-				
-				System.out.println("signInCookie key : "+ signInCookie.getName());
-				System.out.println("signInCookie Value : "+ signInCookie.getValue());
+				System.out.println("signInCookie key : " + signInCookie.getName());
+				System.out.println("signInCookie value : " + signInCookie.getValue());
 				signInCookie.setPath("/");
 				signInCookie.setMaxAge(0);
 				response.addCookie(signInCookie);
-				
 			}
+			
+			
+			/*Cookie cookie = WebUtils.getCookie(request, "signInCookie");
+			if(cookie != null) {
+				cookie.setPath("/");
+				cookie.setMaxAge(0);
+				response.addCookie(cookie);
+			}*/
 		}
+		
 		
 		return "redirect:/";
 	}
+	
+	
+	
+	
 }
 
 

@@ -23,13 +23,11 @@ public class CheckCookieInterceptor extends HandlerInterceptorAdapter{
 		System.out.println("CheckCookie 시작");
 		
 		HttpSession session = request.getSession();
-		if(session.getAttribute("userInfo") != null) { 
-			return true;
-		}
+		if(session.getAttribute("userInfo") != null) return true;
 		/*
 		Cookie[] cookies = request.getCookies();
 		if(cookies != null) {
-			for(int i=0; i <cookies.length; i++) {
+			for(int i=0; i<cookies.length; i++) {
 				if(cookies[i].getName().equals("signInCookie")) {
 					
 					String uid = cookies[i].getValue();
@@ -37,25 +35,22 @@ public class CheckCookieInterceptor extends HandlerInterceptorAdapter{
 					if(uv != null) {
 						session.setAttribute("userInfo", uv);
 					}
-					
 				}
 			}
 		}
 		*/
 		
 		Cookie cookie = WebUtils.getCookie(request, "signInCookie");
+		
 		if(cookie != null) {
 			UserVO uv = service.getUserById(cookie.getValue());
-			System.out.println("cookie user : "+uv);
-			if(uv != null){
-				session.setAttribute("UserInfo", uv);
+			System.out.println("cookie user : " + uv);
+			if(uv != null) {
+				session.setAttribute("userInfo", uv);
 			}
-			
 		}
 		
 		System.out.println("Check Cookie 종료");
 		return true;
 	}
-
-	
 }

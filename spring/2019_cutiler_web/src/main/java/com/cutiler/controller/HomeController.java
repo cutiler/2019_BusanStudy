@@ -21,7 +21,11 @@ public class HomeController {
 	@GetMapping("/tetris")
 	public void tetris() {}
 	
+	// 구현할것
+	// 1. 최신 회차 정보 받아오기
+	// 2 .로그인했으면 로그인 정보 받아오기.
+	// 1&2 정보 싫어서 리다이렉트 시킬것.
 	@GetMapping("/lotto")
-	public void lotto() {}
+	public String lotto() {return "/lotto/lotto";}
 	
 }

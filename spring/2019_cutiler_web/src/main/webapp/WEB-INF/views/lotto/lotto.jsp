@@ -7,6 +7,7 @@
 <title>Lotto</title>
 </head>
 <body>
+	${lottoNewest}
 	<h>Lotto</h>
 </body>
 </html>

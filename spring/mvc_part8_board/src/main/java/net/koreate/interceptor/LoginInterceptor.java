@@ -14,13 +14,12 @@ import net.koreate.service.UserService;
 import net.koreate.vo.LoginDTO;
 import net.koreate.vo.UserVO;
 
-public class LoginInterceptor extends HandlerInterceptorAdapter {
-
+public class LoginInterceptor extends HandlerInterceptorAdapter{
+	
 	@Inject
 	UserService service;
 	
-	
-	
+
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
@@ -36,7 +35,9 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 	}
 
 	@Override
-	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+	public void postHandle(
+			HttpServletRequest request, 
+			HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		
 		ModelMap modelObj = modelAndView.getModelMap();
@@ -48,18 +49,18 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		UserVO vo = service.signIn(dto);
 		
 		if(vo != null) {
-			request.getSession().setAttribute("userInfo", vo);			
+			request.getSession().setAttribute("userInfo", vo);
+			
 			if(dto.isUserCookie()) {
 				Cookie cookie = new Cookie("signInCookie",vo.getUid());
 				cookie.setPath("/");
 				cookie.setMaxAge(60*60*24*15);
 				response.addCookie(cookie);
 			}
-		} else {
+		}else {
 			modelAndView.addObject("message","회원정보가 일치하지 않습니다.");
 			modelAndView.setViewName("/user/signIn");
 		}
-		
 	}
 	
 	

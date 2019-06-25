@@ -44,41 +44,37 @@
 		</table>
 	</form>
 	<script>
-	window.onload = function(){
-		var bool = false;
-		
-		var input = document.getElementsByTagName("input");
-		
-		var signBtn = document.getElementById("signIn");
-		
-		signBtn.addEventListener("click",function(){
-			for(var i=0; i<input.length; i++){
-				if(!(input[i].getAttribute("type") == "checkbox")){
-					if(input[i].value == ""){
-						alert(input[i].alt+"를 확인해주세요");
-						input[i].focus();
-						bool = false;
-						break;
-					}else{
-						bool = true;
-					}						
-				}
-			}	
+		window.onload = function(){
+			var bool = false;
 			
-			if(bool){
-				document.getElementById("signInForm").submit();
+			var input = document.getElementsByTagName("input");
+			
+			var signBtn = document.getElementById("signIn");
+			
+			signBtn.addEventListener("click",function(){
+				for(var i=0; i<input.length; i++){
+					if(!(input[i].getAttribute("type") == "checkbox")){
+						if(input[i].value == ""){
+							alert(input[i].alt+"를 확인해주세요");
+							input[i].focus();
+							bool = false;
+							break;
+						}else{
+							bool = true;
+						}						
+					}
+				}	
 				
-			}
-			
-		});
+				if(bool){
+					document.getElementById("signInForm").submit();
+				}
+			});
+		};
 		
-	};
-	
-	var message = "${message}";
-	if(message != null && message != ""){
-		alert(message);
-	}
-	
+		var message = "${message}";
+		if(message != null && message != ""){
+			alert(message);
+		}
 	</script>
 	
 	
