@@ -22,5 +22,13 @@ public interface BoardDAO {
 	// 검색된 게시물의 총 개수
 	int listReplyCount(SearchCriteria cri) throws Exception;
 	
+	// 조회수 업데이트
+	void updateCnt(int bno) throws Exception;
+	
+	// 게시물 정보
+	BoardVO readReply(int bno) throws Exception;	
+	
+	// 첨부 파일 목록 
+	List<String> getAttach(int bno) throws Exception;
 	
 }

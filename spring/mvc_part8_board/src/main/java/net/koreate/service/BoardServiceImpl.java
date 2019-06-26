@@ -46,6 +46,25 @@ public class BoardServiceImpl implements BoardService {
 		pageMaker.setTotalCount(dao.listReplyCount(cri));
 		return pageMaker;
 	}
+
+	@Override
+	public void updateCnt(int bno) throws Exception {
+		dao.updateCnt(bno);
+	}
+
+	@Override
+	public BoardVO readReply(int bno) throws Exception {
+		return dao.readReply(bno);
+	}
+
+	@Override
+	public List<String> getAttach(int bno) throws Exception {
+		return dao.getAttach(bno);
+	}
+	
+	
+	
+	
 	
 	
 	

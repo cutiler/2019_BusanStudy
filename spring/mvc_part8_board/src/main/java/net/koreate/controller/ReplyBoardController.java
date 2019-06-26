@@ -1,13 +1,19 @@
 package net.koreate.controller;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import net.koreate.service.BoardService;
 import net.koreate.util.SearchCriteria;
@@ -41,5 +47,33 @@ public class ReplyBoardController {
 		return "sboard/listReply";
 	}
 	
-
+	@GetMapping("readPage")
+	public String readPage(
+			@RequestParam("bno") int bno,
+			RedirectAttributes rttr) 
+	throws Exception{
+		// 조회수 증가
+		service.updateCnt(bno);
+		rttr.addAttribute("bno",bno);
+		// return "redirect:/sboard/read?bno="+bno;
+		return "redirect:/sboard/read";
+	}
+	
+	
+	@GetMapping("read")
+	public String readPage(
+			Model model, 
+			@RequestParam("bno") int bno)throws Exception{
+		// 게시물 정보
+		model.addAttribute("boardVO",service.readReply(bno));
+		return "sboard/readPage";
+	}
+	
+	@GetMapping("/getAttach/{bno}")
+	@ResponseBody
+	public List<String> getAttach(@PathVariable("bno") int bno) throws Exception{
+		System.out.println(bno);
+		return service.getAttach(bno);
+	}
+	
 }
