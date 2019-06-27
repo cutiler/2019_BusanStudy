@@ -37,13 +37,12 @@
 <script src="${pageContext.request.contextPath}/resources/editor/js/service/HuskyEZCreator.js"></script>
 </head>
 <body>
-	<h1>REGISTER BOARD</h1>
-<form id="registForm" action="/sboard/register" method="post">
-	<input type="hidden" name="uno" value="${userInfo.uno}"/>
+	<h1>MODIFY BOARD</h1>
+<form id="modifyForm" action="/sboard/modifyPage" method="post">
 	<table border=1 style="width:100%;">
 		<tr>
 			<td>제목</td>
-			<td><input type="text" name="title" required/></td>
+			<td><input type="text" name="title" value="${boardVO.title}" required/></td>
 		</tr>
 		<tr>
 			<td>작성자</td>
@@ -52,7 +51,7 @@
 		<tr>
 			<td>내용</td>
 			<td>
-				<textarea style="width:100%;" name="content" id="content" rows=3></textarea>
+				<textarea style="width:100%;" name="content" id="content" rows=3>${boardVO.content}</textarea>
 			</td>
 		</tr>
 		<tr>
@@ -69,24 +68,62 @@
 	</div>
 	<hr class="clear"/>
 	<div>
-		<input type="button" id="saveBtn" value="SAVE"/>
+		<input type="hidden" name="bno" value="${boardVO.bno}"/>
+		<input type="button" id="saveBtn" value="MODIFY"/>
+		<input type="button" id="cancelBtn" value="CANCEL"/>
 	</div>
 </form>
 
 <script>
-	var path = "${pageContext.request.contextPath}/resources/editor/SmartEditor2Skin.html";
-	var oEditors = [];
-	nhn.husky.EZCreator.createInIFrame(
-			oEditors,
-			"content",
-			path,
-			"createSEditor2"
-	);
+	var bno = ${boardVO.bno};
 	
+	// 첨부파일 목록
+	$.getJSON("/sboard/getAttach/"+bno,function(list){
+		$(list).each(function(){
+			// this == fullName
+			var fileInfo = getFileInfo(this);
+			var html = "<li>";
+				html +=  "<img src='"+fileInfo.imgSrc+"' alt='첨부파일'/>";
+				html +=  "<div>";
+				html +=  "<a href='"+fileInfo.getLink+"'>"+fileInfo.fileName+"</a>";
+				html +=  "</div>";
+				html +=  "<div>";
+				html +=  "<a href='"+fileInfo.fullName+"' class='delBtn' >X</a>";
+				html +=  "</div>";
+				html +=  "</li>";
+			$(".uploadList").append(html);
+		});	
+	});
 
-	
-	
-	
+	// 첨부파일 삭제
+	$(".uploadList").on("click",".delBtn", function(event){
+		event.preventDefault();
+		var fileLink = $(this).attr("href");
+		
+		$.ajax({
+			type : "delete",
+			url : "/deleteFile",
+			headers : {
+				"Content-Type" : "application/json",
+				"X-HTTP-Method-Override" : "DELETE"
+			},
+			data : JSON.stringify({
+				fileName : fileLink
+			}),
+			dataType : "text",
+			success : function(result){
+				alert(result);
+				$(this).closest("li").remove();
+			}
+		});
+	});
+
+
+
+	/*
+		첨부파일 업로드 & 삭제
+	*/
+
 	$(".fileDrop").on("dragenter dragover",function(event){
 		event.preventDefault();
 	});
@@ -163,6 +200,19 @@
 			}
 		});
 	});
+
+
+
+	/* 수정 등록 */
+	var path = "${pageContext.request.contextPath}/resources/editor/SmartEditor2Skin.html";
+	
+	var oEditors = [];
+	nhn.husky.EZCreator.createInIFrame(
+			oEditors,
+			"content",
+			path,
+			"createSEditor2"
+	);
 	
 	$("#saveBtn").click(function(){
 		
@@ -173,14 +223,18 @@
 			str += "<input type='hidden' name='files["+index+"]' value='"+$(this).attr("href")+"'/>";
 		});
 		
-		$("#registForm").append(str);
+		$("#modifyForm").append(str);
 		
 		oEditors[0].exec("UPDATE_CONTENTS_FIELD",[]);
 		
-		$("#registForm").submit();
+		$("#modifyForm").submit();
 	});
 	
-	
+	$("#cancelBtn").click(function(){
+		$("#modifyForm").attr("action","/sboard/read");
+		$("#modifyForm").attr("method","get");
+		$("#modifyForm").submit();
+	});
 </script>
 </body>
 </html>

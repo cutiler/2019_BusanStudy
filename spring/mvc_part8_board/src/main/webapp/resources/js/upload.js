@@ -8,6 +8,7 @@ function checkImageType(fileName){
 }
 
 function getFileInfo(fullName){
+	
 	var imgSrc,fileName,getLink;
 	
 	if(checkImageType(fullName)){

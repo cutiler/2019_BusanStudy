@@ -18,17 +18,17 @@
 		padding:20px;
 	}
 	
-	ul li{		
+	#pagination li{
+		float:left;
+		padding:10px;
+	}
+	
+	ul li{
 		list-style:none;
 	}
 	
 	.clear{
 		clear:both;
-	}
-	
-	#pagination li{
-		float: left;
-		padding: 10px;
 	}
 
 </style>
@@ -68,8 +68,11 @@
 		
 		<form id="readForm" method="post">
 			<input type="hidden" name="bno" value="${boardVO.bno}"/>
+			<input type="hidden" name="page" value="${cri.page}"/>
+			<input type="hidden" name="perPageNum" value="${cri.perPageNum}"/>
+			<input type="hidden" name="searchType" value="${cri.searchType}"/>
+			<input type="hidden" name="keyword" value="${cri.keyword}"/>
 		</form>
-		
 	</div>
 </div>
 <br/>
@@ -98,25 +101,53 @@
 <br/>
 <hr/>
 <br/>
+<!-- 댓글 수정 삭제 -->
+<div id="modDiv" style="display:none;">
+	<h3>댓글 수정&삭제</h3>
+	<div class="mod-title"></div>
+	<div>
+		<input type="text" id="commentText" />
+	</div>
+	<div>
+		<input type="button" id="commentModBtn" value="MODIFY"/>
+		<input type="button" id="commentDelBtn" value="DELETE"/>
+		<input type="button" id="closeBtn" value="CLOSE"/>
+	</div>
+<br/>
+<hr/>
+<br/>		
+</div>
+<!-- 댓글 목록 -->
 <div>
 	<ul id="comments">
 	</ul>
 </div>
-<div>
+<!-- 댓글 페이징 처리 -->
+<div style="height:100px;">
 	<ul id="pagination"></ul>
 </div>
 
+
 <script>
 	var bno = ${boardVO.bno};
-	var commentPage = 1;
+	var commentPage = 1;	
 	
 	getPageList(commentPage);
 	
-	String.prototype.replaceAll = function(old, dest){
+	String.prototype.replaceAll = function(old , dest){
+		// <a href="/sboard/delete?bno=1">바보야!!</a>
+		// 
+		//	this.split(old)
+		//[][a href="/sboard/delete?bno=1">바보야!!][/a>]
+		//.join(dest)
+		//&lt; a href="/sboard/delete?bno=1">바보야!!&lt;/a>
+		// [&lt; a href="/sboard/delete?bno=1"][바보야!!&lt;/a][]
+		// &lt; a href="/sboard/delete?bno=1"&gt;바보야!!&lt;/a&gt;
+		// &lt; a href='/sboard/delete?bno=1'&gt;바보야!!&lt;/a&gt;
 		return this.split(old).join(dest);
 	}
 	
-	// < &lt; > &gt;
+	// < &lt;  >  &gt; 
 	function changeEscape(text){
 		var result = "";
 		result = text.replaceAll("<","&lt;");
@@ -125,13 +156,14 @@
 		return result;
 	}
 	
+	
 	// 작성자 확인
 	function isCheckAuth(uno){
 		var userUno = "${userInfo.uno}";
 		console.log(userUno+"//"+uno);
 		if(userUno != "" && userUno == uno){
 			return true;
-		}else {
+		}else{
 			return false;
 		}
 	}
@@ -147,17 +179,85 @@
 		return year+"/"+month+"/"+date+" "+hour+":"+minute+":"+seconds;
 	}
 	
+	$("#comments").on("click",".commentLi button",function(){
+		// .commentLi
+		var commentWrap = $(this).parent();
+		var cno = commentWrap.attr("data-cno");
+		var text = commentWrap.attr("data-text");
+		$(".mod-title").html(cno);
+		$("#commentText").val(text);
+		$("#modDiv").toggle("slow");
+		$("#commentText").focus();
+	});
+	
+	$("#closeBtn").click(function(){
+		$("#modDiv").toggle("slow");
+	});
+	
+	$("#commentModBtn").click(function(){
+		var cno = $(".mod-title").html();
+		var text = $("#commentText").val();
+		
+		$.ajax({
+			type : "patch",
+			url : "/comments/"+cno,
+			headers : {
+				"Content-Type" : "application/json",
+				"X-HTTP-Method-Override" : "PATCH"				
+			},
+			data : JSON.stringify({
+				commentText : text
+			}),
+			dataType : "text",
+			success : function(data){
+				if(data == "SUCCESS"){
+					alert("수정이 완료 되었습니다.");
+					$("#modDiv").hide("slow");
+					getPageList(commentPage);
+				}
+			}
+		});
+	});
+	
+	// 댓글 삭제
+	$("#commentDelBtn").click(function(){
+		var cno = $(".mod-title").html();
+		
+		$.ajax({
+			type : "delete",
+			url : "/comments/"+cno,
+			headers : {
+				"X-HTTP-Method-Override" : "DELETE"
+			},
+			dataType : "text",
+			success : function(data){
+				
+				if(data == "SUCCESS"){
+					alert("삭제완료");
+					$("#modDiv").hide("slow");
+					getPageList(commentPage);
+				}
+			}
+		});
+		
+	});
+	
+	
 	// 페이징 처리된 댓글 목록
 	function getPageList(page){
-		// 해당 게시물의 페이징 처리된 댓글 목록
-		// 페이징 블럭 정보
+		
 		commentPage = page;
+		
+		// 해당 게시물의 페이징 처리된 댓글 목록 
+		// 페이징 블럭 정보
 		$.getJSON("/comments/"+bno+"/"+page,function(data){
-			// data == Map
+			// data ==  Map<String,Object>
+			// data.list : List<CommentVO>
+			// data.pageMaker : PageMaker
 			console.log(data);
 			// list 작성
 			console.log(data.list);
-			// 블럭처리
+			// 블럭처리 
 			console.log(data.pageMaker);
 			
 			var str = "";
@@ -167,14 +267,15 @@
 				console.log(this.commentText);
 				var text = changeEscape(this.commentText);
 				console.log(text);
+				
 				str += '<li data-cno="'+this.cno+'" ';
 				str += 'data-text="'+text+'" class="commentLi">';
-				str += '작성자 : '+ this.commentAuth + '- 작성시간: '+getDate(this.updatedate);
-				str += ' 내용 : '+ text;
+				str += '작성자 : ' + this.commentAuth +'- 작성시간 : '+getDate(this.updatedate);
+				str += '<br/> 내용 : ' + text;
 				if(isCheckAuth(this.uno)){
-					str += ' - <button>MODIFY</button>';
+					str += ' - <button>MODIFY</button>';	
 				}
-				str += '</li><li>--------------------------------</li>';
+				str += '</li><li>----------------------------------------</li>';
 			});
 			
 			$("#comments").html(str);
@@ -183,19 +284,21 @@
 	}
 	
 	function printPage(pageMaker){
-		var str = "";
+		console.log(pageMaker);
+		var str ="";
 		
 		if(pageMaker.prev){
 			str += "<li><a href='"+(pageMaker.startPage-1)+"'> << </a></li>";
 		}
-		for(var i=pageMaker.startPage; i<= pageMaker.endPage; i++){
+		
+		for(var i=pageMaker.startPage; i <= pageMaker.endPage; i++){
 			str += "<li><a href='"+i+"'> "+i+" </a></li>";
 		}
-		if(pageMaker.next){			
-			str += "<li><a href='"+(pageMaker.endPage+1)+"'> << </a></li>";
-		}
-
 		
+		if(pageMaker.next){
+			str += "<li><a href='"+(pageMaker.endPage+1)+"'> >> </a></li>";
+		}
+		console.log(str);
 		$("#pagination").html(str);
 	}
 	
@@ -203,13 +306,11 @@
 		event.preventDefault();
 		var page = $(this).attr("href");
 		getPageList(page);
-		
 	});
 	
-	// 댓글 등록
 	
+	// 댓글 등록	
 	// bno auth text uno
-	
 	$("#commentAddBtn").click(function(){
 		var commentAuth = $("#newCommentAuth").val();
 		var commentText = $("#newCommentText").val();
@@ -235,8 +336,6 @@
 				$("#newCommentText").focus();
 			} 
 		});
-		
-		
 	});
 	
 	
@@ -244,9 +343,19 @@
 	$.getJSON("/sboard/getAttach/"+bno,function(data){
 		console.log(data);
 		$(data).each(function(){
+			// String(fullName) == this 
+			//  /2019/06/25/asjkhslchsdlkfhhfkjlahlkd_origin.jpg
 			var fileInfo = getFileInfo(this);
+			/*
+				fileInfo : {
+					fileName : '얌얌이.png',
+					imgSrc : "/displayFile?fileName="+""/2019/06/25/s_asjkhslchsdlkfhhfkjlahlkd_얌얌이.png,
+					fullName : /2019/06/25/s_asjkhslchsdlkfhhfkjlahlkd_얌얌이.png,
+					getLink : "/displayFile?fileName="+""/2019/06/25/asjkhslchsdlkfhhfkjlahlkd_얌얌이.png,
+				}
+			*/
 			console.log(fileInfo);
-			var html = "<li>";
+			var html = "<li data-src='"+fileInfo.fullName+"'>";
 				html += "<span>";
 				html += "<img src='"+fileInfo.imgSrc+"' alt='attachment'/>";
 				html += "</span>";
@@ -286,6 +395,21 @@
 		if(isDelete){
 			console.log("삭제 요청");
 			// 삭제 처리
+			var arr = [];
+			$(".uploadedList li").each(function(index){
+				arr.push($(this).attr("data-src"));
+			});
+			
+			console.log(arr.length);
+			console.log(arr);
+			if(arr.length > 0){
+				$.post("/deleteAllFiles",{ files : arr },function(result){
+					alert(result);
+				});
+			}
+						
+			obj.attr("action","/sboard/remove");
+			obj.submit();
 		}else{
 			alert("삭제 요청이 취소 되었습니다.");
 		}

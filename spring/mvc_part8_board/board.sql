@@ -65,4 +65,7 @@ DELETE FROM tbl_attach;
 
 commit
 
+SELECT * FROM tbl_attach WHERE bno = 8;
+SELECT * FROM tbl_comment WHERE bno = 8;
 
+SELECT * FROM re_tbl_board WHERE bno = 8;

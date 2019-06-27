@@ -14,8 +14,8 @@ import net.koreate.util.PageMaker;
 import net.koreate.vo.CommentVO;
 
 @Service
-public class CommentServiceImpl implements CommentService{
-	
+public class CommentServiceImpl implements CommentService {
+
 	@Inject
 	CommentDAO dao;
 
@@ -25,32 +25,40 @@ public class CommentServiceImpl implements CommentService{
 	}
 
 	@Override
+	public void modifyComment(CommentVO vo) throws Exception {
+		dao.modifyComment(vo);
+	}
+	
+	@Override
+	public void removeComment(int cno) throws Exception {
+		dao.removeComment(cno);
+	}
+
+	@Override
 	public Map<String, Object> listPage(int bno, int page) throws Exception {
 		Map<String, Object> map = new HashMap<>();
 		PageMaker pageMaker = getPageMaker(bno, page);
 		map.put("pageMaker", pageMaker);
-		
+
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("bno", bno);
 		paramMap.put("cri", pageMaker.getCri());
-		
+
 		List<CommentVO> list = dao.listPage(paramMap);
 		map.put("list", list);
 		return map;
 	}
-	
-	PageMaker getPageMaker(int bno, int page) throws Exception{
+
+	PageMaker getPageMaker(int bno, int page) throws Exception {
 		PageMaker pageMaker = new PageMaker();
-		
+
 		Criteria cri = new Criteria();
 		cri.setPage(page);
-		
+
 		pageMaker.setCri(cri);
-		int totalCount = dao.totalCount(bno);	
+		int totalCount = dao.totalCount(bno);
 		pageMaker.setTotalCount(totalCount);
 		return pageMaker;
-		
 	}
-	
-	
+
 }

@@ -76,6 +76,31 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		WHERE bno = #{bno} ORDER BY regdate DESC
 	</select>
 
+	<!-- 게시글 삭제 -->
+	
+	<update id="delete" parameterType="int">
+		UPDATE re_tbl_board SET showboard = 'n' 
+		WHERE bno = #{bno} 
+	</update>
+
+	<delete id="deleteAttach" parameterType="int">
+		DELETE FROM tbl_attach WHERE bno = #{bno}
+	</delete>
+	
+	<update id="update" parameterType="net.koreate.vo.BoardVO">
+		UPDATE re_tbl_board SET 
+			title = #{title}, 
+			content = #{content}, 
+			writer = #{writer}, 
+			updatedate = now() 
+		WHERE bno = #{bno}
+	</update>
+	
+	<insert id="replaceAttach" parameterType="java.util.Map">
+		INSERT INTO tbl_attach(fullName,bno) 
+		VALUES(#{fullName},#{bno})
+	</insert>
+
 </mapper>
 
 
