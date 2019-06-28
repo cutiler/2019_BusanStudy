@@ -69,3 +69,19 @@ SELECT * FROM tbl_attach WHERE bno = 8;
 SELECT * FROM tbl_comment WHERE bno = 8;
 
 SELECT * FROM re_tbl_board WHERE bno = 8;
+
+CREATE TABLE ban_ip(
+	ip VARCHAR(50) primary key,
+	cnt int default 1,
+	bandate TIMESTAMP default now()
+);
+
+SELECT * FROM ban_ip;
+
+DELETE FROM ban_ip;
+
+
+INSERT INTO ban_ip(ip,cnt) 
+VALUES('192.168.0.112',5);
+
+commit

@@ -15,6 +15,14 @@
 	
 	<interceptors>
 		<interceptor>
+			<mapping path="/sboard/*"/>
+			<exclude-mapping path="/sboard/listReply"/>
+			<exclude-mapping path="/sboard/readPage"/>
+			<exclude-mapping path="/sboard/read"/>
+			<exclude-mapping path="/sboard/getAttach/*"/>
+			<beans:bean class="net.koreate.interceptor.AuthInterceptor"/>		
+		</interceptor>
+		<interceptor>
 			<mapping path="/**"/>
 			<!-- <exclude-mapping path="/user/*"/> -->
 			<exclude-mapping path="/user/signIn"/>
@@ -34,7 +42,17 @@
 			<beans:ref bean="loginInterceptor"/>
 		</interceptor>
 		
+		<interceptor>
+			<mapping path="/sboard/read"/>
+			<beans:bean class="net.koreate.interceptor.CreateTokenInterceptor"/>
+		</interceptor>
+		
+		<interceptor>
+			<mapping path="/sboard/remove"/>
+			<beans:bean class="net.koreate.interceptor.CheckTokenInterceptor"/>
+		</interceptor>
+		
+		
+		
 	</interceptors>
-
-	
 </beans:beans>

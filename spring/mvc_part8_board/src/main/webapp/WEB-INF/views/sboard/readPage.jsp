@@ -34,6 +34,7 @@
 </style>
 </head>
 <body>
+<h1><a href="/">KOREATE</a></h1>
 <h1>READ PAGE</h1>
 <table border=1>
 	<tr>
@@ -67,6 +68,7 @@
 		<input type="button" id="listBtn" value="LIST"/>
 		
 		<form id="readForm" method="post">
+			<input type="hidden" name="csrf_token" value="${csrf_token}"/>
 			<input type="hidden" name="bno" value="${boardVO.bno}"/>
 			<input type="hidden" name="page" value="${cri.page}"/>
 			<input type="hidden" name="perPageNum" value="${cri.perPageNum}"/>
@@ -178,6 +180,67 @@
 		var seconds = dateObj.getSeconds();
 		return year+"/"+month+"/"+date+" "+hour+":"+minute+":"+seconds;
 	}
+	
+	$(window).scroll(function(){
+		var dh = $(document).height();
+		var wh = $(window).height();
+		var wt = $(window).scrollTop();
+		
+		console.log("document height : " + dh);
+		console.log("window height : " + wh);
+		console.log("window scrollTop : " + wt);
+		
+		if((wt+wh) >= (dh-10)){
+			console.log("load data");
+			
+			if($("#comments li").size <= 1){
+				return;
+			}
+			
+			commentPage++;
+			getPage(commentPage);			
+		}
+		
+	});
+	
+	function getPage(page){
+		// 해당 게시물의 페이징 처리된 댓글 목록 
+		// 페이징 블럭 정보
+		$.getJSON("/comments/"+bno+"/"+page,function(data){
+			// data ==  Map<String,Object>
+			// data.list : List<CommentVO>
+			// data.pageMaker : PageMaker
+			console.log(data);
+			// list 작성
+			console.log(data.list);
+			// 블럭처리 
+			console.log(data.pageMaker);
+			
+			var str = "";
+			
+			$(data.list).each(function(){
+				// this == CommentVO
+				console.log(this.commentText);
+				var text = changeEscape(this.commentText);
+				console.log(text);
+				
+				str += '<li style="display:none;"  data-cno="'+this.cno+'" ';
+				str += 'data-text="'+text+'" class="commentLi">';
+				str += '작성자 : ' + this.commentAuth +'- 작성시간 : '+getDate(this.updatedate);
+				str += '<br/> 내용 : ' + text;
+				if(isCheckAuth(this.uno)){
+					str += ' - <button>MODIFY</button>';	
+				}
+				str += '</li><li>----------------------------------------</li>';
+			});
+			
+			$("#comments").append(str);
+			$("#comments li").fadeIn("slow");
+		});
+	}
+	
+	
+	
 	
 	$("#comments").on("click",".commentLi button",function(){
 		// .commentLi

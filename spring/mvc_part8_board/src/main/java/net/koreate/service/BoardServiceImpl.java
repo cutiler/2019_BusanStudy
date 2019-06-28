@@ -68,12 +68,11 @@ public class BoardServiceImpl implements BoardService {
 		for(String fullName : files) {
 			Map<String,Object> paramMap = new HashMap<>();
 			paramMap.put("bno",vo.getBno());
-			paramMap.put("fullName", fullName);
+			paramMap.put("fullName",fullName);
 			dao.replaceAttach(paramMap);
 		}
-
 	}
-	
+
 	@Override
 	@Transactional
 	public void remove(int bno) throws Exception {
@@ -84,8 +83,6 @@ public class BoardServiceImpl implements BoardService {
 		// 댓글 삭제
 		commentDAO.deleteComments(bno);
 	}
-	
-	
 
 	@Override
 	public PageMaker getPageMaker(SearchCriteria cri) throws Exception {
@@ -104,14 +101,28 @@ public class BoardServiceImpl implements BoardService {
 	public BoardVO readReply(int bno) throws Exception {
 		return dao.readReply(bno);
 	}
+	
+	@Transactional
+	@Override
+	public void replyRegister(BoardVO vo) throws Exception {
+		// seq 오름 차순이기 때문에 기존글의 seq 값을 높여준다
+		
+		// 기존 글의 정렬 순서 수정
+		dao.updateReply(vo);
+		
+		System.out.println("넘어온 값 : "+vo);
+		// 원본글 보다 아래로 내려가고 원본글의 답글인걸 표현 하기 위해 깊이 값을 수정
+		vo.setDepth(vo.getDepth()+1);
+		vo.setSeq(vo.getSeq()+1);
+		
+		System.out.println("등록된 값 : "+vo);
+		// 게시물 등록
+		dao.replyRegister(vo);
+	}
 
 	@Override
 	public List<String> getAttach(int bno) throws Exception {
 		return dao.getAttach(bno);
 	}
-
-	
-	
-	
 
 }

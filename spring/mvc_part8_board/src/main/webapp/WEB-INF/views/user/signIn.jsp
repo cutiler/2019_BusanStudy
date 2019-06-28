@@ -43,33 +43,30 @@
 			</tr>
 		</table>
 	</form>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script>
-		window.onload = function(){
-			var bool = false;
+		$(function(){
+			var bool = true;
 			
-			var input = document.getElementsByTagName("input");
-			
-			var signBtn = document.getElementById("signIn");
-			
-			signBtn.addEventListener("click",function(){
-				for(var i=0; i<input.length; i++){
-					if(!(input[i].getAttribute("type") == "checkbox")){
-						if(input[i].value == ""){
-							alert(input[i].alt+"를 확인해주세요");
-							input[i].focus();
+			$("#signIn").click(function(){
+				$("input").each(function(){
+					if($(this).attr("type") != "checkbox" ){
+						if($(this).val() == ""){
+							alert($(this).attr("alt")+"를 확인해주세요");
+							$(this).focus();
 							bool = false;
-							break;
+							return false;
 						}else{
 							bool = true;
-						}						
+						}							
 					}
-				}	
+				});
 				
 				if(bool){
-					document.getElementById("signInForm").submit();
+					$("#signInForm").submit();
 				}
 			});
-		};
+		});
 		
 		var message = "${message}";
 		if(message != null && message != ""){

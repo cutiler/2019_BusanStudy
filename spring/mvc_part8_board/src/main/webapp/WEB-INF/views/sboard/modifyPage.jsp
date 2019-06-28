@@ -37,6 +37,7 @@
 <script src="${pageContext.request.contextPath}/resources/editor/js/service/HuskyEZCreator.js"></script>
 </head>
 <body>
+	<h1><a href="/">KOREATE</a></h1>
 	<h1>MODIFY BOARD</h1>
 <form id="modifyForm" action="/sboard/modifyPage" method="post">
 	<table border=1 style="width:100%;">

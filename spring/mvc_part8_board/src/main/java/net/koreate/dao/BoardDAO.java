@@ -38,10 +38,16 @@ public interface BoardDAO {
 	// 첨부파일 목록 삭제
 	void deleteAttach(int bno) throws Exception;
 
-	// 게시물정보수정
+	// 게시물 정보 수정
 	void update(BoardVO vo) throws Exception;
 
 	// 첨부파일 수정 업로드
 	void replaceAttach(Map<String, Object> paramMap);
+
+	// 답글들의 정렬값 수정
+	void updateReply(BoardVO vo) throws Exception;
+
+	// 답글 등록
+	void replyRegister(BoardVO vo) throws Exception;
 
 }

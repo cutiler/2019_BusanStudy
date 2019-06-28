@@ -77,30 +77,42 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	</select>
 
 	<!-- 게시글 삭제 -->
-	
 	<update id="delete" parameterType="int">
 		UPDATE re_tbl_board SET showboard = 'n' 
 		WHERE bno = #{bno} 
 	</update>
+	
+	<!-- 답글들의 정렬값 수정 -->
+	<update id="updateReply" parameterType="net.koreate.vo.BoardVO">
+		UPDATE re_tbl_board SET seq = seq + 1 
+		WHERE origin = #{origin} AND seq > #{seq}		
+	</update>
+	
+	<!-- 답글 등록 -->
+	<insert id="replyRegister" parameterType="net.koreate.vo.BoardVO">
+		INSERT INTO re_tbl_board(title,content,writer,origin,depth,seq,uno)  
+		VALUES(#{title},#{content},#{writer},#{origin},#{depth},#{seq},#{uno})
+	</insert>
 
 	<delete id="deleteAttach" parameterType="int">
 		DELETE FROM tbl_attach WHERE bno = #{bno}
 	</delete>
 	
+	<!-- 게시물 정보 수정 -->
 	<update id="update" parameterType="net.koreate.vo.BoardVO">
 		UPDATE re_tbl_board SET 
-			title = #{title}, 
-			content = #{content}, 
-			writer = #{writer}, 
+			title = #{title},
+			content = #{content},
+			writer = #{writer} ,
 			updatedate = now() 
-		WHERE bno = #{bno}
+		WHERE bno = #{bno}		
 	</update>
 	
 	<insert id="replaceAttach" parameterType="java.util.Map">
-		INSERT INTO tbl_attach(fullName,bno) 
+		INSERT INTO tbl_attach(fullname,bno) 
 		VALUES(#{fullName},#{bno})
 	</insert>
-
+	
 </mapper>
 
 

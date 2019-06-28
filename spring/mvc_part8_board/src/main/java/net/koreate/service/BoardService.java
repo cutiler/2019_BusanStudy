@@ -32,6 +32,9 @@ public interface BoardService {
 	// 게시물 수정
 	void modify(BoardVO vo) throws Exception;
 	
+	// 답글 등록
+	void replyRegister(BoardVO vo) throws Exception;
+	
 }
 
 

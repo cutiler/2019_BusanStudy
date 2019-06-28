@@ -37,7 +37,8 @@
 <script src="${pageContext.request.contextPath}/resources/editor/js/service/HuskyEZCreator.js"></script>
 </head>
 <body>
-	<h1>REGISTER BOARD</h1>
+<h1><a href="/">KOREATE</a></h1>
+<h1>REGISTER BOARD</h1>
 <form id="registForm" action="/sboard/register" method="post">
 	<input type="hidden" name="uno" value="${userInfo.uno}"/>
 	<table border=1 style="width:100%;">

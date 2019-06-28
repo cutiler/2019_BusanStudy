@@ -10,6 +10,7 @@
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
+	<h1><a href="/">KOREATE</a></h1>
 	<div>
 		<select name="searchType">
 			<option value="n" ${cri.searchType == null ? 'selected' : ''}>-------------------</option>
@@ -39,7 +40,17 @@
 				<c:when test="${board.showboard == 'y'}">
 					<tr>
 						<td>${board.bno}</td>
-						<td><a href="/sboard/readPage${pageMaker.makeSearchQuery(pageMaker.cri.page)}&bno=${board.bno}">${board.title}[${board.commentCnt}]</a></td>
+						<td>
+							<a style="text-decoration:none;" href="/sboard/readPage${pageMaker.makeSearchQuery(pageMaker.cri.page)}&bno=${board.bno}">
+								<c:if test="${board.depth != 0}">
+									<c:forEach var = "i" begin="1" end="${board.depth}">
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									</c:forEach>	
+									└ <!-- ㅂ - 한자 - 6 --> 
+								</c:if>	
+								${board.title}[${board.commentCnt}]
+							</a>
+							</td>
 						<td>${board.writer}</td>
 						<td><f:formatDate pattern="yyyy-MM-dd HH:mm" value="${board.regdate}"/></td>
 						<td>${board.viewcnt}</td>
