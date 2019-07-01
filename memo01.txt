@@ -1,0 +1,7 @@
+ajax
+https://developer.mozilla.org/ko/docs/web/guide/ajax
+formdata
+https://developer.mozilla.org/ko/docs/web/api/formdata
+
+생년월일
+datepicker

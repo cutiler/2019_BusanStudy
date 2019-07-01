@@ -1,0 +1,16 @@
+CREATE TABLE validation_member(
+	u_no INT PRIMARY KEY auto_increment,	-- 회원번호
+	u_id VARCHAR(50) NOT NULL UNIQUE,		-- 회원아이디(email)
+	u_pw VARCHAR(50) NOT NULL,				-- 비밀번호
+	u_phone VARCHAR(20) NOT NULL,			-- 전화번호
+	u_birth	VARCHAR(20) NOT NULL,			-- 생년월일
+	u_name	VARCHAR(20) NOT NULL,			-- 이름
+	u_addr	VARCHAR(20),					-- 주소
+	u_addr_detail	VARCHAR(20),			-- 상세주소
+	u_addr_post	VARCHAR(20),				-- 우편번호
+	u_point INT default 0,					-- 포인트
+	u_info char(1) default 'y',				-- 개인정보이용동의
+	u_date	TIMESTAMP NOT NULL default now(),	-- 계정 생성일
+	u_visit_date TIMESTAMP NOT NULL default now(),	-- 최종 방문일(마지막 로그인)
+	u_withdraw char(1) default 'n'			-- 회원정보숨긴(탈퇴)
+);
