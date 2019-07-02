@@ -63,6 +63,7 @@
 		<ul>
 			<li><a href="noticeSearch.do?searchName=author&searchValue=">공지사항</a></li>
 			<li><a href="boardList.bo">질문과답변</a></li>
+			<li><a href="upload.test">파일업로드 테스트</a></li>
 		</ul>
 	</div>
 </header>

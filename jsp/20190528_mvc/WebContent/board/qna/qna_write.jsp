@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,9 +8,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<jsp:include page="../../common/header.jsp" />
-	<h1>글작성</h1>
-	<form action="" method="post" enctype="multipart/form-data">
+	<jsp:include page="../../common/header.jsp"/>
+	<h1>글 작성</h1>
+	<form action="boardWriteSubmit.bo" method="post" enctype="multipart/form-data">
 		<table>
 			<tr>
 				<td>작성자</td>
@@ -27,19 +27,19 @@
 			<tr>
 				<td>글 내용</td>
 				<td>
-					<textarea name="board_content" cols=50 rows=10></textarea>					
+					<textarea name="board_content" cols=50 rows=10></textarea>
 				</td>
 			</tr>
 			<tr>
 				<td>첨부파일</td>
 				<td>
-					<input type="file" name="board_file" />
+					<input type="file" name="board_file"/>
 				</td>
 			</tr>
 			<tr>
 				<td colspan=2>
-					<input type="submit" name="작성완료"/>
-					<input type="reset" name="새로작성"/>
+					<input type="submit" value="작성완료"/>
+					<input type="reset" value="새로작성"/>
 				</td>
 			</tr>
 		</table>

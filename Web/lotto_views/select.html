@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<link href="bootstrap/css/bootstrap.css" rel="stylesheet"/>
+	<script src=bootstrap/js/bootstrap.js"></script>
+
+	<style>
+		div{
+			list-style: none;
+		}
+		div li{
+			float:left;
+		}
+
+		.endline{
+			clear:both;
+		}
+
+		.lnum button{
+			background-color: skyblue;
+		}
+
+	</style>
+<!-- 
+	1. 	1-45. 01 deciaml format(00) //clear
+	2.	5칸 1-10,11~20,~,41~45. // clear
+	3.	2번이 5칸. // clear.
+	4.	전체 선택칸 위에 회차 표시.
+	5.	자동선택 버튼
+	6. 	6개까지만 선택 가능. // working
+	7.	클릭시 선택. 재 클릭시 취소. // clear
+	8.	저장 버튼.
+
+-->
+
+
+</head>
+<body>
+<div class="container">
+	<table class="container table table-bordered">
+		<tr>
+		<td>
+			<div id="lotto-select1" class="lotto-select">
+				
+			</div>
+		 </td>
+	</tr>
+	<tr>
+		<td>
+			<div id="lotto-select2" class="lotto-select">
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<div id="lotto-select3" class="lotto-select">
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<div id="lotto-select4" class="lotto-select">
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<div id="lotto-select5" class="lotto-select">
+			</div>
+		</td>
+	</tr>
+	</table>	
+</div>
+
+<br/>
+only html
+<br/>
+</hr>
+
+	
+<table border=1>
+	<tr>
+		<td>
+			<div id="lotto-select1" class="lotto-select">
+				
+			</div>
+		 </td>
+	</tr>
+	<tr>
+		<td>
+			<div id="lotto-select2" class="lotto-select">
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<div id="lotto-select3" class="lotto-select">
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<div id="lotto-select4" class="lotto-select">
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<div id="lotto-select5" class="lotto-select">
+			</div>
+		</td>
+	</tr>
+</table>
+ 
+<script>
+
+var maxSelect = 0;
+var maxArray = [0,0,0,0,0];
+
+/* 숫자, 자리수 */
+var zeroDecimal = function (number, digits) {
+	 var preZero = '';
+	 number = number.toString();
+	
+	 if (number.length < digits) {
+	  for (i = 0; i < digits - number.length; i++)
+	   preZero += '0';
+	 }
+	 return preZero + number;
+}
+
+
+//1~45까지 출력
+function lottoMaking(){
+	//for(var j =1; j <= 5; j++){
+		var str = "";
+		for(var i =1; i < 46; i++){
+			
+			str += "<li class ='lnum' id ='lnum"+i+"'>";
+		/*	str += "<div ";
+			str += "id ='lnum"+i+"'";
+			str += " >";*/
+			str += "<button btn-type='0'>";
+			str += zeroDecimal(i,2);
+			str += "</button>";
+		/*	str += "</div>";*/
+			str += "</li>";
+			if(i%10 == 0){
+				str += "<div class='endline'></div>";
+			}
+		}
+		//$("#lotto-select"+j).html(str);
+		return str;
+	//}
+	
+}
+
+//lottoMaking();
+
+//console.log(lottoMaking());
+
+
+// 화면에 로또번호 선택 5게임 출력
+$(".lotto-select").each(function(){
+	var str = lottoMaking();
+	//console.log(str);
+	$(this).html(str);
+});
+
+// 6개 까지만 선택.
+ $(".lotto-select").on("click",".lnum button",function(){
+
+ 	// id 마지막 숫자를 잘라와서 인데스로 사용.
+ 	var parentid = $(this).closest(".lotto-select").attr("id");
+ 	var index =	parentid[12]-1;
+ 	//console.log(parentid[12]);
+ 	//maxArray[parentid[12]]
+
+ 	var btnType = $(this).attr("btn-type");
+
+ 	// 각 번호 선택 최대값.
+ 	maxSelect = maxArray[index];
+ 	if(maxSelect < 6 && btnType == 0){ 	
+ 		$(this).attr("btn-type","1");
+		$(this).css("background-color","hotpink");
+		//번호 가져오기
+		//console.log($(this).html());
+ 		maxSelect++;
+
+ 	}else if(maxSelect > 0 && btnType == 1){ 	
+ 		$(this).attr("btn-type","0");
+ 		$(this).css("background-color","skyblue");
+ 		maxSelect--;
+ 	}
+ 	maxArray[index] = maxSelect;
+ 	
+ });
+
+</script>
+
+</body>
+</html>

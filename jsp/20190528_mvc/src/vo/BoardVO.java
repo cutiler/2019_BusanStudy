@@ -3,7 +3,7 @@ package vo;
 import java.util.Date;
 
 public class BoardVO {
-
+	
 	private int board_num;
 	private String board_name;
 	private String board_pass;
@@ -11,10 +11,10 @@ public class BoardVO {
 	private String board_content;
 	private String board_file;
 	private String board_file_origin;
-	private int board_re_ref;
+	private int board_re_ref; 
 	private int board_re_lev;
 	private int board_re_seq;
-	private int readCount;
+	private int board_readcount;
 	private Date board_date;
 	
 	public int getBoard_num() {
@@ -77,11 +77,11 @@ public class BoardVO {
 	public void setBoard_re_seq(int board_re_seq) {
 		this.board_re_seq = board_re_seq;
 	}
-	public int getReadCount() {
-		return readCount;
+	public int getBoard_readcount() {
+		return board_readcount;
 	}
-	public void setReadCount(int readCount) {
-		this.readCount = readCount;
+	public void setBoard_readcount(int board_readcount) {
+		this.board_readcount = board_readcount;
 	}
 	public Date getBoard_date() {
 		return board_date;
@@ -94,10 +94,8 @@ public class BoardVO {
 		return "BoardVO [board_num=" + board_num + ", board_name=" + board_name + ", board_pass=" + board_pass
 				+ ", board_title=" + board_title + ", board_content=" + board_content + ", board_file=" + board_file
 				+ ", board_file_origin=" + board_file_origin + ", board_re_ref=" + board_re_ref + ", board_re_lev="
-				+ board_re_lev + ", board_re_seq=" + board_re_seq + ", readCount=" + readCount + ", board_date="
-				+ board_date + "]";
+				+ board_re_lev + ", board_re_seq=" + board_re_seq + ", board_readcount=" + board_readcount
+				+ ", board_date=" + board_date + "]";
 	}
-	
-	
-	
+
 }
