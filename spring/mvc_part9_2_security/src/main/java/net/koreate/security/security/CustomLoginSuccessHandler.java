@@ -18,22 +18,20 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler{
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
-		System.out.println("Login Success");
+		System.out.println("Logn Success");
 		
 		List<String> roleNames = new ArrayList<>();
 		
-		for(GrantedAuthority auth : authentication.getAuthorities()) {
-			System.out.println("authority : "+ auth.getAuthority());
+		for(GrantedAuthority auth  : authentication.getAuthorities()) {
+			System.out.println("authority : " + auth.getAuthority());
 			roleNames.add(auth.getAuthority());
 		}
-		
-		/*
+		/*		
 		User user = (User)authentication;
 		
 		System.out.println(user.getUsername());
 		System.out.println(user.getPassword());
 		*/
-		
 		System.out.println("roleNames : " + roleNames);
 		
 		if(roleNames.contains("ROLE_MASTER")) {
@@ -50,8 +48,6 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler{
 		
 		response.sendRedirect("/");
 		System.out.println("권한 없음");
+		
 	}
-
-	
-	
 }

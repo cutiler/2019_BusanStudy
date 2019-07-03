@@ -14,17 +14,17 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
-	"classpath:context/root/root-context.xml",
+	"classpath:context/root/root-context.xml", 
 	"classpath:context/root/security/security-context.xml"
 })
 public class MemberAuthTest {
-
+	
 	@Inject
 	DataSource ds;
 	
 	@Test
 	public void testInsertAuth() {
-String sql = "INSERT INTO security_member_auth(uid,auth) VALUES(?,?)";
+		String sql = "INSERT INTO security_member_auth(uid,auth) VALUES(?,?)";
 		
 		for(int i=0; i<100; i++) {
 			Connection con = null;
@@ -58,3 +58,6 @@ String sql = "INSERT INTO security_member_auth(uid,auth) VALUES(?,?)";
 	}
 	
 }
+
+
+

@@ -1,8 +1,9 @@
 package net.koreate.security.dao;
 
-import lombok.Data;
+import net.koreate.security.vo.MemberVO;
 
-@Data
-public class MemberDAO {
-
+public interface MemberDAO {
+	
+	MemberVO read(String uid) throws Exception;
+	
 }

@@ -15,25 +15,24 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
-	"classpath:context/root/root-context.xml",
+	"classpath:context/root/root-context.xml", 
 	"classpath:context/root/security/security-context.xml"
 })
 public class DataSourceTest {
-
+	
 	@Inject
 	DataSource ds;
 	
 	@Inject
-	PasswordEncoder encoder;
+	PasswordEncoder encoder;	
 	
 	@Test
 	public void testInsert() {
 		System.out.println("datasource : " + ds);
-		
 		/*
 		System.out.println("password encode : "+encoder.encode("member"));
-		System.out.println("$2a$10$SsJXvnFDIi7ilNBAqgn8C.xv1kGouPdtF7YKhe6MYxX4PaKh38x.W");
-		*/
+		System.out.println("$2a$10$xogrwaKCKMMjB86Ku1pd7Ovlb73E0b3xmKe1DHMx/3RfbXUdmyrbi");*/
+		
 		for(int i=0; i<100; i++) {
 			Connection con = null;
 			PreparedStatement pstmt = null;
@@ -67,4 +66,12 @@ public class DataSourceTest {
 			}
 		}
 	}
+
 }
+
+
+
+
+
+
+
