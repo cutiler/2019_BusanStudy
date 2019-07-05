@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">20190705_first</string>
+
+    <!-- Main Activity -->
+    <string name="isFunny">isFun?</string>
+    <string name="nullString">아직 값이 없어요</string>
+    <string name="checkBoxText">재미있습니까???</string>
+
+    <string name="funny">와~~~~재밌다........</string>
+    <string name="boring">와..드롭게 재미 없다....</string>
+</resources>
