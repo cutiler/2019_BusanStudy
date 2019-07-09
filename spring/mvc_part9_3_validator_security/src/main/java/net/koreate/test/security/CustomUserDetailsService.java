@@ -10,16 +10,13 @@ import net.koreate.test.dao.MemberDAO;
 import net.koreate.test.vo.ValidationMemberVO;
 
 public class CustomUserDetailsService implements UserDetailsService{
-
-	@Inject
-	MemberDAO dao;	
 	
+	@Inject
+	MemberDAO dao;
+
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		ValidationMemberVO vo = dao.getMemberByID(username);
 		return vo == null ? null : new CustomMember(vo);
 	}
-	
-	
-
 }
